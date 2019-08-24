@@ -1,5 +1,8 @@
 package graphic;
 
+import java.nio.IntBuffer;
+
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 
@@ -51,11 +54,31 @@ public class Display {
 	}
 	
 	/**
-	 * Schließt das Fenster 
+	 * Schließt das Fenster.
 	 */
 	
 	public void close() {
 		GLFW.glfwDestroyWindow(windowID);
 		GLFW.glfwTerminate();
+	}
+	
+	/**
+	 * Liefert die Breite des Fensters.
+	 */
+	
+	public int getWidth() {
+		IntBuffer w = BufferUtils.createIntBuffer(1);	
+		GLFW.glfwGetFramebufferSize(windowID,w,null);
+		return w.get(0);
+	}
+	
+	/**
+	 * Liefert die Höhe des Fensters.
+	 */
+	
+	public int getHeight() {
+		IntBuffer h = BufferUtils.createIntBuffer(1);	
+		GLFW.glfwGetFramebufferSize(windowID,null,h);
+		return h.get(0);
 	}
 }

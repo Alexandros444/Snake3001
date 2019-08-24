@@ -38,6 +38,9 @@ public class Main {
 			// Setzt den Inhalt des Fensters auf die Hintergrundfarbe zurück
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			
+			// Setzt den zu rendernden Bereich (bei Fenstergrößenänderungen wichtig)
+			GL11.glViewport(0, 0, display.getWidth(), display.getHeight());
+			
 			// Rendert das Dreieck
 			vao.render();
 			
