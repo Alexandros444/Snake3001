@@ -11,6 +11,9 @@ package main;
 public class Main {
 	
 	/**
+	 * 
+	 * Das hier ist eine Aenderung
+	 * 
 	 * Die Main-Methode selbst. Sie gibt "Hello World!" aus.
 	 * 
 	 * Das hier ist auch eine Änderung (aber mit Ä).
