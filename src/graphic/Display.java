@@ -1,6 +1,7 @@
 package graphic;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL;
 
 /**
  * Klasse zum erstellen eines Displays, hier wird unser Spiel angezeigt!
@@ -28,6 +29,8 @@ public class Display {
 		if (windowID == 0) {
 			throw new IllegalStateException("Fenster kaputt");
 		}
+		GLFW.glfwMakeContextCurrent(windowID);
+		GL.createCapabilities();
 	}
 
 	/**
@@ -35,8 +38,8 @@ public class Display {
 	 */
 	
 	public void update() {
+		GLFW.glfwSwapBuffers(windowID);
 		GLFW.glfwPollEvents();
-		
 	}
 	
 	/**
