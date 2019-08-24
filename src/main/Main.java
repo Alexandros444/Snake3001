@@ -13,6 +13,8 @@ public class Main {
 	/**
 	 * Die Main-Methode selbst. Sie gibt "Hello World!" aus.
 	 * 
+	 * Das hier ist auch eine Änderung (aber mit Ä).
+	 * 
 	 * @param args Kommandozeilenparameter
 	 */
 	
