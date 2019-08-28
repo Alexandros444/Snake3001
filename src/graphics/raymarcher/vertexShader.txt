@@ -1,0 +1,18 @@
+#version 400 core
+
+// kriegt einen 2D-Vektor als Position des Punktes als Input übergeben
+in vec2 position;
+
+// gibt einen 3D-Vektor (die Richtung des Strahls durch den Pixel von der Kamera aus) an der Fragment-Shader weiter
+out vec3 pass_direction;
+
+void main(void){
+	
+	// setzt die Position des Punktes auf dem Bildschirm auf das Positions-Input
+	gl_Position = vec4(position,0,1);
+	
+	// setzt die Richtung, die an den Fragment-Shader weitergegeben wird, auf den Vektor (position.x,position.y,1),
+	// d.h. man kuckt in Richtung der positiven Z-Achse mit einem FOV von 90 Grad
+	pass_direction = vec3(position,1);
+	
+}

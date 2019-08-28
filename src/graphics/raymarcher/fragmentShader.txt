@@ -1,0 +1,69 @@
+#version 400 core
+
+// kriegt einen 3D-Vektor für die Blickrichtung des Pixels als Input übergeben
+// dieses Input wurde aus den Outputs des Vertex-Shaders interpoliert und ist für jeden Pixel verschieden
+in vec3 pass_direction;
+
+// gibt die Farbe des Pixels als 4D-RGBA-Vektor aus
+out vec4 out_color;
+
+// hier müssen alle selbst geschriebenen Methoden kurz beschrieben werden.
+// genauer definiert werden sie dann später im Programm.
+float trace(vec3 position, vec3 direction);
+float distanceEstimation(vec3 p);
+
+// maximale beim RayMarching genutzte Schrittzahl
+int maxSteps = 64;
+
+void main(void){
+	
+	// setzt die Startposition des Strahls auf (0,0,0)
+	vec3 position = vec3(0);
+	// normalisiert den vom Vertex-Shader übergebenen Richtungsvektor, d.h. die Länge wird auf 1 gesetzt
+	vec3 direction = normalize(pass_direction);
+	
+	// simuliert einen Lichtstrahl in die Richtung und bestimmt damit die Helligkeit des Pixels
+	float brightness = trace(position,direction);
+	out_color = vec4(brightness,brightness,brightness,1);
+	
+}
+
+// simuliert einen Lichtstrahl von einen gegebenen Punkt aus in die gegebene Richtung
+float trace(vec3 position, vec3 direction){
+	float totalDistance = 0;
+	int steps;
+	vec3 p;
+	float distance;
+	float prevDistance;
+	for (steps=0;steps<maxSteps;steps++){
+		// berechnet die derzeitige Position des Lichtstrahls
+		p = position+totalDistance*direction;
+		// berechnet die Distanz zu den zu rendernden Objekten
+		prevDistance = distance;
+		distance = distanceEstimation(p);
+		// bewegt den Strahl um die errechnete Distanz vorwärts
+		// dadurch bewegt er sich nach vorne, kann sich aber nicht durch die Objekte durchbewegen
+		totalDistance += distance;
+		if (distance<0.001){
+			// beendet den Loop, wenn der Strahl den Objekten ausreichend nahegekommen ist
+			break;
+		}
+	}
+	if (steps==maxSteps){
+		// gibt 0 als Helligkeit zurück, falls der Strahl die Objekte nicht erreicht hat
+		return 0;
+	}else{
+		// errechnet die Helligkeit aus der Anzahl der benötigten Schritte bis zum Erreichen des Objekts sowie der letzten Distanz zum Objekt
+		return 1.0-(float(steps)-(0.001-distance)/(prevDistance-distance))/float(maxSteps);
+	}
+}
+
+// berechnet die Distanz des gegebenen Punktes zu den zu rendernden Objekten
+float distanceEstimation(vec3 p){
+	// projiziert alle Punkte in den Raum von -0.5 bis +0.5, sodass der sich immer wieder wiederholt
+	p = mod(p,1)-vec3(0.5);
+	// berechnet die distanz zu den Koordinatenachsen
+	p = max(abs(p)-vec3(0.05),vec3(0));
+	p = vec3(length(p.xy),length(p.yz),length(p.zx));
+	return min(p.x,min(p.y,p.z));
+}

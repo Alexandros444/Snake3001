@@ -2,8 +2,9 @@ package main;
 
 import org.lwjgl.opengl.GL11;
 
-import graphic.Display;
-import graphic.Vao;
+import graphics.Display;
+import graphics.Vao;
+import graphics.raymarcher.RayMarcherShader;
 
 /**
  * Die Klasse mit der Main-Methode unseres Programms.<br>
@@ -32,7 +33,9 @@ public class Main {
 		// A(-0.5|-0.5) = Ecke links unten
 		// B(0.5|-0.5) = Ecke rechts unten
 		// C(0|0.5) = Ecke rechts oben
-		Vao vao = new Vao(new float[] {-0.5f,-0.5f,0.5f,-0.5f,0,0.5f});
+		Vao vao = new Vao(new float[] {-0.8f,-0.8f,0.8f,-0.8f,0,0.8f});
+		RayMarcherShader shader = new RayMarcherShader();
+		shader.start();
 		
 		while(!display.isCloseRequested()) {
 			// Setzt den Inhalt des Fensters auf die Hintergrundfarbe zurück
@@ -49,6 +52,7 @@ public class Main {
 		}
 		
 		// Löscht das Dreieck und schließt das Fenster
+		shader.destroy();
 		vao.destroy();
 		display.close();
 	}

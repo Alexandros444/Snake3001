@@ -1,4 +1,4 @@
-package graphic;
+package graphics;
 
 public class Vector3f {
 	
