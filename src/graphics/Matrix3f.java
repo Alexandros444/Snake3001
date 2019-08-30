@@ -49,7 +49,7 @@ public class Matrix3f {
 		m00 = (float) Math.cos(Math.toRadians(rotation));
 		m01 = (float) Math.sin(Math.toRadians(rotation));
 		m02 = 0;
-		m10 = (float) Math.sin(Math.toRadians(rotation));
+		m10 = -(float) Math.sin(Math.toRadians(rotation));
 		m11 = (float) Math.cos(Math.toRadians(rotation));
 		m12 = 0;
 		m20 = 0;
