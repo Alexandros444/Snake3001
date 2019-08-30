@@ -66,8 +66,25 @@ public class Vector3f {
 	}
 
 	/**
-	 * Die länge des Vektors wird zurückgegeben
+	 * andauobckab ckba fhadha d7a uiaw d
 	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * Die länge des Vektors wird zurückgegeben
 	 * @return float länge
 	 */
 	public float getLength() {
