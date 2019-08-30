@@ -1,5 +1,6 @@
 package graphics.raymarcher;
 
+import graphics.Matrix3f;
 import graphics.Shader;
 
 /**
@@ -13,6 +14,8 @@ public class RayMarcherShader extends Shader{
 	
 	private static final String VERTEX_FILE = "graphics/raymarcher/vertexShader.txt";
 	private static final String FRAGMENT_FILE = "graphics/raymarcher/fragmentShader.txt";
+	
+	private int viewMatrixUniformID;
 	
 	/**
 	 * Lädt den Shader.
@@ -28,6 +31,21 @@ public class RayMarcherShader extends Shader{
 	 */
 	protected void bindAttributes() {
 		super.bindAttribute(0,"position");
+	}
+	
+	/**
+	 * Lädt die IDs der verwendeten Uniforms.
+	 */
+	protected void getUniformLocations() {
+		viewMatrixUniformID = super.getUniformLocation("viewDirection");
+	}
+	
+	/**
+	 * Lädt die Matrix als Sichtrichtung.
+	 * @param matrix die Sichtmatrix.
+	 */
+	public void loadViewMatrix(Matrix3f matrix) {
+		super.loadMatrix3f(viewMatrixUniformID,matrix);
 	}
 	
 }

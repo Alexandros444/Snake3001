@@ -3,6 +3,7 @@ package main;
 import org.lwjgl.opengl.GL11;
 
 import graphics.Display;
+import graphics.Matrix3f;
 import graphics.Vao;
 import graphics.raymarcher.RayMarcherShader;
 
@@ -36,6 +37,8 @@ public class Main {
 		Vao vao = new Vao(new float[] {-0.8f,-0.8f,0.8f,-0.8f,0,0.8f});
 		RayMarcherShader shader = new RayMarcherShader();
 		shader.start();
+		// neue Matrix als Blickrichtung wird erstellt
+		Matrix3f viewMatrix = new Matrix3f();
 		
 		while(!display.isCloseRequested()) {
 			// Setzt den Inhalt des Fensters auf die Hintergrundfarbe zurück
@@ -43,6 +46,10 @@ public class Main {
 			
 			// Setzt den zu rendernden Bereich (bei Fenstergrößenänderungen wichtig)
 			GL11.glViewport(0, 0, display.getWidth(), display.getHeight());
+			
+			// dreht die Sichtmatrix und sendet sie an den Renderer
+			viewMatrix.rotate(-0.03f,0.04f,0.05f);
+			shader.loadViewMatrix(viewMatrix);
 			
 			// Rendert das Dreieck
 			vao.render();

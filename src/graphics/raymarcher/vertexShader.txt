@@ -6,6 +6,8 @@ in vec2 position;
 // gibt einen 3D-Vektor (die Richtung des Strahls durch den Pixel von der Kamera aus) an der Fragment-Shader weiter
 out vec3 pass_direction;
 
+uniform mat3 viewDirection;
+
 void main(void){
 	
 	// setzt die Position des Punktes auf dem Bildschirm auf das Positions-Input
@@ -14,5 +16,8 @@ void main(void){
 	// setzt die Richtung, die an den Fragment-Shader weitergegeben wird, auf den Vektor (position.x,position.y,1),
 	// d.h. man kuckt in Richtung der positiven Z-Achse mit einem FOV von 90 Grad
 	pass_direction = vec3(position,1);
+	
+	// multipliziert die Richtung mit der Richtungsmatrix der Kamera, damit man in die richtige Richtung kuckt
+	pass_direction = viewDirection*pass_direction;
 	
 }

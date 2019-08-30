@@ -45,6 +45,7 @@ public abstract class Shader {
 		bindAttributes();
 		GL20.glLinkProgram(programID);
 		GL20.glValidateProgram(programID);
+		getUniformLocations();
 	}
 	
 	/**
@@ -81,6 +82,45 @@ public abstract class Shader {
 	 */
 	protected void bindAttribute(int attribute, String variableName) {
 		GL20.glBindAttribLocation(programID, attribute, variableName);
+	}
+	
+	/**
+	 * Muss von Kind-Klassen implementiert werden und wird automatisch im Konstruktor aufgerufen.<br>
+	 * Hier werden die einzelnen Uniform-IDs geladen, sodass mit diesen später Werte in die Uniforms geladen werden können.
+	 * <br><br>
+	 * Um die Uniform-IDs zu erhalten, sollte am besten {@link #getUniformLocation(String)} verwendet werden.
+	 */
+	protected abstract void getUniformLocations();
+	
+	/**
+	 * Gibt die ID des entsprechenden Uniforms zurück.
+	 * <br><br>
+	 * Die ID kann genutzt werden, um Werte in den Uniform zu laden.
+	 * @param name der im Shader verwendete Name des Uniforms
+	 * @return die ID des Uniforms
+	 */
+	protected int getUniformLocation(String name) {
+		return GL20.glGetUniformLocation(programID,name);
+	}
+	
+	/**
+	 * Lädt einen Vektor in einen Uniform.
+	 * 
+	 * @param location die ID des Uniforms
+	 * @param value der zu ladende Vektor
+	 */
+	protected void loadVector3f(int location, Vector3f value) {
+		GL20.glUniform3f(location,value.x,value.y,value.z);
+	}
+	
+	/**
+	 * Lädt eine Matrix in einen Uniform.
+	 * 
+	 * @param location die ID des Uniforms
+	 * @param matrix die zu ladende Matrix
+	 */
+	protected void loadMatrix3f(int location, Matrix3f matrix) {
+		GL20.glUniformMatrix3fv(location,false,matrix.toFloatArray());
 	}
 	
 	/**
