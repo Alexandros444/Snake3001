@@ -26,7 +26,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		// Erstellt ein neues Fenster
-		Display display = new Display(960,540,"TITEL");
+		Display display = new Display(960,540,"Snake 3001");
 		// Setzt die Hintergrundfarbe auf Magenta
 		GL11.glClearColor(1,0,1,0);
 		
