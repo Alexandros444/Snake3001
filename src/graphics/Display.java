@@ -4,6 +4,7 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
 /**
@@ -25,6 +26,7 @@ public class Display {
 	 */
 
 	public Display(int w, int h, String title) {
+		GLFWErrorCallback.createPrint(System.err).set();
 		if (!GLFW.glfwInit()) {
 			throw new IllegalStateException("GLFW kaputt");
 		}
@@ -80,5 +82,19 @@ public class Display {
 		IntBuffer h = BufferUtils.createIntBuffer(1);	
 		GLFW.glfwGetFramebufferSize(windowID,null,h);
 		return h.get(0);
+	}
+	
+	/**
+	 * Gibt zurück ob eine taste gedrückt wurde
+	 * @param key Tasten ID Format: GLFW_KEY_E 
+	 * @return true oder false ob taste gedrückt ist
+	 */
+	
+	public boolean isKeyPressed(int key) {
+		int state = GLFW.glfwGetKey(windowID, key);
+		if (state == GLFW.GLFW_PRESS) {
+		    return true; 
+		}
+		return false;
 	}
 }

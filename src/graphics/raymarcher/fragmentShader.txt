@@ -12,13 +12,16 @@ out vec4 out_color;
 float trace(vec3 position, vec3 direction);
 float distanceEstimation(vec3 p);
 
+// Ortsvektor der Kamera
+uniform vec3 cameraPosition;
+
 // maximale beim RayMarching genutzte Schrittzahl
 int maxSteps = 64;
 
 void main(void){
 	
-	// setzt die Startposition des Strahls auf (0,0,0)
-	vec3 position = vec3(0);
+	// setzt die Startposition des Strahls auf die Position der Kameradd
+	vec3 position = cameraPosition;
 	// normalisiert den vom Vertex-Shader übergebenen Richtungsvektor, d.h. die Länge wird auf 1 gesetzt
 	vec3 direction = normalize(pass_direction);
 	
