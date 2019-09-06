@@ -83,4 +83,18 @@ public class Display {
 		GLFW.glfwGetFramebufferSize(windowID,null,h);
 		return h.get(0);
 	}
+	
+	/**
+	 * Gibt zurück ob eine taste gedrückt wurde
+	 * @param key Tasten ID Format: GLFW_KEY_E 
+	 * @return true oder false ob taste gedrückt ist
+	 */
+	
+	public boolean isKeyPressed(int key) {
+		int state = GLFW.glfwGetKey(windowID, key);
+		if (state == GLFW.GLFW_PRESS) {
+		    return true; 
+		}
+		return false;
+	}
 }

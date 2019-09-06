@@ -1,5 +1,6 @@
 package main;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import graphics.Display;
@@ -26,7 +27,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		// Erstellt ein neues Fenster
-		Display display = new Display(960,540,"Snake 3001");
+		Display display = new Display(960,540,"SNAKE 3001");
 		// Setzt die Hintergrundfarbe auf Magenta
 		GL11.glClearColor(1,0,1,0);
 		
@@ -47,8 +48,19 @@ public class Main {
 			// Setzt den zu rendernden Bereich (bei Fenstergrößenänderungen wichtig)
 			GL11.glViewport(0, 0, display.getWidth(), display.getHeight());
 			
-			// dreht die Sichtmatrix und sendet sie an den Renderer
-			viewMatrix.rotate(-0.03f,0.04f,0.05f);
+			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
+			if (display.isKeyPressed(GLFW.GLFW_KEY_W) || display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
+				viewMatrix.rotate(-0.25f, 0, 0);
+			}
+			if (display.isKeyPressed(GLFW.GLFW_KEY_S) || display.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
+				viewMatrix.rotate(0.25f, 0, 0);
+			}
+			if (display.isKeyPressed(GLFW.GLFW_KEY_A) || display.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+				viewMatrix.rotate(0, -0.25f, 0);
+			}
+			if (display.isKeyPressed(GLFW.GLFW_KEY_D) || display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
+				viewMatrix.rotate(0, 0.25f, 0);
+			}
 			shader.loadViewMatrix(viewMatrix);
 			
 			// Rendert das Dreieck
