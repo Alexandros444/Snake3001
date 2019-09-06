@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 import graphics.Display;
 import graphics.Matrix3f;
 import graphics.Vao;
+import graphics.Vector3f;
 import graphics.raymarcher.RayMarcherShader;
 
 /**
@@ -41,6 +42,9 @@ public class Main {
 		// neue Matrix als Blickrichtung wird erstellt
 		Matrix3f viewMatrix = new Matrix3f();
 		
+		//positionsvektor wird erstellt
+		Vector3f position = new Vector3f();
+		
 		while(!display.isCloseRequested()) {
 			// Setzt den Inhalt des Fensters auf die Hintergrundfarbe zurück
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
@@ -61,7 +65,18 @@ public class Main {
 			if (display.isKeyPressed(GLFW.GLFW_KEY_D) || display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
 				viewMatrix.rotate(0, 0.25f, 0);
 			}
+			if (display.isKeyPressed(GLFW.GLFW_KEY_Q)) {
+				viewMatrix.rotate(0, 0, 0.25f);
+			}
+			if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
+				viewMatrix.rotate(0, 0, -0.25f);
+			}
 			shader.loadViewMatrix(viewMatrix);
+			
+			Vector3f movement = new Vector3f (0,0,0.01f);
+			movement.apply(viewMatrix);
+			position.add(movement);
+			shader.loadPosition(position);
 			
 			// Rendert das Dreieck
 			vao.render();
