@@ -11,12 +11,16 @@ out vec4 out_color;
 // genauer definiert werden sie dann später im Programm.
 float trace(vec3 position, vec3 direction);
 float distanceEstimation(vec3 p);
+float gridDE(vec3 p);
+float snakeDE(vec3 p);
 
 // Ortsvektor der Kamera
 uniform vec3 cameraPosition;
+uniform vec3[16] snakePositions;
+uniform int snakeLength;
 
 // maximale beim RayMarching genutzte Schrittzahl
-int maxSteps = 64;
+int maxSteps = 32;
 
 void main(void){
 	
@@ -63,10 +67,24 @@ float trace(vec3 position, vec3 direction){
 
 // berechnet die Distanz des gegebenen Punktes zu den zu rendernden Objekten
 float distanceEstimation(vec3 p){
+	return min(gridDE(p),snakeDE(p));
+}
+
+// berechnet die Distanz des gegebenen Punktes zu den Koordinatenachsen
+float gridDE(vec3 p){
 	// projiziert alle Punkte in den Raum von -0.5 bis +0.5, sodass der sich immer wieder wiederholt
 	p = mod(p,1)-vec3(0.5);
-	// berechnet die distanz zu den Koordinatenachsen
+	// berechnet die Distanz zu den Koordinatenachsen
 	p = max(abs(p)-vec3(0.05),vec3(0));
 	p = vec3(length(p.xy),length(p.yz),length(p.zx));
 	return min(p.x,min(p.y,p.z));
+}
+
+// berechnet die Distanz des gegebenen Punktes zur Schlange
+float snakeDE(vec3 p){
+	float d = 100;
+	for (int i=0;i<snakeLength;i++){
+		d = min(d,length(mod(p+snakePositions[i]+vec3(0.5),1)-vec3(0.5)));
+	}
+	return d-0.05f;
 }

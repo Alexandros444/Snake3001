@@ -134,6 +134,32 @@ public abstract class Shader {
 	}
 	
 	/**
+	 * Lädt einen Integer in einen Uniform.
+	 * 
+	 * @param location die ID des Uniforms
+	 * @param value der zu ladende Integer
+	 */
+	protected void loadInt(int location, int value) {
+		GL20.glUniform1i(location,value);
+	}
+	
+	/**
+	 * Lädt ein Array aus Vektoren in einen Uniform.
+	 * 
+	 * @param location die ID des Uniforms
+	 * @param vectors die zu ladenden Vektoren
+	 */
+	protected void loadVector3fArray(int location, Vector3f[] vectors) {
+		float[] floatArray = new float[vectors.length*3];
+		for (int i=0;i<vectors.length;i++) {
+			floatArray[i*3] = vectors[i].x;
+			floatArray[i*3+1] = vectors[i].y;
+			floatArray[i*3+2] = vectors[i].z;
+		}
+		GL20.glUniform3fv(location,floatArray);
+	}
+	
+	/**
 	 * Löscht den Shader, um wieder Arbeitsspeicher im GPU freizugeben.
 	 */
 	public void destroy() {
