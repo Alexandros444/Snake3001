@@ -73,6 +73,10 @@ public class Main {
 			}
 			shader.loadViewMatrix(viewMatrix);
 			
+			// Gibt das Seitenverhältnis des Fensters an den Shader weiter
+			float ratio = (float)display.getWidth()/display.getHeight();
+			shader.loadScreenRatio(ratio);
+			
 			Vector3f movement = new Vector3f (0,0,0.01f);
 			movement.apply(viewMatrix);
 			position.add(movement);

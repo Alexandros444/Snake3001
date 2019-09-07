@@ -124,6 +124,16 @@ public abstract class Shader {
 	}
 	
 	/**
+	 * Lädt einen Float in einen Uniform.
+	 * 
+	 * @param location die ID des Uniforms
+	 * @param value der zu ladende Float
+	 */
+	protected void loadFloat(int location, float value) {
+		GL20.glUniform1f(location,value);
+	}
+	
+	/**
 	 * Löscht den Shader, um wieder Arbeitsspeicher im GPU freizugeben.
 	 */
 	public void destroy() {
