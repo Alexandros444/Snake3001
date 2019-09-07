@@ -37,8 +37,11 @@ public class Main {
 		// B(0.5|-0.5) = Ecke rechts unten
 		// C(0|0.5) = Ecke rechts oben
 		Vao vao = new Vao(new float[] {-0.8f,-0.8f,0.8f,-0.8f,0,0.8f});
+		// Erstellt und aktiviert den RayMarcher-Shader
 		RayMarcherShader shader = new RayMarcherShader();
 		shader.start();
+		// lädt eine einfache Schlange als Beispiel in den Shader
+		shader.loadSnake(new Vector3f[] {new Vector3f(0),new Vector3f(0,0,0.05f),new Vector3f(0,0,0.1f),new Vector3f(0,0,0.15f),new Vector3f(0,0,0.2f)});
 		// neue Matrix als Blickrichtung wird erstellt
 		Matrix3f viewMatrix = new Matrix3f();
 		
@@ -72,6 +75,10 @@ public class Main {
 				viewMatrix.rotate(0, 0, -0.25f);
 			}
 			shader.loadViewMatrix(viewMatrix);
+			
+			// Gibt das Seitenverhältnis des Fensters an den Shader weiter
+			float ratio = (float)display.getWidth()/display.getHeight();
+			shader.loadScreenRatio(ratio);
 			
 			Vector3f movement = new Vector3f (0,0,0.01f);
 			movement.apply(viewMatrix);

@@ -18,6 +18,9 @@ public class RayMarcherShader extends Shader{
 	
 	private int viewMatrixUniformID;
 	private int positionUniformID;
+	private int screenRatioUniformID;
+	private int snakePositionsUniformID;
+	private int snakeLengthUniformID;
 	
 	/**
 	 * Lädt den Shader.
@@ -41,6 +44,17 @@ public class RayMarcherShader extends Shader{
 	protected void getUniformLocations() {
 		viewMatrixUniformID = super.getUniformLocation("viewDirection");
 		positionUniformID = super.getUniformLocation("cameraPosition");
+		screenRatioUniformID = super.getUniformLocation("screenRatio");
+		snakePositionsUniformID = super.getUniformLocation("snakePositions");
+		snakeLengthUniformID = super.getUniformLocation("snakeLength");
+	}
+	
+	/**
+	 * Setzt des Seitenverhältnis des zu rendernden Bilds
+	 * @param ratio Seitenverhältnis in Breite/Höhe
+	 */
+	public void loadScreenRatio(float ratio) {
+		super.loadFloat(screenRatioUniformID,ratio);
 	}
 	
 	/**
@@ -51,8 +65,22 @@ public class RayMarcherShader extends Shader{
 		super.loadMatrix3f(viewMatrixUniformID,matrix);
 	}
 	
+	/**
+	 * Setzt die Position der Kamera auf den übergebenen Ortsvektor.
+	 * @param position Ortsvektor
+	 */
 	public void loadPosition(Vector3f position) {
 		super.loadVector3f(positionUniformID,position);
+	}
+	
+	/**
+	 * Lädt die Position der Schlange.
+	 * 
+	 * @param positions die Ortsvektoren der einzelnen Teile der Schlange, so sortiert, dass der Kopf an erster Stelle steht
+	 */
+	public void loadSnake(Vector3f[] positions) {
+		super.loadVector3fArray(snakePositionsUniformID,positions);
+		super.loadInt(snakeLengthUniformID,positions.length);
 	}
 	
 }
