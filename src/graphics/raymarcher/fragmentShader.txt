@@ -9,7 +9,7 @@ out vec4 out_color;
 
 // hier müssen alle selbst geschriebenen Methoden kurz beschrieben werden.
 // genauer definiert werden sie dann später im Programm.
-float trace(vec3 position, vec3 direction);
+float trace(inout vec3 position, vec3 direction);
 float distanceEstimation(vec3 p);
 float gridDE(vec3 p);
 float snakeDE(vec3 p);
@@ -31,12 +31,18 @@ void main(void){
 	
 	// simuliert einen Lichtstrahl in die Richtung und bestimmt damit die Helligkeit des Pixels
 	float brightness = trace(position,direction);
-	out_color = vec4(brightness,brightness,brightness,1);
+	
+	// testet, welches Objekt getroffen wurde
+	if (snakeDE(position)<gridDE(position)){
+		out_color = vec4(0.5*brightness,brightness,0,1);
+	}else{
+		out_color = vec4(0.5*brightness,0.5*brightness,0.5*brightness,1);
+	}
 	
 }
 
 // simuliert einen Lichtstrahl von einen gegebenen Punkt aus in die gegebene Richtung
-float trace(vec3 position, vec3 direction){
+float trace(inout vec3 position, vec3 direction){
 	float totalDistance = 0;
 	int steps;
 	vec3 p;
@@ -56,6 +62,8 @@ float trace(vec3 position, vec3 direction){
 			break;
 		}
 	}
+	// ändert die Startposition zur derzeitigen Position
+	position += totalDistance*direction;
 	if (steps==maxSteps){
 		// gibt 0 als Helligkeit zurück, falls der Strahl die Objekte nicht erreicht hat
 		return 0;
