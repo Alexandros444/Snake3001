@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 
 import graphics.Display;
 import graphics.Matrix3f;
+import graphics.Snake;
 import graphics.Vao;
 import graphics.Vector3f;
 import graphics.raymarcher.RayMarcherShader;
@@ -42,11 +43,7 @@ public class Main {
 		shader.start();
 		// lädt eine einfache Schlange als Beispiel in den Shader
 		shader.loadSnake(new Vector3f[] {new Vector3f(0),new Vector3f(0,0,0.05f),new Vector3f(0,0,0.1f),new Vector3f(0,0,0.15f),new Vector3f(0,0,0.2f)});
-		// neue Matrix als Blickrichtung wird erstellt
-		Matrix3f viewMatrix = new Matrix3f();
-		
-		//positionsvektor wird erstellt
-		Vector3f position = new Vector3f();
+		Snake snake = new Snake();
 		
 		while(!display.isCloseRequested()) {
 			// Setzt den Inhalt des Fensters auf die Hintergrundfarbe zurück
@@ -56,34 +53,17 @@ public class Main {
 			GL11.glViewport(0, 0, display.getWidth(), display.getHeight());
 			
 			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
-			if (display.isKeyPressed(GLFW.GLFW_KEY_W) || display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
-				viewMatrix.rotate(-0.25f, 0, 0);
-			}
-			if (display.isKeyPressed(GLFW.GLFW_KEY_S) || display.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
-				viewMatrix.rotate(0.25f, 0, 0);
-			}
-			if (display.isKeyPressed(GLFW.GLFW_KEY_A) || display.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
-				viewMatrix.rotate(0, -0.25f, 0);
-			}
-			if (display.isKeyPressed(GLFW.GLFW_KEY_D) || display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
-				viewMatrix.rotate(0, 0.25f, 0);
-			}
-			if (display.isKeyPressed(GLFW.GLFW_KEY_Q)) {
-				viewMatrix.rotate(0, 0, 0.25f);
-			}
-			if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
-				viewMatrix.rotate(0, 0, -0.25f);
-			}
-			shader.loadViewMatrix(viewMatrix);
+			snake.update(display);
+			shader.loadViewMatrix(snake.viewDirection);
 			
 			// Gibt das Seitenverhältnis des Fensters an den Shader weiter
 			float ratio = (float)display.getWidth()/display.getHeight();
 			shader.loadScreenRatio(ratio);
 			
 			Vector3f movement = new Vector3f (0,0,0.01f);
-			movement.apply(viewMatrix);
-			position.add(movement);
-			shader.loadPosition(position);
+			movement.apply(snake.viewDirection);
+			snake.cameraPosition.add(movement);
+			shader.loadPosition(snake.cameraPosition);
 			
 			// Rendert das Dreieck
 			vao.render();
