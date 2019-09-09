@@ -3,9 +3,9 @@ package main;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
+import gamelogic.Snake;
 import graphics.Display;
 import graphics.Matrix3f;
-import graphics.Snake;
 import graphics.Vao;
 import graphics.Vector3f;
 import graphics.raymarcher.RayMarcherShader;
@@ -55,15 +55,11 @@ public class Main {
 			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
 			snake.update(display);
 			shader.loadViewMatrix(snake.viewDirection);
+			shader.loadPosition(snake.cameraPosition);
 			
 			// Gibt das Seitenverhältnis des Fensters an den Shader weiter
 			float ratio = (float)display.getWidth()/display.getHeight();
 			shader.loadScreenRatio(ratio);
-			
-			Vector3f movement = new Vector3f (0,0,0.01f);
-			movement.apply(snake.viewDirection);
-			snake.cameraPosition.add(movement);
-			shader.loadPosition(snake.cameraPosition);
 			
 			// Rendert das Dreieck
 			vao.render();

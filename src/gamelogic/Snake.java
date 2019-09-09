@@ -1,6 +1,10 @@
-package graphics;
+package gamelogic;
 
 import org.lwjgl.glfw.GLFW;
+
+import graphics.Display;
+import graphics.Matrix3f;
+import graphics.Vector3f;
 
 public class Snake {
 	public Vector3f cameraPosition;
@@ -24,11 +28,14 @@ public class Snake {
 					if (display.isKeyPressed(GLFW.GLFW_KEY_D) || display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
 						viewDirection.rotate(0, 0.25f, 0);
 					}
-					if (display.isKeyPressed(GLFW.GLFW_KEY_Q)) {
+					if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
 						viewDirection.rotate(0, 0, 0.25f);
 					}
-					if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
+					if (display.isKeyPressed(GLFW.GLFW_KEY_Q)) {
 						viewDirection.rotate(0, 0, -0.25f);
 					}
+					Vector3f movement = new Vector3f (0,0,0.01f);
+					movement.apply(viewDirection);
+					cameraPosition.add(movement);
 	}
 }
