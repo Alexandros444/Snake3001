@@ -37,15 +37,18 @@ public class Main {
 		// A(-0.5|-0.5) = Ecke links unten
 		// B(0.5|-0.5) = Ecke rechts unten
 		// C(0|0.5) = Ecke rechts oben
-		Vao vao = new Vao(new float[] {-0.8f,-0.8f,0.8f,-0.8f,0,0.8f});
+		Vao vao = new Vao(new float[] {-1,-1,-1,1,1,-1,-1,1,1,1,1,-1});
 		// Erstellt und aktiviert den RayMarcher-Shader
 		RayMarcherShader shader = new RayMarcherShader();
 		shader.start();
 		// lädt eine einfache Schlange als Beispiel in den Shader
 		shader.loadSnake(new Vector3f[] {new Vector3f(0),new Vector3f(0,0,0.05f),new Vector3f(0,0,0.1f),new Vector3f(0,0,0.15f),new Vector3f(0,0,0.2f)});
 		Snake snake = new Snake();
+		// Setzt das Fenster-Symbol
+		display.setWindowIcon("res/icon.png");
 		
-		while(!display.isCloseRequested()) {
+		while(!display.isCloseRequested()) {	
+			
 			// Setzt den Inhalt des Fensters auf die Hintergrundfarbe zurück
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			

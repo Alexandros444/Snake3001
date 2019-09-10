@@ -1,11 +1,16 @@
 package graphics;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.stb.STBImage;
+import org.lwjgl.glfw.GLFWImage.Buffer;
 
 /**
  * Klasse zum erstellen eines Displays, hier wird unser Spiel angezeigt!
@@ -97,4 +102,22 @@ public class Display {
 		}
 		return false;
 	}
+	
+	/**
+	 * Setzt das Fenster-Symbol
+	 * 
+	 * @param path relativ zum Projektordner
+	 */
+	public void setWindowIcon(String path){
+		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
+		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
+		IntBuffer comp = BufferUtils.createIntBuffer(1);
+		ByteBuffer pixels = STBImage.stbi_load(path,widthBuffer,heightBuffer,comp,4);
+		GLFWImage image = GLFWImage.malloc();
+		image.set(widthBuffer.get(0),heightBuffer.get(0),pixels);
+		Buffer buffer = GLFWImage.malloc(1);
+		buffer.put(0,image);		
+		GLFW.glfwSetWindowIcon(windowID,buffer);			
+	}
+
 }
