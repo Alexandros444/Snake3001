@@ -10,7 +10,7 @@ public class Snake {
 	public Vector3f cameraPosition;
 	public Matrix3f viewDirection;
 	
-	private float rotationSpeed = 1f;
+	private float rotationSpeed = 3f;
 	private float movementSpeed = 0.01f;	
 	
 	public Snake(){
@@ -37,8 +37,12 @@ public class Snake {
 					if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
 						viewDirection.rotate(0, 0, -rotationSpeed);
 					}
-					Vector3f movement = new Vector3f (0,0,movementSpeed);
-					movement.apply(viewDirection);
-					cameraPosition.add(movement);
+					//wenn Leertaste gedrückt dann stop
+					if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
+						Vector3f movement = new Vector3f (0,0,movementSpeed);
+						movement.apply(viewDirection);
+						cameraPosition.add(movement);
+					}
+					
 	}
 }
