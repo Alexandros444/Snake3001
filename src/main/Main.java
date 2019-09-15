@@ -1,13 +1,10 @@
 package main;
 
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import gamelogic.Snake;
 import graphics.Display;
-import graphics.Matrix3f;
 import graphics.Vao;
-import graphics.Vector3f;
 import graphics.raymarcher.RayMarcherShader;
 
 /**
