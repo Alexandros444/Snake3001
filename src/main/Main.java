@@ -41,8 +41,7 @@ public class Main {
 		// Erstellt und aktiviert den RayMarcher-Shader
 		RayMarcherShader shader = new RayMarcherShader();
 		shader.start();
-		// lädt eine einfache Schlange als Beispiel in den Shader
-		shader.loadSnake(new Vector3f[] {new Vector3f(0),new Vector3f(0,0,0.05f),new Vector3f(0,0,0.1f),new Vector3f(0,0,0.15f),new Vector3f(0,0,0.2f)});
+		// Initialisiert Schlange
 		Snake snake = new Snake();
 		// Setzt das Fenster-Symbol
 		display.setWindowIcon("res/icon.png");
@@ -59,6 +58,9 @@ public class Main {
 			snake.update(display);
 			shader.loadViewMatrix(snake.viewDirection);
 			shader.loadPosition(snake.cameraPosition);
+			
+			// lädt eine einfache Schlange als Beispiel in den Shader
+			shader.loadSnake(snake.arrayVecsSnake);
 			
 			// Gibt das Seitenverhältnis des Fensters an den Shader weiter
 			float ratio = (float)display.getWidth()/display.getHeight();
