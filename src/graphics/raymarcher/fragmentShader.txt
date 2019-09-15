@@ -83,7 +83,7 @@ float gridDE(vec3 p){
 	// projiziert alle Punkte in den Raum von -0.5 bis +0.5, sodass der sich immer wieder wiederholt
 	p = mod(p,1)-vec3(0.5);
 	// berechnet die Distanz zu den Koordinatenachsen
-	p = max(abs(p)-vec3(0.05),vec3(0));
+	p = max(abs(p)-vec3(0.02),vec3(0));
 	p = vec3(length(p.xy),length(p.yz),length(p.zx));
 	return min(p.x,min(p.y,p.z));
 }

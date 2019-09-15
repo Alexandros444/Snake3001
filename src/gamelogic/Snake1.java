@@ -12,7 +12,7 @@ public class Snake {
 
 	public Vector3f[] arrayVecsSnake, arrayVecsMove;
 	
-	private float rotationSpeed = 1f;
+	private float rotationSpeed = 3f;
 	private float movementSpeed = 0.01f;	
 	
 	public Snake(){
@@ -25,6 +25,7 @@ public class Snake {
 	}
 	public void update(Display display) {
 		// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
+
 					
 		if (display.isKeyPressed(GLFW.GLFW_KEY_W) || display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
 			viewDirection.rotate(-rotationSpeed, 0, 0);
@@ -44,6 +45,7 @@ public class Snake {
 		if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
 			viewDirection.rotate(0, 0, -rotationSpeed);
 		}
+		//wenn Leertaste gedrückt dann stop
 		if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
 			movement.x = 0;
 			movement.y = 0;
@@ -62,6 +64,7 @@ public class Snake {
 		}
 		arrayVecsMove[0] = movement.copy();
 		arrayVecsMove[0].scale(-5.6f);
+
 	}
 	
 	private void updateSnakePositions() {
