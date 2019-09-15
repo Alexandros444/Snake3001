@@ -12,16 +12,21 @@ public class Snake {
 
 	public Vector3f[] arrayVecsSnake, arrayVecsMove;
 	
-	private float rotationSpeed = 3f;
+	private float rotationSpeed = 2f;
 	private float movementSpeed = 0.01f;	
 	
 	public Snake(){
 	    cameraPosition = new Vector3f();
 	    viewDirection = new Matrix3f();
 	    movement = new Vector3f();
-	    arrayVecsSnake = new Vector3f[10];
-	    arrayVecsMove = new Vector3f[10];
-	    arrayVecsMove[0] = movement.copy();
+	    arrayVecsSnake = new Vector3f[8];
+	    arrayVecsMove = new Vector3f[8];
+		for (int i = 0; i < arrayVecsMove.length; i++) {
+			arrayVecsMove[i] = movement.copy();
+		}
+		for (int i = 0; i < arrayVecsMove.length; i++) {
+			arrayVecsSnake[i] = cameraPosition.copy();
+		}
 	}
 	public void update(Display display) {
 		// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
@@ -59,8 +64,8 @@ public class Snake {
 	}
 	
 	private void updateVecsMovement() {
-		for (int i = 0; i < arrayVecsMove.length-1; i++) {
-			arrayVecsMove[i+1] = arrayVecsMove[i];
+		for (int i = arrayVecsMove.length-1; i > 0; i--) {
+			arrayVecsMove[i] = arrayVecsMove[i-1];
 		}
 		arrayVecsMove[0] = movement.copy();
 		arrayVecsMove[0].scale(-5.6f);
@@ -70,9 +75,9 @@ public class Snake {
 	private void updateSnakePositions() {
 		arrayVecsSnake[0] = cameraPosition.copy();
 		arrayVecsSnake[0].add(arrayVecsMove[0]);
-		for (int i = 0; i < arrayVecsSnake.length-1; i++) {
-			arrayVecsSnake[i+1] = arrayVecsSnake[i].copy();
-			arrayVecsSnake[i+1].add(arrayVecsMove[i+1]);
+		for (int i = arrayVecsSnake.length-1; i > 0; i--) {
+			arrayVecsSnake[i] = arrayVecsSnake[i-1].copy();
+			arrayVecsSnake[i].add(arrayVecsMove[i]);    
 		}
 	}
 	
