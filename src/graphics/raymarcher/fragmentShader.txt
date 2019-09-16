@@ -16,7 +16,7 @@ float snakeDE(vec3 p);
 
 // Ortsvektor der Kamera
 uniform vec3 cameraPosition;
-uniform vec3[16] snakePositions;
+uniform vec3[32] snakePositions;
 uniform int snakeLength;
 
 // maximale beim RayMarching genutzte Schrittzahl

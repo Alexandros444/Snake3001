@@ -7,7 +7,7 @@ import graphics.Matrix3f;
 import graphics.Vector3f;
 
 public class Snake {
-	// Deklarieren der Variablen
+	
 	public Vector3f cameraPosition, movement;
 	public Matrix3f viewDirection;
 	public boolean isAlive = true;
@@ -16,14 +16,17 @@ public class Snake {
 	
 	private float rotationSpeed = 2f;
 	private float movementSpeed = 0.01f;
+	private float sphereRadius = 0.05f;
 
 	
-	// Konstruktor, Initialisiert die Variablen
+	/**
+	 * Erstellt eine neue Schlange
+	 */
 	public Snake(){
-	    cameraPosition = new Vector3f(0,0,10f);  
+	    cameraPosition = new Vector3f(0,0,0.5f);  
 	    viewDirection = new Matrix3f();
 	    movement = new Vector3f();
-	     snakePositions = new Vector3f[18];
+	     snakePositions = new Vector3f[32];
 	    
 	    //Startposition der Kugeln des SchlangenSchwanzes
 		for (int i = 0; i <  snakePositions.length; i++) {
@@ -31,9 +34,12 @@ public class Snake {
 		}
 	}
 
-	// Updated die Bewegung der Schlange
+	/**
+	 * Updated und bewegt die Schlange
+	 * 
+	 * @param display Das Display, von dem aus Tastendrücke eingelesen werden sollen
+	 */
 	public void update(Display display) {
-		
 		if(isAlive==true) {
 			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
 		
@@ -62,7 +68,7 @@ public class Snake {
 				viewDirection.rotate(0, 0, -rotationSpeed);
 			}
 			//wenn Leertaste gedrückt dann stop
-			if (isAlive==true && !display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
+			if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
 				// Setzt den BewegungsVektor zurück
 				movement.x = 0;
 				movement.y = 0;
@@ -84,8 +90,10 @@ public class Snake {
 			}
 		}
 	}
-
-	// updated die Vektoren für die Kugeln des SchlangenSchwanzes
+	
+	/**
+	 * Updated die Positionen des Körpers der Schlange
+	 */
 	private void updateSnakePositions() {
 		 snakePositions[0] = cameraPosition.copy();
 		for (int i=1;i< snakePositions.length;i++){
@@ -93,17 +101,26 @@ public class Snake {
 			Vector3f temp =  snakePositions[i].copy();
 			temp.scale(-1f);
 		    delta.add(temp);
-		    delta.setLength(delta.getLength()-0.1f);
-		     snakePositions[i].add(delta);
+		    if (delta.getLength()>2*sphereRadius){
+			    delta.setLength(delta.getLength()-2*sphereRadius);
+			    snakePositions[i].add(delta);
+		    }
 		}
 		
 	}
-	//Kollisionsbedingung
+	
+	/**
+	 * Gibt die Distanz zwischen zwei Kugeln der Schlange zurück.
+	 * 
+	 * @param a Ortsvektor der ersten Kugel
+	 * @param b OrtsVektor der zweiten Kugel
+	 * @return Distanz zwischen den Kugeln
+	 */
 	private float sphereDistance(Vector3f a, Vector3f b) { 
 		Vector3f temp = a.copy();
 		temp.scale(-1);
 		temp.add(b);
-		return temp.getLength()-0.1f;
+		return temp.getLength()-2*sphereRadius;
 	}
 	
 	
