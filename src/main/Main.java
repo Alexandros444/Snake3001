@@ -57,7 +57,7 @@ public class Main {
 			shader.loadPosition(snake.cameraPosition);
 			
 			// lädt eine einfache Schlange als Beispiel in den Shader
-			shader.loadSnake(snake.arrayVecsSnake);
+			shader.loadSnake(snake. snakePositions);
 			
 			// Gibt das Seitenverhältnis des Fensters an den Shader weiter
 			float ratio = (float)display.getWidth()/display.getHeight();
@@ -69,6 +69,7 @@ public class Main {
 			// Updated den Bildschirm
 			display.update();
 		}
+	
 		
 		// Löscht das Dreieck und schließt das Fenster
 		shader.destroy();

@@ -10,28 +10,32 @@ public class Snake {
 	// Deklarieren der Variablen
 	public Vector3f cameraPosition, movement;
 	public Matrix3f viewDirection;
+	public boolean isAlive = true;
 
-	public Vector3f[] arrayVecsSnake;
+	public Vector3f[]  snakePositions;
 	
 	private float rotationSpeed = 2f;
-	private float movementSpeed = 0.01f;	
+	private float movementSpeed = 0.01f;
+
 	
 	// Konstruktor, Initialisiert die Variablen
 	public Snake(){
-	    cameraPosition = new Vector3f();
+	    cameraPosition = new Vector3f(0,0,10f);  
 	    viewDirection = new Matrix3f();
 	    movement = new Vector3f();
-	    arrayVecsSnake = new Vector3f[18];
+	     snakePositions = new Vector3f[18];
 	    
 	    //Startposition der Kugeln des SchlangenSchwanzes
-		for (int i = 0; i < arrayVecsSnake.length; i++) {
-			arrayVecsSnake[i] = cameraPosition.copy();
+		for (int i = 0; i <  snakePositions.length; i++) {
+			 snakePositions[i] = new Vector3f(); 
 		}
 	}
+
 	// Updated die Bewegung der Schlange
 	public void update(Display display) {
+		if(isAlive==true) {
 		// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
-
+	
 		// dreht Sichtmatrix nach oben					
 		if (display.isKeyPressed(GLFW.GLFW_KEY_W) || display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
 			viewDirection.rotate(-rotationSpeed, 0, 0);
@@ -57,7 +61,7 @@ public class Snake {
 			viewDirection.rotate(0, 0, -rotationSpeed);
 		}
 		//wenn Leertaste gedrückt dann stop
-		if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
+		if (isAlive==true && !display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
 			// Setzt den BewegungsVektor zurück
 			movement.x = 0;
 			movement.y = 0;
@@ -67,21 +71,38 @@ public class Snake {
 			// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
 			cameraPosition.add(movement);
 		}
+	
 		// ruft die Methode zum Updaten der Positionen auf
-		updateSnakePositions();
+		updateSnakePositions(); 
+		
+		//checkt für jede Kugel ob man kollidiert
+		for(int i=2;i<snakePositions.length;i++) {
+			if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
+				isAlive=false;
+			}
+		}
+		}
 	}
 
 	// updated die Vektoren für die Kugeln des SchlangenSchwanzes
 	private void updateSnakePositions() {
-		arrayVecsSnake[0] = cameraPosition.copy();
-		for (int i=1;i<arrayVecsSnake.length;i++){
-		    Vector3f delta = arrayVecsSnake[i-1].copy();
-			Vector3f temp = arrayVecsSnake[i].copy();
+		 snakePositions[0] = cameraPosition.copy();
+		for (int i=1;i< snakePositions.length;i++){
+		    Vector3f delta =  snakePositions[i-1].copy();
+			Vector3f temp =  snakePositions[i].copy();
 			temp.scale(-1f);
 		    delta.add(temp);
 		    delta.setLength(delta.getLength()-0.1f);
-		    arrayVecsSnake[i].add(delta);
+		     snakePositions[i].add(delta);
 		}
+		
+	}
+	//Kollisionsbedingung
+	private float sphereDistance(Vector3f a, Vector3f b) { 
+		Vector3f temp = a.copy();
+		temp.scale(-1);
+		temp.add(b);
+		return temp.getLength()-0.1f;
 	}
 	
 	
