@@ -117,9 +117,17 @@ public class Snake {
 	 * @return Distanz zwischen den Kugeln
 	 */
 	private float sphereDistance(Vector3f a, Vector3f b) { 
+		// setzt  temp auf den Gegenvektor von a und addiert dann b
+		// temp ist dann b-a
 		Vector3f temp = a.copy();
 		temp.scale(-1);
 		temp.add(b);
+		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f
+		// sorgt so für Kollision mit Schlangen aus anderen Kästen
+		temp.x = (temp.x+10.5f)%1-0.5f;
+		temp.y = (temp.y+10.5f)%1-0.5f;
+		temp.z = (temp.z+10.5f)%1-0.5f;
+		// gibt die Distanz zwischen den Mittelpunkten minus die Radien zurück
 		return temp.getLength()-2*sphereRadius;
 	}
 	
