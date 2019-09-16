@@ -1,5 +1,6 @@
 package main;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import gamelogic.Snake;
@@ -53,6 +54,9 @@ public class Main {
 			
 			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
 			snake.update(display);
+			if ((snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
+			    snake = new Snake();
+			}
 			shader.loadViewMatrix(snake.viewDirection);
 			shader.loadPosition(snake.cameraPosition);
 			

@@ -33,6 +33,7 @@ public class Snake {
 
 	// Updated die Bewegung der Schlange
 	public void update(Display display) {
+		
 		if(isAlive==true) {
 			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
 		
