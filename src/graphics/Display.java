@@ -118,10 +118,7 @@ public class Display {
 		buffer.put(0,image);		
 		GLFW.glfwSetWindowIcon(windowID,buffer);			
 	}
-	public boolean snakeIsAlive() {
-		
-		return true;
-	}  
+
 	
 
 }
