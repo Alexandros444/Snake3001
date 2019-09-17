@@ -16,7 +16,7 @@ float snakeDE(vec3 p);
 
 // Ortsvektor der Kamera
 uniform vec3 cameraPosition;
-uniform vec3[16] snakePositions;
+uniform vec3[32] snakePositions;
 uniform int snakeLength;
 
 // maximale beim RayMarching genutzte Schrittzahl
@@ -94,7 +94,7 @@ float gridDE(vec3 p){
 float snakeDE(vec3 p){
 	float d = 100;
 	for (int i=0;i<snakeLength;i++){
-		d = min(d,length(mod(p+snakePositions[i]+vec3(0.5),1)-vec3(0.5)));
+		d = min(d,length(mod(p-snakePositions[i]+vec3(0.5),1)-vec3(0.5)));
 	}
 	return max(d-snakeSphereRadius,2*snakeSphereRadius-length(p-cameraPosition));
 }
