@@ -21,6 +21,7 @@ public class RayMarcherShader extends Shader{
 	private int screenRatioUniformID;
 	private int snakePositionsUniformID;
 	private int snakeLengthUniformID;
+	private int foodPositionUniformID;
 	
 	/**
 	 * Lädt den Shader.
@@ -47,10 +48,12 @@ public class RayMarcherShader extends Shader{
 		screenRatioUniformID = super.getUniformLocation("screenRatio");
 		snakePositionsUniformID = super.getUniformLocation("snakePositions");
 		snakeLengthUniformID = super.getUniformLocation("snakeLength");
+		foodPositionUniformID = super.getUniformLocation("foodPosition");
 	}
 	
 	/**
 	 * Setzt des Seitenverhältnis des zu rendernden Bilds
+	 * 
 	 * @param ratio Seitenverhältnis in Breite/Höhe
 	 */
 	public void loadScreenRatio(float ratio) {
@@ -59,6 +62,7 @@ public class RayMarcherShader extends Shader{
 	
 	/**
 	 * Lädt die Matrix als Sichtrichtung.
+	 * 
 	 * @param matrix die Sichtmatrix.
 	 */
 	public void loadViewMatrix(Matrix3f matrix) {
@@ -67,6 +71,7 @@ public class RayMarcherShader extends Shader{
 	
 	/**
 	 * Setzt die Position der Kamera auf den übergebenen Ortsvektor.
+	 * 
 	 * @param position Ortsvektor
 	 */
 	public void loadPosition(Vector3f position) {
@@ -81,6 +86,15 @@ public class RayMarcherShader extends Shader{
 	public void loadSnake(Vector3f[] positions) {
 		super.loadVector3fArray(snakePositionsUniformID,positions);
 		super.loadInt(snakeLengthUniformID,positions.length);
+	}
+	
+	/**
+	 * Lädt die Position des Essens.
+	 * 
+	 * @param position Ortsvektor
+	 */
+	public void loadFoodPosition(Vector3f position) {
+		super.loadVector3f(foodPositionUniformID,position);
 	}
 	
 }

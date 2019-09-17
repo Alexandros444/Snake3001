@@ -59,9 +59,8 @@ public class Main {
 			}
 			shader.loadViewMatrix(snake.viewDirection);
 			shader.loadPosition(snake.cameraPosition);
-			
-			// lädt eine einfache Schlange als Beispiel in den Shader
-			shader.loadSnake(snake. snakePositions);
+			shader.loadSnake(snake.snakePositions);
+			shader.loadFoodPosition(snake.food.foodPosition);
 			
 			// Gibt das Seitenverhältnis des Fensters an den Shader weiter
 			float ratio = (float)display.getWidth()/display.getHeight();
