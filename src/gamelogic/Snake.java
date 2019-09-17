@@ -91,7 +91,7 @@ public class Snake {
 				}
 			}
 			//falls Schlangenkopf Essen trifft dann neues Essen erstellen                   
-			if(food.foodDistance(snakePositions[0], food.foodPosition)<sphereRadius) {   
+			if(food.distanceTo(snakePositions[0])<sphereRadius) {   
 				food = new Food(); 
 				System.out.println("Korn gefressen!");
 			}  
@@ -129,7 +129,7 @@ public class Snake {
 		Vector3f temp = a.copy();
 		temp.scale(-1);
 		temp.add(b);
-		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f   
+		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f       
 		// sorgt so für Kollision mit Schlangen aus anderen Kästen
 		temp.x = (temp.x+10.5f)%1-0.5f;
 		temp.y = (temp.y+10.5f)%1-0.5f;

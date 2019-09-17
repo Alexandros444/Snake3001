@@ -13,10 +13,10 @@ public class Food {
 			foodPosition = new Vector3f(a,b,c);				
 		}
 		//errechnet Distanz zum Essen
-		public float foodDistance(Vector3f x , Vector3f y) {
-			Vector3f temp = x.copy();
+		public float distanceTo(Vector3f a) {
+			Vector3f temp = a.copy();
 			temp.scale(-1);
-			temp.add(y);
+			temp.add(foodPosition);
 			//sorgt für Kollision mit Essen aus anderen Kästen
 			temp.x = (temp.x+10.5f)%1-0.5f;
 			temp.y = (temp.y+10.5f)%1-0.5f;
