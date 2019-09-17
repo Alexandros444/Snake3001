@@ -5,15 +5,16 @@ import org.lwjgl.glfw.GLFW;
 import graphics.Display;
 import graphics.Matrix3f;
 import graphics.Vector3f;
+import gamelogic.Food;
 
 public class Snake {
 	
 	public Vector3f cameraPosition, movement;
 	public Matrix3f viewDirection;
 	public boolean isAlive = true;
-
 	public Vector3f[]  snakePositions;
-	
+	public Food food;
+		
 	private float rotationSpeed = 2f;
 	private float movementSpeed = 0.01f;
 	private float sphereRadius = 0.05f;
@@ -27,6 +28,7 @@ public class Snake {
 	    viewDirection = new Matrix3f();
 	    movement = new Vector3f();
 	     snakePositions = new Vector3f[32];
+	     food = new Food();
 	    
 	    //Startposition der Kugeln des SchlangenSchwanzes
 		for (int i = 0; i <  snakePositions.length; i++) {
@@ -88,6 +90,11 @@ public class Snake {
 					isAlive=false;
 				}
 			}
+			//falls Schlangenkopf Essen trifft dann neues Essen erstellen                   
+			if(food.foodDistance(snakePositions[0], food.foodPosition)<sphereRadius) {   
+				food = new Food(); 
+				System.out.println("Korn gefressen!");
+			}  
 		}
 	}
 	
@@ -122,7 +129,7 @@ public class Snake {
 		Vector3f temp = a.copy();
 		temp.scale(-1);
 		temp.add(b);
-		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f
+		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f   
 		// sorgt so für Kollision mit Schlangen aus anderen Kästen
 		temp.x = (temp.x+10.5f)%1-0.5f;
 		temp.y = (temp.y+10.5f)%1-0.5f;
