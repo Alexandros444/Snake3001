@@ -1,6 +1,11 @@
 package gamelogic;
 
 import org.lwjgl.glfw.GLFW;
+/**
+ * Die Klasse für die Schlange.<br>
+ * 
+ *  @author Jakopo
+ */
 
 import graphics.Display;
 import graphics.Matrix3f;
@@ -22,6 +27,7 @@ public class Snake {
 	
 	/**
 	 * Erstellt eine neue Schlange
+	 * 
 	 */
 	public Snake(){
 	    cameraPosition = new Vector3f(0,0,0.5f);  

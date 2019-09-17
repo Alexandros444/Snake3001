@@ -1,5 +1,12 @@
 package gamelogic;
+
 import graphics.Vector3f;
+
+/**
+ * Die Klasse für das Essen was die Schlange wachsen lässt.<br>
+ * 
+ *  @author Jakopo
+ */
 
 public class Food {
 	public Vector3f foodPosition;
