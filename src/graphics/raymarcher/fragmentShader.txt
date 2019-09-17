@@ -37,17 +37,18 @@ void main(void){
 	float brightness = trace(position,direction);
 	
 	// testet, welches Objekt getroffen wurde
-	vec4 color = vec4(0.5*brightness,0.5*brightness,0.5*brightness,1);
+	vec4 color = vec4(0.5,0.5,0.5,1);
 	float d = gridDE(position);
 	float d2 = snakeDE(position);
 	if (d2<d){
-		color = vec4(0.5*brightness,brightness,0,1);
+		color = vec4(0.5,1,0,1);
 		d = d2;
 	}
 	d2 = foodDE(position);
 	if (d2<d){
-		color = vec4(brightness,0.75*brightness,0,1);
+		color = vec4(1,0.75,0,1);
 	}
+	color.rgb *= brightness;
 	out_color = color;
 	
 }
@@ -86,6 +87,13 @@ float trace(inout vec3 position, vec3 direction){
 
 // berechnet die Distanz des gegebenen Punktes zu den zu rendernden Objekten
 float distanceEstimation(vec3 p){
+	
+	/*
+	Witziger Code zur Bildverzerrung:
+	float d = length(p-cameraPosition);
+	return min(gridDE(p),min(snakeDE(p),foodDE(p)))-0.05*d*d*d*d;
+	*/
+	
 	return min(gridDE(p),min(snakeDE(p),foodDE(p)));
 }
 

@@ -1,17 +1,13 @@
 package main;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import gamelogic.Snake;
 import graphics.Display;
-import graphics.Vao;
-import graphics.raymarcher.RayMarcherShader;
+import graphics.raymarcher.RayMarcher;
 
 /**
  * Die Klasse mit der Main-Methode unseres Programms.<br>
- * 
- * Bisher nur als Beispiel für den Umgang mit Eclipse, Git  und Javadoc gedacht.
  * 
  * @author Ben
  * @author Alex
@@ -20,7 +16,8 @@ import graphics.raymarcher.RayMarcherShader;
 public class Main {
 	
 	/**
-	 * Die Main-Methode selbst. Sie öffnet ein Fenster.
+	 * Die Main-Methode selbst. Sie öffnet das Fenster und updated es regelmäßig.<br>
+	 * Alles wichtige steht quasi hier.
 	 * 
 	 * @param args Kommandozeilenparameter
 	 */
@@ -28,55 +25,28 @@ public class Main {
 	public static void main(String[] args) {
 		// Erstellt ein neues Fenster
 		Display display = new Display(960,540,"SNAKE 3001");
-		// Setzt die Hintergrundfarbe auf Magenta
-		GL11.glClearColor(1,0,1,0);
-		
-		// Erstellt ein neues VAO mit den Eckpunkten eines Dreiecks
-		// A(-0.5|-0.5) = Ecke links unten
-		// B(0.5|-0.5) = Ecke rechts unten
-		// C(0|0.5) = Ecke rechts oben
-		Vao vao = new Vao(new float[] {-1,-1,-1,1,1,-1,-1,1,1,1,1,-1});
-		// Erstellt und aktiviert den RayMarcher-Shader
-		RayMarcherShader shader = new RayMarcherShader();
-		shader.start();
-		// Initialisiert Schlange
-		Snake snake = new Snake();
 		// Setzt das Fenster-Symbol
 		display.setWindowIcon("res/icon.png");
 		
+		// Erstellt und den RayMarcher-Renderer
+		RayMarcher renderer = new RayMarcher();
+		// Initialisiert Schlange
+		Snake snake = new Snake();
+		
 		while(!display.isCloseRequested()) {	
-			
-			// Setzt den Inhalt des Fensters auf die Hintergrundfarbe zurück
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-			
-			// Setzt den zu rendernden Bereich (bei Fenstergrößenänderungen wichtig)
-			GL11.glViewport(0, 0, display.getWidth(), display.getHeight());
-			
 			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
 			snake.update(display);
 			if ((snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
 			    snake = new Snake();
 			}
-			shader.loadViewMatrix(snake.viewDirection);
-			shader.loadPosition(snake.cameraPosition);
-			shader.loadSnake(snake.snakePositions);
-			shader.loadFoodPosition(snake.food.foodPosition);
 			
-			// Gibt das Seitenverhältnis des Fensters an den Shader weiter
-			float ratio = (float)display.getWidth()/display.getHeight();
-			shader.loadScreenRatio(ratio);
-			
-			// Rendert das Dreieck
-			vao.render();
-			
-			// Updated den Bildschirm
+			// rendert und updated den Bildschirm
+			renderer.render(snake,display.getWidth(),display.getHeight());
 			display.update();
 		}
 	
-		
-		// Löscht das Dreieck und schließt das Fenster
-		shader.destroy();
-		vao.destroy();
+		// Beendet den Renderer und schließt das Fenster
+		renderer.destroy();
 		display.close();
 	}
 	
