@@ -19,7 +19,9 @@ float foodDE(vec3 p);
 uniform vec3 cameraPosition;
 uniform vec3[32] snakePositions;
 uniform vec3 foodPosition;
+uniform float foodRadius;
 uniform int snakeLength;
+
 
 // maximale beim RayMarching genutzte Schrittzahl
 const int maxSteps = 32;
@@ -89,11 +91,10 @@ float trace(inout vec3 position, vec3 direction){
 float distanceEstimation(vec3 p){
 	
 	/*
-	Witziger Code zur Bildverzerrung:
+	//Witziger Code zur Bildverzerrung:
 	float d = length(p-cameraPosition);
-	return min(gridDE(p),min(snakeDE(p),foodDE(p)))-0.05*d*d*d*d;
+	return min(gridDE(p),min(snakeDE(p),foodDE(p)))+0.05*d*d*d*d;
 	*/
-	
 	return min(gridDE(p),min(snakeDE(p),foodDE(p)));
 }
 
@@ -118,6 +119,6 @@ float snakeDE(vec3 p){
 
 // berrechnet die Distanz des gegebenen Punktes zum Futter
 float foodDE(vec3 p){
-	return length(mod(p-foodPosition+vec3(0.5),1)-vec3(0.5))-snakeSphereRadius*0.5;
+	return length(mod(p-foodPosition+vec3(0.5),1)-vec3(0.5))-foodRadius;
 }
 

@@ -10,14 +10,19 @@ import graphics.Vector3f;
 
 public class Food {
 	public Vector3f foodPosition;
+	public float radius, bounce=0.001f;
+	private int scale = 0, scaleRange = 50;
 	
-		public Food() {
+		public Food(float radius) {
+			this.radius = radius+scaleRange*bounce;
+			//bounce = radius;
+			System.out.println("korn Const");
 			//setzt das Essen auf eine zufällige Position
 			float a = (float) (Math.random()-0.5);
 			float b = (float) (Math.random()-0.5);
 			float c = (float) (Math.random()-0.5);
 			
-			foodPosition = new Vector3f(a,b,c);				
+			foodPosition = new Vector3f(a,b,c);		
 		}
 		//errechnet Distanz zum Essen
 		public float distanceTo(Vector3f a) {
@@ -30,5 +35,19 @@ public class Food {
 			temp.z = (temp.z+10.5f)%1-0.5f;
 			//gibt Distanz zwischen Kopf und essen zurück
 			return temp.getLength();
+		}
+		
+		public void update() {
+		
+			if(scale >= 0) {
+				radius -= bounce;
+
+			}else {
+				radius += bounce;
+			}
+			scale++;
+			if(scale == scaleRange) {
+				scale = -scaleRange;
+			}
 		}
 }

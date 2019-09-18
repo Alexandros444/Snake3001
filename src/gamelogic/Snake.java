@@ -35,7 +35,7 @@ public class Snake {
 	    viewDirection = new Matrix3f();
 	    movement = new Vector3f();
 	     snakePositions = new Vector3f[2];   
-	     food = new Food();
+	     food = new Food(0.02f);
 	    
 	    //Startposition der Kugeln des SchlangenSchwanzes
 	     for (int l = 0; l < 2; l++) {
@@ -87,6 +87,8 @@ public class Snake {
 				movement.apply(viewDirection);
 				// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
 				cameraPosition.add(movement);
+				
+				food.update();
 			}
 		
 			// ruft die Methode zum Updaten der Positionen aufd
@@ -99,10 +101,13 @@ public class Snake {
 					System.out.println("Du ficker bist gestorben");
 				}
 			}
+			
+			 	
 			//falls Schlangenkopf Essen trifft dann neues Essen erstellen                   
 			if(food.distanceTo(snakePositions[0])<sphereRadius) {   
-				food = new Food(); 
+				food = new Food(0.02f); 
 				System.out.println("Korn gefressen!");
+				System.out.println("Länge "+(snakePositions.length+1) );
 				if(snakePositions.length < 32) {
 					Vector3f[] temp =  new Vector3f [snakePositions.length +1];	
 					for(int i = 0;i<snakePositions.length;i++) {
