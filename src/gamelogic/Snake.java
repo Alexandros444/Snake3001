@@ -174,23 +174,5 @@ public class Snake {
 		return temp.getLength()-2*sphereRadius;
 	}
 	
-	private boolean foodDistanceSnake() {
-		
-		
-		
-	return false;
-	}
-	
-	private boolean foodDistanceHead() {
-		
-		
-		
-	return false;
-	}
-	
-	public void addSphere() {
-		
-		
-	}
 	
 }
