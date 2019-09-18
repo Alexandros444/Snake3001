@@ -1,5 +1,9 @@
 #version 400 core
 
+// aktiviert den "Cave Effect"
+// gerade auskommentiert, weil deaktiviert
+//#define EFFECT_CAVE
+
 // kriegt einen 3D-Vektor für die Blickrichtung des Pixels als Input übergeben
 // dieses Input wurde aus den Outputs des Vertex-Shaders interpoliert und ist für jeden Pixel verschieden
 in vec3 pass_direction;
@@ -37,17 +41,11 @@ void main(void){
 	float brightness = trace(position,direction);
 	
 	// testet, welches Objekt getroffen wurde
-	vec4 color = vec4(0.5,0.5,0.5,1);
-	float d = gridDE(position);
-	float d2 = snakeDE(position);
-	if (d2<d){
-		color = vec4(0.5,1,0,1);
-		d = d2;
-	}
-	d2 = foodDE(position);
-	if (d2<d){
-		color = vec4(1,0.75,0,1);
-	}
+	float d1 = 1/gridDE(position);
+	float d2 = 1/snakeDE(position);
+	float d3 = 1/foodDE(position);
+	float sum = d1+d2+d3;
+	vec4 color = d1/sum*vec4(0.5,0.5,0.5,1)+d2/sum*vec4(0.5,1,0,1)+d3/sum*vec4(1,0.75,0,1);
 	color.rgb *= brightness;
 	out_color = color;
 	
@@ -87,14 +85,14 @@ float trace(inout vec3 position, vec3 direction){
 
 // berechnet die Distanz des gegebenen Punktes zu den zu rendernden Objekten
 float distanceEstimation(vec3 p){
-	
-	/*
-	Witziger Code zur Bildverzerrung:
-	float d = length(p-cameraPosition);
-	return min(gridDE(p),min(snakeDE(p),foodDE(p)))-0.05*d*d*d*d;
-	*/
-	
-	return min(gridDE(p),min(snakeDE(p),foodDE(p)));
+	// prüft, ob der "Cave Effect" eingesetzt werden soll
+	#ifdef EFFECT_CAVE
+		// witziger Code zur Bildverzerrung
+		float d = length(p-cameraPosition);
+		return min(gridDE(p),min(snakeDE(p),foodDE(p)))-0.05*d*d*d*d;
+	#else
+		return min(gridDE(p),min(snakeDE(p),foodDE(p)));
+	#endif
 }
 
 // berechnet die Distanz des gegebenen Punktes zu den Koordinatenachsen
