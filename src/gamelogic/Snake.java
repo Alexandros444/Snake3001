@@ -1,18 +1,20 @@
 package gamelogic;
 
 import org.lwjgl.glfw.GLFW;
-/**
- * Die Klasse für die Schlange.<br>
- * 
- *  @author Jakopo
- */
 
 import graphics.Display;
 import graphics.Matrix3f;
 import graphics.Vector3f;
 import gamelogic.Food;
 
+/**
+ * Die Klasse für die Schlange.<br>
+ * 
+ *  @author Jakopo
+ */
 public class Snake {
+
+	private static final int MAX_LENGTH = 32;
 	
 	public Vector3f cameraPosition, movement;
 	public Matrix3f viewDirection;
@@ -20,33 +22,30 @@ public class Snake {
 	public Vector3f[]  snakePositions;
 	public Food food;
 	
-	public long deltaTime;
+	public long lastFrame;
 	
 	private float rotationSpeed = 2f;
 	private float movementSpeed = 0.0045f;
 
 	private float sphereRadius = 0.05f;
-	private float foodSize = 0.05f;
-	private int sphereLimit = 32;
 
 	
 	/**
 	 * Erstellt eine neue Schlange
-	 * 
 	 */
 	public Snake(){
 	    cameraPosition = new Vector3f(0,0,0.5f);  
 	    viewDirection = new Matrix3f();
 	    movement = new Vector3f();
-	     snakePositions = new Vector3f[2];   
-	     food = new Food(0.02f);
+	    snakePositions = new Vector3f[2];
+	    food = new Food();
 	    
 	    //Startposition der Kugeln des SchlangenSchwanzes
 	     for (int l = 0; l < 2; l++) {
 			 snakePositions[l] = new Vector3f(); 
 		}
 	     
-	     deltaTime = System.nanoTime();
+	     lastFrame = System.nanoTime();
 	}
 
 	/**
@@ -57,7 +56,9 @@ public class Snake {
 	
 	public void update(Display display) {
 		// Vergangene Zeit wird berechnet
-		deltaTime = System.nanoTime() - deltaTime;
+		float deltaTime = System.nanoTime()-lastFrame;
+		lastFrame = System.nanoTime();
+		
 		// Überprüfen ob die Schlange noch lebt
 		if(!isAlive)return;
 		
@@ -95,7 +96,7 @@ public class Snake {
 			movement.y = 0;
 			movement.z = movementSpeed;
 			// Bestimmt Geschwindigkeit pro Frame
-			movement.z = movementSpeed * (deltaTime / (long)Math.pow(10, 7));
+			movement.z = movementSpeed * (deltaTime*(1e-7f));
 			// dreht den BewegungsVektor durch die SichtMatrix
 			movement.apply(viewDirection);
 			// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
@@ -104,61 +105,57 @@ public class Snake {
 			food.update();
 		}
 		
-		// UPDATEN
-		
-		// ruft die Methode zum Updaten der Positionen aufd
+		// bewegt die Schlange
 		updateSnakePositions(); 
 		
 		//checkt für jede Kugel ob man kollidiert
 		checkSelfCollision();
-
-		 	
-		//falls Schlangenkopf Essen trifft dann neues Essen erstellen                   
+		
+		//falls Schlangenkopf Essen trifft dann neues Essen erstellen
 		if(food.distanceTo(snakePositions[0])<sphereRadius) {   
+			System.out.println("Korn gefressen!");
+			System.out.println("Sch...Länge "+(snakePositions.length+1) );
+			// Erweitert Schlangenlänge um 1
+			addSphere();
+			// platziert das Korn neu
 			placeFood();
 		}
-		deltaTime = System.nanoTime();
 	}
 	
-	// Platziert ein neues Essen im Raum, nicht in der Schlange
+	/**
+	 * Platziert ein neues Futterkorn und verlängert die Schlange
+	 */
 	private void placeFood() {
-		food = new Food(foodSize); 
-		System.out.println("Korn gefressen!");
-		System.out.println("Sch...Länge "+(snakePositions.length+1) );
-		// Erweitert Schlangenlänge um 1
-		addSphere();
-		
-		// Limit der Schlangenlänge
-		if(snakePositions.length < sphereLimit) {
-			
-			boolean goodPosition = false;
-			//solange keine gute Position gefunden wurde soll das korn woanders erscheinen
-			while(!goodPosition) {
-				goodPosition = true;
-				for(int i=0;i<snakePositions.length;i++) {
-					if(food.distanceTo(snakePositions[i])<sphereRadius) {
-						goodPosition = false;
-						food = new Food(foodSize);
-					}
+		boolean goodPosition = false;
+		//solange keine gute Position gefunden wurde soll das korn woanders erscheinen
+		while(!goodPosition) {
+			food = new Food();
+			goodPosition = true;
+			for(int i=0;i<snakePositions.length;i++) {
+				if(food.distanceTo(snakePositions[i])<sphereRadius) {
+					goodPosition = false;
 				}
 			}
-		}  
+		}
 	}
 
-	/*
-	 * erweitert die Schlangenlänge um den Parameter
-	 * 
-	 * @param extension 
+	/**
+	 * Fügt eine Kugel zur Schlange hinzu, es sei denn die Schlange hat bereits maximalLänge
 	 */
 	private void addSphere() {
-		Vector3f[] temp =  new Vector3f [snakePositions.length+1];	
-		for(int i = 0;i<snakePositions.length;i++) {
-			temp[i] = snakePositions[i];
+		if(snakePositions.length<MAX_LENGTH) {
+			Vector3f[] temp =  new Vector3f [snakePositions.length+1];	
+			for(int i = 0;i<snakePositions.length;i++) {
+				temp[i] = snakePositions[i];
+			}
+			temp[snakePositions.length] = snakePositions[snakePositions.length-1].copy();
+			snakePositions = temp;
 		}
-		temp[snakePositions.length] = snakePositions[snakePositions.length-1].copy();
-		snakePositions = temp;
 	}
-
+	
+	/**
+	 * Überprüft ob die Schlange mit sich kollidiert
+	 */
 	private void checkSelfCollision() {
 		for(int i=2;i<snakePositions.length;i++) {
 			if(sphereDistance(snakePositions[0],snakePositions[i])<0) {

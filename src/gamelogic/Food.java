@@ -13,8 +13,8 @@ public class Food {
 	public float radius, bounce=0.001f;
 	private int scale = 0, scaleRange = 50;
 	
-		public Food(float radius) {
-			this.radius = radius+scaleRange*bounce;
+		public Food() {
+			this.radius = 0.025f+scaleRange*bounce;
 			scale = 0;
 			//setzt das Essen auf eine zufällige Position
 			float a = (float) (Math.random()-0.5);
