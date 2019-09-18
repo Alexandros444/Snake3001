@@ -25,9 +25,9 @@ public class Food {
 			temp.scale(-1);
 			temp.add(foodPosition);
 			//sorgt für Kollision mit Essen aus anderen Kästen
-			temp.x = (temp.x+10.5f)%1-0.5f;
-			temp.y = (temp.y+10.5f)%1-0.5f;
-			temp.z = (temp.z+10.5f)%1-0.5f;
+			temp.x = ((temp.x+0.5f)%1+1)%1-0.5f;
+			temp.y = ((temp.y+0.5f)%1+1)%1-0.5f;
+			temp.z = ((temp.z+0.5f)%1+1)%1-0.5f;
 			//gibt Distanz zwischen Kopf und essen zurück
 			return temp.getLength();
 		}

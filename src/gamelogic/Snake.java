@@ -103,14 +103,15 @@ public class Snake {
 			if(food.distanceTo(snakePositions[0])<sphereRadius) {   
 				food = new Food(); 
 				System.out.println("Korn gefressen!");
-				if(snakePositions.length < 32) {
-					Vector3f[] temp =  new Vector3f [snakePositions.length +1];	
-					for(int i = 0;i<snakePositions.length;i++) {
+				if(snakePositions.length<32) {
+					Vector3f[] temp =  new Vector3f [snakePositions.length+1];	
+					for(int i=0;i<snakePositions.length;i++) {
 						temp[i] = snakePositions[i];
 					}
 					temp[snakePositions.length]= snakePositions[snakePositions.length-1].copy();
 					snakePositions = temp;
 				}
+				System.out.println("Neue Länge: "+snakePositions.length);
 			}  
 		}
 	}
