@@ -22,7 +22,7 @@ public class Snake {
 	public boolean goodPosition = false;
 		
 	private float rotationSpeed = 2f;
-	private float movementSpeed = 0.00025f;
+	private float movementSpeed = 0.015f;
 	private float sphereRadius = 0.05f;
 
 
@@ -51,6 +51,7 @@ public class Snake {
 	 */
 	
 	public void update(Display display, long time) {
+		time = System.nanoTime() - time;
 		if(isAlive==true) {
 			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
 		
@@ -83,7 +84,7 @@ public class Snake {
 				// Setzt den BewegungsVektor zurück
 				movement.x = 0;
 				movement.y = 0;
-				movement.z = movementSpeed * (time / (long)Math.pow(10, 11));
+				movement.z = movementSpeed * (time / (long)Math.pow(10, 7));
 				// dreht den BewegungsVektor durch die SichtMatrix
 				movement.apply(viewDirection);
 				// addiert den BewegungsVektor zum Kamera-Positions-Vektor 

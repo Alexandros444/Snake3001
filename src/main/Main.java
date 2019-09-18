@@ -23,7 +23,6 @@ public class Main {
 	 */
 	
 	public static void main(String[] args) {
-		// Variabel zur Kontrolle des Movementspeeds
 		long t = 0;
 		// Erstellt ein neues Fenster
 		Display display = new Display(960,540,"SNAKE 3001");
@@ -36,17 +35,17 @@ public class Main {
 		Snake snake = new Snake();
 		
 		while(!display.isCloseRequested()) {	
-			t = System.nanoTime();
 			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
 			snake.update(display, t);
+			
+			t = System.nanoTime();
+			
 			if ((snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
 			    snake = new Snake();
 			}
 			
 			// rendert und updated den Bildschirm
 			renderer.render(snake,display.getWidth(),display.getHeight());
-			t = System.nanoTime() - t;
-			System.out.println(t);
 			display.update();
 		}
 	
