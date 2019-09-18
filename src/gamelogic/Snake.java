@@ -84,6 +84,7 @@ public class Snake {
 				// Setzt den BewegungsVektor zurück
 				movement.x = 0;
 				movement.y = 0;
+				// Bestimmt Geschwindigkeit pro Frame
 				movement.z = movementSpeed * (time / (long)Math.pow(10, 7));
 				// dreht den BewegungsVektor durch die SichtMatrix
 				movement.apply(viewDirection);
