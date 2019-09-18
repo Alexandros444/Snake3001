@@ -19,11 +19,12 @@ public class Snake {
 	public boolean isAlive = true;
 	public Vector3f[]  snakePositions;
 	public Food food;
-		
+	public boolean goodPosition = false;
+	
 	private float rotationSpeed = 2f;
-	private float movementSpeed = 0.01f;
+	private float movementSpeed = 0.0025f;
 	private float sphereRadius = 0.05f;
-
+	private float foodSize = 0.05f;
 
 	
 	/**
@@ -105,18 +106,31 @@ public class Snake {
 			 	
 			//falls Schlangenkopf Essen trifft dann neues Essen erstellen                   
 			if(food.distanceTo(snakePositions[0])<sphereRadius) {   
-				food = new Food(0.02f); 
+
+				food = new Food(foodSize ); 
 				System.out.println("Korn gefressen!");
 				System.out.println("Länge "+(snakePositions.length+1) );
+				
 				if(snakePositions.length < 32) {
 					Vector3f[] temp =  new Vector3f [snakePositions.length +1];	
 					for(int i = 0;i<snakePositions.length;i++) {
 						temp[i] = snakePositions[i];
+						temp[snakePositions.length] = snakePositions[snakePositions.length-1].copy();
+						snakePositions = temp;
 					}
-					temp[snakePositions.length]= snakePositions[snakePositions.length-1].copy();
-					snakePositions = temp;
-				}
-			}  
+					goodPosition = false;
+					//solange keine gute Position gefunden wurde soll das korn woanders erscheinen
+					while(!goodPosition) {
+						food = new Food(foodSize);
+						goodPosition = true;
+						for(int i=0;i<snakePositions.length;i++) {
+							if(food.distanceTo(snakePositions[i])<sphereRadius) {
+								goodPosition = false;
+							}
+						}
+					}
+				}  
+			}
 		}
 	}
 	
@@ -160,5 +174,23 @@ public class Snake {
 		return temp.getLength()-2*sphereRadius;
 	}
 	
+	private boolean foodDistanceSnake() {
+		
+		
+		
+	return false;
+	}
+	
+	private boolean foodDistanceHead() {
+		
+		
+		
+	return false;
+	}
+	
+	public void addSphere() {
+		
+		
+	}
 	
 }
