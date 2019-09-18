@@ -19,13 +19,15 @@ public class Snake {
 	public boolean isAlive = true;
 	public Vector3f[]  snakePositions;
 	public Food food;
-	public boolean goodPosition = false;
+	
+	public long deltaTime;
 	
 	private float rotationSpeed = 2f;
-	private float movementSpeed = 0.0025f;
+	private float movementSpeed = 0.0045f;
 
 	private float sphereRadius = 0.05f;
 	private float foodSize = 0.05f;
+	private int sphereLimit = 32;
 
 	
 	/**
@@ -43,6 +45,8 @@ public class Snake {
 	     for (int l = 0; l < 2; l++) {
 			 snakePositions[l] = new Vector3f(); 
 		}
+	     
+	     deltaTime = System.nanoTime();
 	}
 
 	/**
@@ -51,93 +55,119 @@ public class Snake {
 	 * @param display Das Display, von dem aus Tastendrücke eingelesen werden sollen
 	 */
 	
-	public void update(Display display, long time) {
-		time = System.nanoTime() - time;
-		if(isAlive==true) {
-			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
+	public void update(Display display) {
+		// Vergangene Zeit wird berechnet
+		deltaTime = System.nanoTime() - deltaTime;
+		// Überprüfen ob die Schlange noch lebt
+		if(!isAlive)return;
 		
-			// dreht Sichtmatrix nach oben					
-			if (display.isKeyPressed(GLFW.GLFW_KEY_W) || display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
-				viewDirection.rotate(-rotationSpeed, 0, 0);
-			}
-			// dreht Sichtmatrix nach unten
-			if (display.isKeyPressed(GLFW.GLFW_KEY_S) || display.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
-				viewDirection.rotate(rotationSpeed, 0, 0);
-			}
-			// dreht Sichtmatrix nach links
-			if (display.isKeyPressed(GLFW.GLFW_KEY_A) || display.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
-				viewDirection.rotate(0, -rotationSpeed, 0);
-			}
-			// Dreht Sichtmatrix nach rechts 
-			if (display.isKeyPressed(GLFW.GLFW_KEY_D) || display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
-				viewDirection.rotate(0, rotationSpeed, 0);
-			}
-			// Rotiert Sichtmatrix nach links
-			if (display.isKeyPressed(GLFW.GLFW_KEY_Q)) {
-				viewDirection.rotate(0, 0, rotationSpeed);
-			}
-			// Rotiert Sichtmatrix nach rechts
-			if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
-				viewDirection.rotate(0, 0, -rotationSpeed);
-			}
-			//wenn Leertaste gedrückt dann stop
-			if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
-				// Setzt den BewegungsVektor zurück
-				movement.x = 0;
-				movement.y = 0;
-				movement.z = movementSpeed;
-				// Bestimmt Geschwindigkeit pro Frame
-				movement.z = movementSpeed * (time / (long)Math.pow(10, 7));
-				// dreht den BewegungsVektor durch die SichtMatrix
-				movement.apply(viewDirection);
-				// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
-				cameraPosition.add(movement);
-				
-				food.update();
-			}
-		
-			// ruft die Methode zum Updaten der Positionen aufd
-			updateSnakePositions(); 
-			
-			//checkt für jede Kugel ob man kollidiert
-			for(int i=2;i<snakePositions.length;i++) {
-				if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
-					isAlive=false;
-					System.out.println("Du ficker bist gestorben");
-				}
-			}
-			
-			 	
-			//falls Schlangenkopf Essen trifft dann neues Essen erstellen                   
-			if(food.distanceTo(snakePositions[0])<sphereRadius) {   
-
-				food = new Food(foodSize ); 
-				System.out.println("Korn gefressen!");
-				System.out.println("Länge "+(snakePositions.length+1) );
-				
-				if(snakePositions.length < 32) {
-					Vector3f[] temp =  new Vector3f [snakePositions.length +1];	
-					for(int i = 0;i<snakePositions.length;i++) {
-						temp[i] = snakePositions[i];
-						temp[snakePositions.length] = snakePositions[snakePositions.length-1].copy();
-						snakePositions = temp;
-					}
-					goodPosition = false;
-					//solange keine gute Position gefunden wurde soll das korn woanders erscheinen
-					while(!goodPosition) {
-						food = new Food(foodSize);
-						goodPosition = true;
-						for(int i=0;i<snakePositions.length;i++) {
-							if(food.distanceTo(snakePositions[i])<sphereRadius) {
-								goodPosition = false;
-							}
-						}
-					}
-				}  
-			}
+		// STEUERUNG
+		// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
+	
+		// dreht Sichtmatrix nach oben					
+		if (display.isKeyPressed(GLFW.GLFW_KEY_W) || display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
+			viewDirection.rotate(-rotationSpeed, 0, 0);
 		}
+		// dreht Sichtmatrix nach unten
+		if (display.isKeyPressed(GLFW.GLFW_KEY_S) || display.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
+			viewDirection.rotate(rotationSpeed, 0, 0);
+		}
+		// dreht Sichtmatrix nach links
+		if (display.isKeyPressed(GLFW.GLFW_KEY_A) || display.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+			viewDirection.rotate(0, -rotationSpeed, 0);
+		}
+		// Dreht Sichtmatrix nach rechts 
+		if (display.isKeyPressed(GLFW.GLFW_KEY_D) || display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
+			viewDirection.rotate(0, rotationSpeed, 0);
+		}
+		// Rotiert Sichtmatrix nach links
+		if (display.isKeyPressed(GLFW.GLFW_KEY_Q)) {
+			viewDirection.rotate(0, 0, rotationSpeed);
+		}
+		// Rotiert Sichtmatrix nach rechts
+		if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
+			viewDirection.rotate(0, 0, -rotationSpeed);
+		}
+		//wenn Leertaste gedrückt dann stop
+		if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
+			// Setzt den BewegungsVektor zurück
+			movement.x = 0;
+			movement.y = 0;
+			movement.z = movementSpeed;
+			// Bestimmt Geschwindigkeit pro Frame
+			movement.z = movementSpeed * (deltaTime / (long)Math.pow(10, 7));
+			// dreht den BewegungsVektor durch die SichtMatrix
+			movement.apply(viewDirection);
+			// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
+			cameraPosition.add(movement);
+			
+			food.update();
+		}
+		
+		// UPDATEN
+		
+		// ruft die Methode zum Updaten der Positionen aufd
+		updateSnakePositions(); 
+		
+		//checkt für jede Kugel ob man kollidiert
+		checkSelfCollision();
+
+		 	
+		//falls Schlangenkopf Essen trifft dann neues Essen erstellen                   
+		if(food.distanceTo(snakePositions[0])<sphereRadius) {   
+			placeFood();
+		}
+		deltaTime = System.nanoTime();
 	}
 	
+	// Platziert ein neues Essen im Raum, nicht in der Schlange
+	private void placeFood() {
+		food = new Food(foodSize); 
+		System.out.println("Korn gefressen!");
+		System.out.println("Sch...Länge "+(snakePositions.length+1) );
+		// Erweitert Schlangenlänge um 1
+		addSphere();
+		
+		// Limit der Schlangenlänge
+		if(snakePositions.length < sphereLimit) {
+			
+			boolean goodPosition = false;
+			//solange keine gute Position gefunden wurde soll das korn woanders erscheinen
+			while(!goodPosition) {
+				goodPosition = true;
+				for(int i=0;i<snakePositions.length;i++) {
+					if(food.distanceTo(snakePositions[i])<sphereRadius) {
+						goodPosition = false;
+						food = new Food(foodSize);
+					}
+				}
+			}
+		}  
+	}
+
+	/*
+	 * erweitert die Schlangenlänge um den Parameter
+	 * 
+	 * @param extension 
+	 */
+	private void addSphere() {
+		Vector3f[] temp =  new Vector3f [snakePositions.length+1];	
+		for(int i = 0;i<snakePositions.length;i++) {
+			temp[i] = snakePositions[i];
+		}
+		temp[snakePositions.length] = snakePositions[snakePositions.length-1].copy();
+		snakePositions = temp;
+	}
+
+	private void checkSelfCollision() {
+		for(int i=2;i<snakePositions.length;i++) {
+			if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
+				isAlive=false;
+				System.out.println("Du ficker bist gestorben");
+			}
+		}		
+	}
+
 	/**
 	 * Updated die Positionen des Körpers der Schlange
 	 */

@@ -15,8 +15,7 @@ public class Food {
 	
 		public Food(float radius) {
 			this.radius = radius+scaleRange*bounce;
-			//bounce = radius;
-			System.out.println("korn Const");
+			scale = 0;
 			//setzt das Essen auf eine zufällige Position
 			float a = (float) (Math.random()-0.5);
 			float b = (float) (Math.random()-0.5);
