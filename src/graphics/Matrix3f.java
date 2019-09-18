@@ -2,8 +2,9 @@ package graphics;
 
 /**
  * 
+ * Matrizenklasse für Sichtfeld <br> 
+ * 
  * @Author Jakopo
- *
  */
 
 public class Matrix3f {

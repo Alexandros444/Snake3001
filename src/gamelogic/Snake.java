@@ -1,6 +1,11 @@
 package gamelogic;
 
 import org.lwjgl.glfw.GLFW;
+/**
+ * Die Klasse für die Schlange.<br>
+ * 
+ *  @author Jakopo
+ */
 
 import graphics.Display;
 import graphics.Matrix3f;
@@ -19,20 +24,22 @@ public class Snake {
 	private float movementSpeed = 0.01f;
 	private float sphereRadius = 0.05f;
 
+
 	
 	/**
 	 * Erstellt eine neue Schlange
+	 * 
 	 */
 	public Snake(){
 	    cameraPosition = new Vector3f(0,0,0.5f);  
 	    viewDirection = new Matrix3f();
 	    movement = new Vector3f();
-	     snakePositions = new Vector3f[32];
+	     snakePositions = new Vector3f[2];   
 	     food = new Food();
 	    
 	    //Startposition der Kugeln des SchlangenSchwanzes
-		for (int i = 0; i <  snakePositions.length; i++) {
-			 snakePositions[i] = new Vector3f(); 
+	     for (int l = 0; l < 2; l++) {
+			 snakePositions[l] = new Vector3f(); 
 		}
 	}
 
@@ -41,6 +48,7 @@ public class Snake {
 	 * 
 	 * @param display Das Display, von dem aus Tastendrücke eingelesen werden sollen
 	 */
+	
 	public void update(Display display) {
 		if(isAlive==true) {
 			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
@@ -81,19 +89,28 @@ public class Snake {
 				cameraPosition.add(movement);
 			}
 		
-			// ruft die Methode zum Updaten der Positionen auf
+			// ruft die Methode zum Updaten der Positionen aufd
 			updateSnakePositions(); 
 			
 			//checkt für jede Kugel ob man kollidiert
 			for(int i=2;i<snakePositions.length;i++) {
 				if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
 					isAlive=false;
+					System.out.println("Du ficker bist gestorben");
 				}
 			}
 			//falls Schlangenkopf Essen trifft dann neues Essen erstellen                   
-			if(food.foodDistance(snakePositions[0], food.foodPosition)<sphereRadius) {   
+			if(food.distanceTo(snakePositions[0])<sphereRadius) {   
 				food = new Food(); 
 				System.out.println("Korn gefressen!");
+				if(snakePositions.length < 32) {
+					Vector3f[] temp =  new Vector3f [snakePositions.length +1];	
+					for(int i = 0;i<snakePositions.length;i++) {
+						temp[i] = snakePositions[i];
+					}
+					temp[snakePositions.length]= snakePositions[snakePositions.length-1].copy();
+					snakePositions = temp;
+				}
 			}  
 		}
 	}
@@ -129,7 +146,7 @@ public class Snake {
 		Vector3f temp = a.copy();
 		temp.scale(-1);
 		temp.add(b);
-		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f   
+		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f       
 		// sorgt so für Kollision mit Schlangen aus anderen Kästen
 		temp.x = (temp.x+10.5f)%1-0.5f;
 		temp.y = (temp.y+10.5f)%1-0.5f;

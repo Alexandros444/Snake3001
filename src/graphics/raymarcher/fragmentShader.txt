@@ -13,10 +13,12 @@ float trace(inout vec3 position, vec3 direction);
 float distanceEstimation(vec3 p);
 float gridDE(vec3 p);
 float snakeDE(vec3 p);
+float foodDE(vec3 p);
 
 // Ortsvektor der Kamera
 uniform vec3 cameraPosition;
 uniform vec3[32] snakePositions;
+uniform vec3 foodPosition;
 uniform int snakeLength;
 
 // maximale beim RayMarching genutzte Schrittzahl
@@ -35,11 +37,19 @@ void main(void){
 	float brightness = trace(position,direction);
 	
 	// testet, welches Objekt getroffen wurde
-	if (snakeDE(position)<gridDE(position)){
-		out_color = vec4(0.5*brightness,brightness,0,1);
-	}else{
-		out_color = vec4(0.5*brightness,0.5*brightness,0.5*brightness,1);
+	vec4 color = vec4(0.5,0.5,0.5,1);
+	float d = gridDE(position);
+	float d2 = snakeDE(position);
+	if (d2<d){
+		color = vec4(0.5,1,0,1);
+		d = d2;
 	}
+	d2 = foodDE(position);
+	if (d2<d){
+		color = vec4(1,0.75,0,1);
+	}
+	color.rgb *= brightness;
+	out_color = color;
 	
 }
 
@@ -77,7 +87,14 @@ float trace(inout vec3 position, vec3 direction){
 
 // berechnet die Distanz des gegebenen Punktes zu den zu rendernden Objekten
 float distanceEstimation(vec3 p){
-	return min(gridDE(p),snakeDE(p));
+	
+	/*
+	Witziger Code zur Bildverzerrung:
+	float d = length(p-cameraPosition);
+	return min(gridDE(p),min(snakeDE(p),foodDE(p)))-0.05*d*d*d*d;
+	*/
+	
+	return min(gridDE(p),min(snakeDE(p),foodDE(p)));
 }
 
 // berechnet die Distanz des gegebenen Punktes zu den Koordinatenachsen
@@ -98,3 +115,9 @@ float snakeDE(vec3 p){
 	}
 	return max(d-snakeSphereRadius,2*snakeSphereRadius-length(p-cameraPosition));
 }
+
+// berrechnet die Distanz des gegebenen Punktes zum Futter
+float foodDE(vec3 p){
+	return length(mod(p-foodPosition+vec3(0.5),1)-vec3(0.5))-snakeSphereRadius*0.5;
+}
+
