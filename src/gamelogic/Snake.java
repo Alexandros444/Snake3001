@@ -21,7 +21,7 @@ public class Snake {
 	public Food food;
 		
 	private float rotationSpeed = 2f;
-	private float movementSpeed = 0.01f;
+	private float movementSpeed = 0.00025f;
 	private float sphereRadius = 0.05f;
 
 
@@ -49,7 +49,7 @@ public class Snake {
 	 * @param display Das Display, von dem aus Tastendrücke eingelesen werden sollen
 	 */
 	
-	public void update(Display display) {
+	public void update(Display display, long time) {
 		if(isAlive==true) {
 			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
 		
@@ -82,7 +82,7 @@ public class Snake {
 				// Setzt den BewegungsVektor zurück
 				movement.x = 0;
 				movement.y = 0;
-				movement.z = movementSpeed;
+				movement.z = movementSpeed * (time / (long)Math.pow(10, 11));
 				// dreht den BewegungsVektor durch die SichtMatrix
 				movement.apply(viewDirection);
 				// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
