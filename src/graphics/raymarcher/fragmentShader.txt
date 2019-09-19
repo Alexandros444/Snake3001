@@ -2,7 +2,7 @@
 
 // aktiviert den "Cave Effect"
 // gerade auskommentiert, weil deaktiviert
-#define EFFECT_CAVE
+//#define EFFECT_CAVE
 
 // kriegt einen 3D-Vektor für die Blickrichtung des Pixels als Input übergeben
 // dieses Input wurde aus den Outputs des Vertex-Shaders interpoliert und ist für jeden Pixel verschieden
@@ -24,6 +24,7 @@ uniform vec3 cameraPosition;
 uniform vec3[32] snakePositions;
 uniform vec3 foodPosition;
 uniform float foodRadius;
+uniform mat3 foodRotation;
 uniform int snakeLength;
 
 
@@ -43,12 +44,13 @@ void main(void){
 	float brightness = trace(position,direction);
 	
 	// testet, welches Objekt getroffen wurde
-	float d1 = 1/gridDE(position);
-	float d2 = 1/snakeDE(position);
-	float d3 = 1/foodDE(position);
+	float d1 = 1/(0.00001+gridDE(position));
+	float d2 = 1/(0.00001+snakeDE(position));
+	float d3 = 1/(0.00001+foodDE(position));
 	float sum = d1+d2+d3;
-	vec4 color = d1/sum*vec4(0.5,0.5,0.5,1)+d2/sum*vec4(0.5,1,0,1)+d3/sum*vec4(1,0.75,0,1);
+	vec4 color = d1/sum*vec4(0.25,0.25,0.25,1)+d2/sum*vec4(0.25,1,0,1)+d3/sum*vec4(1,0.5,0,1);
 	
+	color.rgb = sqrt(color.rgb);
 	color.rgb *= brightness;
 	out_color = color;
 	
@@ -120,6 +122,8 @@ float snakeDE(vec3 p){
 
 // berrechnet die Distanz des gegebenen Punktes zum Futter
 float foodDE(vec3 p){
-	return length(mod(p-foodPosition+vec3(0.5),1)-vec3(0.5))-foodRadius;
+	p = mod(p-foodPosition+vec3(0.5),1)-vec3(0.5);
+	p *= foodRotation;
+	return length(max(vec3(0),abs(p)-vec3(foodRadius)));
 }
 

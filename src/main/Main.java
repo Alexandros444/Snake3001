@@ -35,9 +35,8 @@ public class Main {
 		Snake snake = new Snake();
 		
 		while(!display.isCloseRequested()) {	
-			// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader
+			// updated die Schlange
 			snake.update(display);
-			// nimmt Zeit für snake.update
 			
 			if ((snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
 			    snake = new Snake();

@@ -1,5 +1,6 @@
 package gamelogic;
 
+import graphics.Matrix3f;
 import graphics.Vector3f;
 
 /**
@@ -9,19 +10,24 @@ import graphics.Vector3f;
  */
 
 public class Food {
+	
+	public static final float BASE_RADIUS = 0.025f;
+	
 	public Vector3f foodPosition;
-	public float radius, bounce=0.001f;
-	private int scale = 0, scaleRange = 50;
+	public float radius;
+	public Matrix3f foodRotation;
 	
 		public Food() {
-			this.radius = 0.025f+scaleRange*bounce;
-			scale = 0;
+			this.radius = 0;
 			//setzt das Essen auf eine zufällige Position
 			float a = (float) (Math.random()-0.5);
 			float b = (float) (Math.random()-0.5);
 			float c = (float) (Math.random()-0.5);
 			
-			foodPosition = new Vector3f(a,b,c);		
+			foodPosition = new Vector3f(a,b,c);
+			
+			foodRotation = new Matrix3f();
+			foodRotation.rotate(45, 45, 0);
 		}
 		//errechnet Distanz zum Essen
 		public float distanceTo(Vector3f a) {
@@ -37,16 +43,7 @@ public class Food {
 		}
 		
 		public void update() {
-		
-			if(scale >= 0) {
-				radius -= bounce;
-
-			}else {
-				radius += bounce;
-			}
-			scale++;
-			if(scale == scaleRange) {
-				scale = -scaleRange;
-			}
+			radius += (BASE_RADIUS-radius)/10;
+			foodRotation.rotate(0,0,3);
 		}
 }

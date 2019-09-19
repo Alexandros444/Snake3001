@@ -51,6 +51,7 @@ public class RayMarcher {
 		shader.loadSnake(snake.snakePositions);
 		shader.loadFoodPosition(snake.food.foodPosition);
 		shader.loadFoodRadius(snake.food.radius);
+		shader.loadFoodRotation(snake.food.foodRotation);
 		
 		// lädt das aktuelle Seitenverhältnis des Fensters in den Shader
 		float ratio = (float)width/height;

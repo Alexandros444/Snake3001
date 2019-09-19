@@ -23,6 +23,7 @@ public class RayMarcherShader extends Shader{
 	private int snakeLengthUniformID;
 	private int foodPositionUniformID;
 	private int foodRadiusUniformID;
+	private int foodRotationUniformID;
 	
 	/**
 	 * Lädt den Shader.
@@ -51,6 +52,7 @@ public class RayMarcherShader extends Shader{
 		snakeLengthUniformID = super.getUniformLocation("snakeLength");
 		foodPositionUniformID = super.getUniformLocation("foodPosition");
 		foodRadiusUniformID = super.getUniformLocation("foodRadius");
+		foodRotationUniformID = super.getUniformLocation("foodRotation");
 	}
 	
 	/**
@@ -106,6 +108,15 @@ public class RayMarcherShader extends Shader{
 	 */
 	public void loadFoodRadius(float radius) {
 		super.loadFloat(foodRadiusUniformID, radius);
+	}
+	
+	/**
+	 * Lädt die Matrix zum Drehen des Essens.
+	 * 
+	 * @param matrix
+	 */
+	public void loadFoodRotation(Matrix3f matrix) {
+		super.loadMatrix3f(foodRotationUniformID, matrix);
 	}
 	
 }

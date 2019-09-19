@@ -22,7 +22,7 @@ public class Snake {
 	public Vector3f[]  snakePositions;
 	public Food food;
 	
-	public long lastFrame;
+	private long lastFrame;
 	
 	private float rotationSpeed = 2f;
 	private float movementSpeed = 0.0045f;
@@ -37,11 +37,11 @@ public class Snake {
 	    cameraPosition = new Vector3f(0,0,0.5f);  
 	    viewDirection = new Matrix3f();
 	    movement = new Vector3f();
-	    snakePositions = new Vector3f[2];
+	    snakePositions = new Vector3f[5];
 	    food = new Food();
 	    
 	    //Startposition der Kugeln des SchlangenSchwanzes
-	     for (int l = 0; l < 2; l++) {
+	     for (int l = 0; l < snakePositions.length; l++) {
 			 snakePositions[l] = new Vector3f(); 
 		}
 	     
@@ -161,6 +161,7 @@ public class Snake {
 			if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
 				isAlive=false;
 				System.out.println("Du ficker bist gestorben");
+				break;
 			}
 		}		
 	}
@@ -205,5 +206,17 @@ public class Snake {
 		return temp.getLength()-2*sphereRadius;
 	}
 	
+	/**
+	 * Gibt die Distanz des gegebenen Punktes zum Gitter zurück.
+	 * 
+	 * @param p Ortsvektor
+	 * @return Distanz zum Gitter
+	 */
+	private static float gridDistance(Vector3f p) {
+		float x = Math.max(0,Math.abs(Math.abs(p.x)%1-0.5f)-0.02f);
+		float y = Math.max(0,Math.abs(Math.abs(p.y)%1-0.5f)-0.02f);
+		float z = Math.max(0,Math.abs(Math.abs(p.z)%1-0.5f)-0.02f);
+		return (float)Math.min(Math.sqrt(x*x+y*y),Math.min(Math.sqrt(y*y+z*z),Math.sqrt(z*z+x*x)));
+	}
 	
 }
