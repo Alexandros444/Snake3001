@@ -27,7 +27,7 @@ public class Food {
 			foodPosition = new Vector3f(a,b,c);
 			
 			foodRotation = new Matrix3f();
-			foodRotation.rotate(45, 45, 0);
+			foodRotation.rotate(0, 45, 0);
 		}
 		//errechnet Distanz zum Essen
 		public float distanceTo(Vector3f a) {

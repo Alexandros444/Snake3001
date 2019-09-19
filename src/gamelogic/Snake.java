@@ -24,7 +24,7 @@ public class Snake {
 	
 	private long lastFrame;
 	
-	private float rotationSpeed = 2f;
+	private float rotationSpeed = 0.75f;
 	private float movementSpeed = 0.0045f;
 
 	private float sphereRadius = 0.05f;
@@ -67,27 +67,27 @@ public class Snake {
 	
 		// dreht Sichtmatrix nach oben					
 		if (display.isKeyPressed(GLFW.GLFW_KEY_W) || display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
-			viewDirection.rotate(-rotationSpeed, 0, 0);
+			viewDirection.rotate(-rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
 		}
 		// dreht Sichtmatrix nach unten
 		if (display.isKeyPressed(GLFW.GLFW_KEY_S) || display.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
-			viewDirection.rotate(rotationSpeed, 0, 0);
+			viewDirection.rotate(rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
 		}
 		// dreht Sichtmatrix nach links
 		if (display.isKeyPressed(GLFW.GLFW_KEY_A) || display.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
-			viewDirection.rotate(0, -rotationSpeed, 0);
+			viewDirection.rotate(0, -rotationSpeed* (deltaTime*(1e-7f)), 0);
 		}
 		// Dreht Sichtmatrix nach rechts 
 		if (display.isKeyPressed(GLFW.GLFW_KEY_D) || display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
-			viewDirection.rotate(0, rotationSpeed, 0);
+			viewDirection.rotate(0, rotationSpeed* (deltaTime*(1e-7f)), 0);
 		}
 		// Rotiert Sichtmatrix nach links
 		if (display.isKeyPressed(GLFW.GLFW_KEY_Q)) {
-			viewDirection.rotate(0, 0, rotationSpeed);
+			viewDirection.rotate(0, 0, rotationSpeed* (deltaTime*(1e-7f)));
 		}
 		// Rotiert Sichtmatrix nach rechts
 		if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
-			viewDirection.rotate(0, 0, -rotationSpeed);
+			viewDirection.rotate(0, 0, -rotationSpeed* (deltaTime*(1e-7f)));
 		}
 		//wenn Leertaste gedrückt dann stop
 		if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
