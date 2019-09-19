@@ -127,12 +127,18 @@ public class Snake {
 	 */
 	private void placeFood() {
 		boolean goodPosition = false;
-		//solange keine gute Position gefunden wurde soll das korn woanders erscheinen
+		//solange keine gute Position gefunden wurde soll das Korn woanders erscheinen
 		while(!goodPosition) {
 			food = new Food();
 			goodPosition = true;
+			
+			//Kontrolle ob Korn im Gitter landet
+			if(gridDistance(food.foodPosition)<food.radius) {
+					goodPosition = false;
+			}
+			//Kontrolle ob Korn in der Schlange landet
 			for(int i=0;i<snakePositions.length;i++) {
-				if(food.distanceTo(snakePositions[i])<sphereRadius||gridDistance(food.foodPosition)<food.radius) {
+				if(food.distanceTo(snakePositions[i])<sphereRadius) {
 					goodPosition = false;
 				}
 			}
@@ -159,6 +165,7 @@ public class Snake {
 	private void checkCollision() {
 		if(gridDistance(snakePositions[0])-sphereRadius<0) {
 			isAlive=false;
+			System.out.println("Du ficker bist gestorben");
 		}
 		for(int i=2;i<snakePositions.length;i++) {
 			if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
