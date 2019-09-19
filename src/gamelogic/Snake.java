@@ -109,7 +109,7 @@ public class Snake {
 		updateSnakePositions(); 
 		
 		//checkt für jede Kugel ob man kollidiert
-		checkSelfCollision();
+		checkCollision();
 		
 		//falls Schlangenkopf Essen trifft dann neues Essen erstellen
 		if(food.distanceTo(snakePositions[0])<sphereRadius) {   
@@ -132,7 +132,7 @@ public class Snake {
 			food = new Food();
 			goodPosition = true;
 			for(int i=0;i<snakePositions.length;i++) {
-				if(food.distanceTo(snakePositions[i])<sphereRadius) {
+				if(food.distanceTo(snakePositions[i])<sphereRadius&&gridDistance(food.foodPosition)<sphereRadius) {
 					goodPosition = false;
 				}
 			}
@@ -156,9 +156,9 @@ public class Snake {
 	/**
 	 * Überprüft ob die Schlange mit sich kollidiert
 	 */
-	private void checkSelfCollision() {
-		for(int i=2;i<snakePositions.length;i++) {
-			if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
+	private void checkCollision() {
+		for(int i=0;i<snakePositions.length;i++) {
+			if(sphereDistance(snakePositions[0],snakePositions[i])<0&&gridDistance(snakePositions[0])-sphereRadius<0) {
 				isAlive=false;
 				System.out.println("Du ficker bist gestorben");
 				break;
