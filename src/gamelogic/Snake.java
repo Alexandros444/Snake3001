@@ -132,7 +132,7 @@ public class Snake {
 			food = new Food();
 			goodPosition = true;
 			for(int i=0;i<snakePositions.length;i++) {
-				if(food.distanceTo(snakePositions[i])<sphereRadius&&gridDistance(food.foodPosition)<sphereRadius) {
+				if(food.distanceTo(snakePositions[i])<sphereRadius||gridDistance(food.foodPosition)<food.radius) {
 					goodPosition = false;
 				}
 			}
@@ -157,8 +157,11 @@ public class Snake {
 	 * Überprüft ob die Schlange mit sich kollidiert
 	 */
 	private void checkCollision() {
-		for(int i=0;i<snakePositions.length;i++) {
-			if(sphereDistance(snakePositions[0],snakePositions[i])<0&&gridDistance(snakePositions[0])-sphereRadius<0) {
+		if(gridDistance(snakePositions[0])-sphereRadius<0) {
+			isAlive=false;
+		}
+		for(int i=2;i<snakePositions.length;i++) {
+			if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
 				isAlive=false;
 				System.out.println("Du ficker bist gestorben");
 				break;

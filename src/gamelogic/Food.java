@@ -44,6 +44,6 @@ public class Food {
 		
 		public void update() {
 			radius += (BASE_RADIUS-radius)/10;
-			foodRotation.rotate(0,0,3);
+			foodRotation.rotate(0,0,2);
 		}
 }
