@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import gamelogic.Snake;
 import graphics.Display;
+import graphics.FpsCounter;
 import graphics.raymarcher.RayMarcher;
 
 /**
@@ -29,6 +30,9 @@ public class Main {
 		// Setzt das Fenster-Symbol
 		display.setWindowIcon("res/icon.png");
 		
+		// Erstellt den Fps Z‰hler
+		FpsCounter fps = new FpsCounter();
+		
 		// Erstellt und den RayMarcher-Renderer
 		RayMarcher renderer = new RayMarcher();
 		// Initialisiert Schlange
@@ -45,6 +49,8 @@ public class Main {
 			// rendert und updated den Bildschirm
 			renderer.render(snake,display.getWidth(),display.getHeight());
 			display.update();
+			fps.update();
+			
 		}
 	
 		// Beendet den Renderer und schlieﬂt das Fenster
