@@ -24,7 +24,7 @@ public class Snake {
 	
 	private long lastFrame;
 	
-	private float rotationSpeed = 2f;
+	private float rotationSpeed = 0.75f;
 	private float movementSpeed = 0.0045f;
 
 	private float sphereRadius = 0.05f;
@@ -67,27 +67,27 @@ public class Snake {
 	
 		// dreht Sichtmatrix nach oben					
 		if (display.isKeyPressed(GLFW.GLFW_KEY_W) || display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
-			viewDirection.rotate(-rotationSpeed, 0, 0);
+			viewDirection.rotate(-rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
 		}
 		// dreht Sichtmatrix nach unten
 		if (display.isKeyPressed(GLFW.GLFW_KEY_S) || display.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
-			viewDirection.rotate(rotationSpeed, 0, 0);
+			viewDirection.rotate(rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
 		}
 		// dreht Sichtmatrix nach links
 		if (display.isKeyPressed(GLFW.GLFW_KEY_A) || display.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
-			viewDirection.rotate(0, -rotationSpeed, 0);
+			viewDirection.rotate(0, -rotationSpeed* (deltaTime*(1e-7f)), 0);
 		}
 		// Dreht Sichtmatrix nach rechts 
 		if (display.isKeyPressed(GLFW.GLFW_KEY_D) || display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
-			viewDirection.rotate(0, rotationSpeed, 0);
+			viewDirection.rotate(0, rotationSpeed* (deltaTime*(1e-7f)), 0);
 		}
 		// Rotiert Sichtmatrix nach links
 		if (display.isKeyPressed(GLFW.GLFW_KEY_Q)) {
-			viewDirection.rotate(0, 0, rotationSpeed);
+			viewDirection.rotate(0, 0, rotationSpeed* (deltaTime*(1e-7f)));
 		}
 		// Rotiert Sichtmatrix nach rechts
 		if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
-			viewDirection.rotate(0, 0, -rotationSpeed);
+			viewDirection.rotate(0, 0, -rotationSpeed* (deltaTime*(1e-7f)));
 		}
 		//wenn Leertaste gedrückt dann stop
 		if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
@@ -109,7 +109,7 @@ public class Snake {
 		updateSnakePositions(); 
 		
 		//checkt für jede Kugel ob man kollidiert
-		checkSelfCollision();
+		checkCollision();
 		
 		//falls Schlangenkopf Essen trifft dann neues Essen erstellen
 		if(food.distanceTo(snakePositions[0])<sphereRadius) {   
@@ -127,10 +127,16 @@ public class Snake {
 	 */
 	private void placeFood() {
 		boolean goodPosition = false;
-		//solange keine gute Position gefunden wurde soll das korn woanders erscheinen
+		//solange keine gute Position gefunden wurde soll das Korn woanders erscheinen
 		while(!goodPosition) {
 			food = new Food();
 			goodPosition = true;
+			
+			//Kontrolle ob Korn im Gitter landet
+			if(gridDistance(food.foodPosition)<food.radius) {
+					goodPosition = false;
+			}
+			//Kontrolle ob Korn in der Schlange landet
 			for(int i=0;i<snakePositions.length;i++) {
 				if(food.distanceTo(snakePositions[i])<sphereRadius) {
 					goodPosition = false;
@@ -156,7 +162,11 @@ public class Snake {
 	/**
 	 * Überprüft ob die Schlange mit sich kollidiert
 	 */
-	private void checkSelfCollision() {
+	private void checkCollision() {
+		if(gridDistance(snakePositions[0])-sphereRadius<0) {
+			isAlive=false;
+			System.out.println("Du ficker bist gestorben");
+		}
 		for(int i=2;i<snakePositions.length;i++) {
 			if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
 				isAlive=false;

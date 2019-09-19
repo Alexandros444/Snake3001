@@ -17,6 +17,10 @@ public class Food {
 	public float radius;
 	public Matrix3f foodRotation;
 	
+	/**
+	 * Erstellt eine neues Essen
+	 */
+	
 		public Food() {
 			this.radius = 0;
 			//setzt das Essen auf eine zufällige Position
@@ -27,9 +31,15 @@ public class Food {
 			foodPosition = new Vector3f(a,b,c);
 			
 			foodRotation = new Matrix3f();
-			foodRotation.rotate(45, 45, 0);
+			foodRotation.rotate(0, 45, 0);
 		}
-		//errechnet Distanz zum Essen
+		
+		/**
+		 *gibt Distanz zwischen dem Mittepunkt des Essens 
+		 * und einer beliebigen Position zurück
+		 *
+		 */ 
+		
 		public float distanceTo(Vector3f a) {
 			Vector3f temp = a.copy();
 			temp.scale(-1);
@@ -42,8 +52,11 @@ public class Food {
 			return temp.getLength();
 		}
 		
+		/**
+		 * upated das Essen
+		 */ 
 		public void update() {
 			radius += (BASE_RADIUS-radius)/10;
-			foodRotation.rotate(0,0,3);
+			foodRotation.rotate(0,0,2);
 		}
 }

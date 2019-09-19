@@ -13,8 +13,8 @@ out vec4 out_color;
 
 // hier müssen alle selbst geschriebenen Methoden kurz beschrieben werden.
 // genauer definiert werden sie dann später im Programm.
-float trace(inout vec3 position, vec3 direction);
-float distanceEstimation(vec3 p);
+vec4 trace(inout vec3 position, vec3 direction);
+float distanceEstimation(vec3 p, out vec3 glowColor);
 float gridDE(vec3 p);
 float snakeDE(vec3 p);
 float foodDE(vec3 p);
@@ -41,34 +41,38 @@ void main(void){
 	vec3 direction = normalize(pass_direction);
 	
 	// simuliert einen Lichtstrahl in die Richtung und bestimmt damit die Helligkeit des Pixels
-	float brightness = trace(position,direction);
+	vec4 shadeColor = trace(position,direction);
 	
 	// testet, welches Objekt getroffen wurde
 	float d1 = 1/(0.00001+gridDE(position));
 	float d2 = 1/(0.00001+snakeDE(position));
 	float d3 = 1/(0.00001+foodDE(position));
 	float sum = d1+d2+d3;
-	vec4 color = d1/sum*vec4(0.25,0.25,0.25,1)+d2/sum*vec4(0.25,1,0,1)+d3/sum*vec4(1,0.5,0,1);
-	
+	vec3 color = d1/sum*vec3(0.25,0.25,0.25)+d2/sum*vec3(0.25,1,0)+d3/sum*vec3(1,0.5,0);
 	color.rgb = sqrt(color.rgb);
-	color.rgb *= brightness;
-	out_color = color;
+	
+	out_color = vec4(color.rgb*shadeColor.a+shadeColor.rgb*(1-shadeColor.a),1);
 	
 }
 
 // simuliert einen Lichtstrahl von einen gegebenen Punkt aus in die gegebene Richtung
-float trace(inout vec3 position, vec3 direction){
+// gibt Farbe und  Stärke der entsprechenden Schattierung zurück
+// setzt den übergeben ektor auf die Endposition des Strahls
+vec4 trace(inout vec3 position, vec3 direction){
 	float totalDistance = 0;
 	int steps;
 	vec3 p;
 	float distance;
 	float prevDistance;
+	vec3 shadeColor = vec3(0);
+	vec3 currentGlowColor;
 	for (steps=0;steps<maxSteps;steps++){
 		// berechnet die derzeitige Position des Lichtstrahls
 		p = position+totalDistance*direction;
-		// berechnet die Distanz zu den zu rendernden Objekten
+		// berechnet die Distanz zu den zu rendernden Objekten und errechnet die Farbe des Leuchtens naher Objekte
 		prevDistance = distance;
-		distance = distanceEstimation(p);
+		distance = distanceEstimation(p,currentGlowColor);
+		shadeColor += currentGlowColor;
 		// bewegt den Strahl um die errechnete Distanz vorwärts
 		// dadurch bewegt er sich nach vorne, kann sich aber nicht durch die Objekte durchbewegen
 		totalDistance += distance;
@@ -79,25 +83,32 @@ float trace(inout vec3 position, vec3 direction){
 	}
 	// ändert die Startposition zur derzeitigen Position
 	position += totalDistance*direction;
+	//berechnet die Farbe und Stärke der Schattierung
+	shadeColor /= steps;
+	float shade;
 	if (steps==maxSteps){
 		// gibt 0 als Helligkeit zurück, falls der Strahl die Objekte nicht erreicht hat
-		return 0;
+		shade = 0;
 	}else{
 		// errechnet die Helligkeit aus der Anzahl der benötigten Schritte bis zum Erreichen des Objekts sowie der letzten Distanz zum Objekt
-		return 1.0-(float(steps)-(0.001-distance)/(prevDistance-distance))/float(maxSteps);
+		shade = 1.0-(float(steps)-(0.001-distance)/(prevDistance-distance))/float(maxSteps);
 	}
+	return vec4(shadeColor,shade);
 }
 
-// berechnet die Distanz des gegebenen Punktes zu den zu rendernden Objekten
-float distanceEstimation(vec3 p){
+// berechnet die Distanz des gegebenen Punktes zu den zu rendernden Objekten, gibt die Farbe des Leuchtens naher Objekte zurück
+float distanceEstimation(vec3 p, out vec3 glowColor){
+	vec3 distances = vec3(gridDE(p),snakeDE(p),foodDE(p));
+	vec3 inverseDistances = 1/distances;
+	glowColor = inverseDistances.z/(inverseDistances.x+inverseDistances.y+inverseDistances.z)*vec3(1,0.5,0);
 	// prüft, ob der "Cave Effect" eingesetzt werden soll
 	#ifdef EFFECT_CAVE
 		// witziger Code zur Bildverzerrung
 		float d = length(p-cameraPosition);
-		return min(gridDE(p),min(snakeDE(p),foodDE(p)))-0.05*d*d*d*d;
+		return min(distances.x,min(distances.y,distances.z))-0.05*d*d*d*d;
 	#else
 		// normaler Code
-		return min(gridDE(p),min(snakeDE(p),foodDE(p)));
+		return min(distances.x,min(distances.y,distances.z));
 	#endif
 }
 
