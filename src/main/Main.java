@@ -35,6 +35,9 @@ public class Main {
 		
 		// Erstellt und den RayMarcher-Renderer
 		RayMarcher renderer = new RayMarcher();
+		// Reduziert die Auflösung, um die FPS zu erhöhen
+		renderer.setPixelSize(2);
+		
 		// Initialisiert Schlange
 		Snake snake = new Snake();
 		
