@@ -133,7 +133,7 @@ public class Snake {
 			goodPosition = true;
 			
 			//Kontrolle ob Korn im Gitter landet
-			if(gridDistance(food.foodPosition)<food.radius) {
+			if(gridDistance(food.foodPosition)<(1.5 * Food.BASE_RADIUS)) {
 					goodPosition = false;
 			}
 			//Kontrolle ob Korn in der Schlange landet
