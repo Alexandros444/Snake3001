@@ -34,10 +34,10 @@ public class Food {
 	}
 		
 	/**
-	 *gibt Distanz zwischen dem Mittepunkt des Essens 
-	 * und einer beliebigen Position zurück
-	 *@param beliebige Position
-	 *@return Distanz von Korn zu Vector3f a 
+	 * Gibt Distanz zwischen dem Mittepunkt des Essens und einer beliebigen Position zurück
+	 *
+	 * @param a beliebige Position
+	 * @return Distanz von Korn zu a 
 	 */ 
 	public float distanceTo(Vector3f a) {
 		Vector3f temp = a.copy();
@@ -52,7 +52,8 @@ public class Food {
 	}
 		
 	/**
-	 * updated das Essen
+	 * Updated das Essen
+	 * @param deltaTime Zeit seit letztem Frame
 	 */ 
 	public void update(float deltaTime) {
 		radius += (BASE_RADIUS-radius)/10;
