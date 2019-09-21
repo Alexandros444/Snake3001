@@ -28,6 +28,8 @@ public class Snake {
 	private float movementSpeed = 0.0045f;
 
 	private float sphereRadius = 0.05f;
+	
+	private int snakeLenght = 0;
 
 	
 	/**
@@ -113,8 +115,9 @@ public class Snake {
 		
 		//falls Schlangenkopf Essen trifft dann neues Essen erstellen
 		if(food.distanceTo(snakePositions[0])<sphereRadius) {   
+			snakeLenght += 1;
 			System.out.println("Korn gefressen!");
-			System.out.println("Sch...Länge "+(snakePositions.length+1) );
+			System.out.println("Sch...Länge "+ snakeLenght );
 			// Erweitert Schlangenlänge um 1
 			addSphere();
 			// platziert das Korn neu
