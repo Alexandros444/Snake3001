@@ -102,7 +102,7 @@ public class Snake {
 			// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
 			cameraPosition.add(movement);
 			
-			food.update();
+			food.update(deltaTime);
 		}
 		
 		// bewegt die Schlange

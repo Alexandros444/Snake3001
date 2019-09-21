@@ -55,8 +55,8 @@ public class Food {
 		/**
 		 * upated das Essen
 		 */ 
-		public void update() {
+		public void update(float deltaTime) {
 			radius += (BASE_RADIUS-radius)/10;
-			foodRotation.rotate(2,2,0);
+			foodRotation.rotate(1.5f * ((deltaTime)*(1e-7f)), 1.5f * ((deltaTime)*(1e-7f)), 0);
 		}
 }
