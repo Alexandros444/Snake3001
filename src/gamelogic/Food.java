@@ -20,43 +20,43 @@ public class Food {
 	/**
 	 * Erstellt eine neues Essen
 	 */
-	
-		public Food() {
-			this.radius = 0;
-			//setzt das Essen auf eine zufällige Position
-			float a = (float) (Math.random()-0.5);
-			float b = (float) (Math.random()-0.5);
-			float c = (float) (Math.random()-0.5);
+	public Food() {
+		this.radius = 0;
+		//setzt das Essen auf eine zufällige Position
+		float a = (float) (Math.random()-0.5);
+		float b = (float) (Math.random()-0.5);
+		float c = (float) (Math.random()-0.5);
 			
-			foodPosition = new Vector3f(a,b,c);
+		foodPosition = new Vector3f(a,b,c);
 			
-			foodRotation = new Matrix3f();
-			foodRotation.rotate(0, 45, 45);
-		}
+		foodRotation = new Matrix3f();
+		foodRotation.rotate(0, 45, 45);
+	}
 		
-		/**
-		 *gibt Distanz zwischen dem Mittepunkt des Essens 
-		 * und einer beliebigen Position zurück
-		 *
-		 */ 
+	/**
+	 * Gibt Distanz zwischen dem Mittepunkt des Essens und einer beliebigen Position zurück
+	 *
+	 * @param a beliebige Position
+	 * @return Distanz von Korn zu a 
+	 */ 
+	public float distanceTo(Vector3f a) {
+		Vector3f temp = a.copy();
+		temp.scale(-1);
+		temp.add(foodPosition);
+		//sorgt für Kollision mit Essen aus anderen Kästen
+		temp.x = ((temp.x+0.5f)%1+1)%1-0.5f;
+		temp.y = ((temp.y+0.5f)%1+1)%1-0.5f;
+		temp.z = ((temp.z+0.5f)%1+1)%1-0.5f;
+		//gibt Distanz zwischen Kopf und essen zurück
+		return temp.getLength();
+	}
 		
-		public float distanceTo(Vector3f a) {
-			Vector3f temp = a.copy();
-			temp.scale(-1);
-			temp.add(foodPosition);
-			//sorgt für Kollision mit Essen aus anderen Kästen
-			temp.x = ((temp.x+0.5f)%1+1)%1-0.5f;
-			temp.y = ((temp.y+0.5f)%1+1)%1-0.5f;
-			temp.z = ((temp.z+0.5f)%1+1)%1-0.5f;
-			//gibt Distanz zwischen Kopf und essen zurück
-			return temp.getLength();
-		}
-		
-		/**
-		 * upated das Essen
-		 */ 
-		public void update(float deltaTime) {
-			radius += (BASE_RADIUS-radius)/10;
-			foodRotation.rotate(1.5f * ((deltaTime)*(1e-7f)), 1.5f * ((deltaTime)*(1e-7f)), 0);
-		}
+	/**
+	 * Updated das Essen
+	 * @param deltaTime Zeit seit letztem Frame
+	 */ 
+	public void update(float deltaTime) {
+		radius += (BASE_RADIUS-radius)/10;
+		foodRotation.rotate(1.5f * ((deltaTime)*(1e-7f)), 1.5f * ((deltaTime)*(1e-7f)), 0);
+	}
 }
