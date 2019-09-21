@@ -7,9 +7,10 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWImage;
+import org.lwjgl.glfw.GLFWImage.Buffer;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.stb.STBImage;
-import org.lwjgl.glfw.GLFWImage.Buffer;
 
 /**
  * Klasse zum erstellen eines Displays, hier wird unser Spiel angezeigt!
@@ -19,7 +20,10 @@ import org.lwjgl.glfw.GLFWImage.Buffer;
 
 public class Display {
 	private long windowID;
-
+	private boolean isFullscreenMode;
+	private int[] beforeFullscreenBounds = new int[4];
+	
+	
 	/**
 	 * Erstellt neues Display mit der Breite W, der Höhe H, und dem Titel titel
 	 * 
@@ -119,6 +123,31 @@ public class Display {
 		GLFW.glfwSetWindowIcon(windowID,buffer);			
 	}
 
+	
+	public void toggleFullscreeMode(){
+		if(isFullscreenMode) {
+			GLFW.glfwSetWindowMonitor(windowID, 0, beforeFullscreenBounds[0], beforeFullscreenBounds[1], beforeFullscreenBounds[2], beforeFullscreenBounds[3], GLFW.GLFW_DONT_CARE);
+			isFullscreenMode = false;
+		}else {
+			setBeforePosition();
+			GLFWVidMode vidMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
+			GLFW.glfwSetWindowMonitor(windowID,GLFW.glfwGetPrimaryMonitor(), 0, 0, vidMode.width(), vidMode.height(), vidMode.refreshRate());
+			isFullscreenMode = true;
+		}
+		
+	}
+
+	private void setBeforePosition() {
+		IntBuffer tempX = BufferUtils.createIntBuffer(1);
+		IntBuffer tempY = BufferUtils.createIntBuffer(1);
+		GLFW.glfwGetWindowPos(windowID, tempX, tempY);
+		beforeFullscreenBounds[0] = tempX.get(0);
+		beforeFullscreenBounds[1] = tempY.get(0);
+		GLFW.glfwGetWindowSize(windowID, tempX, tempY);
+		beforeFullscreenBounds[2] = tempX.get(0);
+		beforeFullscreenBounds[3] = tempY.get(0);
+		
+	}
 	
 
 }

@@ -36,7 +36,7 @@ public class Main {
 		// Erstellt und den RayMarcher-Renderer
 		RayMarcher renderer = new RayMarcher();
 		// Reduziert die Auflösung, um die FPS zu erhöhen
-		renderer.setPixelSize(2);
+		renderer.setPixelSize(3);
 		
 		// Initialisiert Schlange
 		Snake snake = new Snake();
@@ -44,6 +44,11 @@ public class Main {
 		while(!display.isCloseRequested()) {	
 			// updated die Schlange
 			snake.update(display);
+			
+			if(display.isKeyPressed(GLFW.GLFW_KEY_F) && (fps.getTimeMark("fullScreen")>0)) {
+				fps.setTimeMark("fullScreen");
+				display.toggleFullscreeMode();
+			}
 			
 			if ((snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
 			    snake = new Snake();
