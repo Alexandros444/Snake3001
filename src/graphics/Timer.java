@@ -19,14 +19,14 @@ public class Timer {
 	 * Gibt die Zeit in Sekunden aus
 	 */
 	public int getTimeSec(){
-		return (int) ((System.nanoTime()-startTime)*Math.pow(10, -9));
+		return (int) ((System.nanoTime()-startTime)*1e-9);
 	}
 	
 	/*
 	 * Gibt die Zeit in Millisekunden aus
 	 */
 	public float getTimeMil() {
-		return (float) ((System.nanoTime()-startTime)*Math.pow(10, -3));
+		return (float) ((System.nanoTime()-startTime)*1e-6);
 	}
 	
 	/*
