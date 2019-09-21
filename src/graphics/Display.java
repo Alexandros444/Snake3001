@@ -43,7 +43,7 @@ public class Display {
 	}
 
 	/**
-	 * Updated das Display und checkt die Events
+	 * Updated das Display und checkt die Evaents
 	 */
 	
 	public void update() {

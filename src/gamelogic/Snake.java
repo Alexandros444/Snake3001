@@ -150,7 +150,7 @@ public class Snake {
 	 */
 	private void addSphere() {
 		if(snakePositions.length<MAX_LENGTH) {
-			Vector3f[] temp =  new Vector3f [snakePositions.length+1];	
+			Vector3f[] temp =  new Vector3f [snakePositions.length+1];
 			for(int i = 0;i<snakePositions.length;i++) {
 				temp[i] = snakePositions[i];
 			}
