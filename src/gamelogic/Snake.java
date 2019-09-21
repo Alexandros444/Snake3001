@@ -14,7 +14,7 @@ import gamelogic.Food;
  */
 public class Snake {
 
-	private static final int MAX_LENGTH = 32;
+	private static final int MAX_LENGTH = 64;
 	
 	public Vector3f cameraPosition;
 	public Matrix3f viewDirection;

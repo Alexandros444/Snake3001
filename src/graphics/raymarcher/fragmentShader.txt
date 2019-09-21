@@ -21,7 +21,7 @@ float foodDE(vec3 p);
 
 // Ortsvektor der Kamera
 uniform vec3 cameraPosition;
-uniform vec3[32] snakePositions;
+uniform vec3[64] snakePositions;
 uniform vec3 foodPosition;
 uniform float foodRadius;
 uniform mat3 foodRotation;
