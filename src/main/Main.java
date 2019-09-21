@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import gamelogic.Snake;
 import graphics.Display;
 import graphics.FpsCounter;
+import graphics.Timer;
 import graphics.raymarcher.RayMarcher;
 
 /**
@@ -41,12 +42,14 @@ public class Main {
 		// Initialisiert Schlange
 		Snake snake = new Snake();
 		
+		Timer timer = new Timer();
+		
 		while(!display.isCloseRequested()) {	
 			// updated die Schlange
 			snake.update(display);
 			
-			if(display.isKeyPressed(GLFW.GLFW_KEY_F) && (fps.getTimeMark("fullScreen")>0)) {
-				fps.setTimeMark("fullScreen");
+			if(display.isKeyPressed(GLFW.GLFW_KEY_F) && (timer.getTimeSec()>0)) {
+				timer.reset();
 				display.toggleFullscreeMode();
 			}
 			
