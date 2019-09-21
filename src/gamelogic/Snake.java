@@ -16,7 +16,7 @@ public class Snake {
 
 	private static final int MAX_LENGTH = 32;
 	
-	public Vector3f cameraPosition, movement;
+	public Vector3f cameraPosition;
 	public Matrix3f viewDirection;
 	public boolean isAlive = true;
 	public Vector3f[]  snakePositions;
@@ -29,7 +29,7 @@ public class Snake {
 
 	private float sphereRadius = 0.05f;
 	
-	private int snakeLenght = 0;
+	private int score = 0;
 
 	
 	/**
@@ -38,7 +38,6 @@ public class Snake {
 	public Snake(){
 	    cameraPosition = new Vector3f(0,0,0.5f);  
 	    viewDirection = new Matrix3f();
-	    movement = new Vector3f();
 	    snakePositions = new Vector3f[5];
 	    food = new Food();
 	    
@@ -94,18 +93,16 @@ public class Snake {
 		//wenn Leertaste gedrückt dann stop
 		if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
 			// Setzt den BewegungsVektor zurück
-			movement.x = 0;
-			movement.y = 0;
-			movement.z = movementSpeed;
+			Vector3f movement = new Vector3f(0,0,movementSpeed);
 			// Bestimmt Geschwindigkeit pro Frame
-			movement.z = movementSpeed * (deltaTime*(1e-7f));
+			movement.scale(deltaTime*(1e-7f));
 			// dreht den BewegungsVektor durch die SichtMatrix
 			movement.apply(viewDirection);
 			// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
 			cameraPosition.add(movement);
-			
-			food.update(deltaTime);
 		}
+
+		food.update(deltaTime);
 		
 		// bewegt die Schlange
 		updateSnakePositions(); 
@@ -115,9 +112,8 @@ public class Snake {
 		
 		//falls Schlangenkopf Essen trifft dann neues Essen erstellen
 		if(food.distanceTo(snakePositions[0])<sphereRadius) {   
-			snakeLenght += 1;
-			System.out.println("Korn gefressen!");
-			System.out.println("Sch...Länge "+ snakeLenght );
+			score += 1;
+			System.out.println("Punktzahl: "+score+", Länge: "+snakePositions.length);
 			// Erweitert Schlangenlänge um 1
 			addSphere();
 			// platziert das Korn neu
@@ -126,7 +122,7 @@ public class Snake {
 	}
 	
 	/**
-	 * Platziert ein neues Futterkorn und verlängert die Schlange
+	 * Platziert ein neues Futterkorn
 	 */
 	private void placeFood() {
 		boolean goodPosition = false;
@@ -149,7 +145,7 @@ public class Snake {
 	}
 
 	/**
-	 * Fügt eine Kugel zur Schlange hinzu, es sei denn die Schlange hat bereits maximalLänge
+	 * Fügt eine Kugel zur Schlange hinzu, es sei denn die Schlange hat bereits ihre Maximallänge erreicht
 	 */
 	private void addSphere() {
 		if(snakePositions.length<MAX_LENGTH) {
@@ -168,12 +164,12 @@ public class Snake {
 	private void checkCollision() {
 		if(gridDistance(snakePositions[0])-sphereRadius<0) {
 			isAlive=false;
-			System.out.println("Du ficker bist gestorben");
+			System.out.println("Du bist gestorben");
 		}
 		for(int i=2;i<snakePositions.length;i++) {
 			if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
 				isAlive=false;
-				System.out.println("Du ficker bist gestorben");
+				System.out.println("Du bist gestorben");
 				break;
 			}
 		}		
