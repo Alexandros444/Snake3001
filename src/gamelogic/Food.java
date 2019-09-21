@@ -31,7 +31,7 @@ public class Food {
 			foodPosition = new Vector3f(a,b,c);
 			
 			foodRotation = new Matrix3f();
-			foodRotation.rotate(0, 45, 0);
+			foodRotation.rotate(0, 45, 45);
 		}
 		
 		/**
@@ -55,8 +55,8 @@ public class Food {
 		/**
 		 * upated das Essen
 		 */ 
-		public void update() {
+		public void update(float deltaTime) {
 			radius += (BASE_RADIUS-radius)/10;
-			foodRotation.rotate(0,0,2);
+			foodRotation.rotate(1.5f * ((deltaTime)*(1e-7f)), 1.5f * ((deltaTime)*(1e-7f)), 0);
 		}
 }

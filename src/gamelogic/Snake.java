@@ -28,6 +28,8 @@ public class Snake {
 	private float movementSpeed = 0.0045f;
 
 	private float sphereRadius = 0.05f;
+	
+	private int snakeLenght = 0;
 
 	
 	/**
@@ -102,7 +104,7 @@ public class Snake {
 			// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
 			cameraPosition.add(movement);
 			
-			food.update();
+			food.update(deltaTime);
 		}
 		
 		// bewegt die Schlange
@@ -113,8 +115,9 @@ public class Snake {
 		
 		//falls Schlangenkopf Essen trifft dann neues Essen erstellen
 		if(food.distanceTo(snakePositions[0])<sphereRadius) {   
+			snakeLenght += 1;
 			System.out.println("Korn gefressen!");
-			System.out.println("Sch...Länge "+(snakePositions.length+1) );
+			System.out.println("Sch...Länge "+ snakeLenght );
 			// Erweitert Schlangenlänge um 1
 			addSphere();
 			// platziert das Korn neu
@@ -150,7 +153,7 @@ public class Snake {
 	 */
 	private void addSphere() {
 		if(snakePositions.length<MAX_LENGTH) {
-			Vector3f[] temp =  new Vector3f [snakePositions.length+1];	
+			Vector3f[] temp =  new Vector3f [snakePositions.length+1];
 			for(int i = 0;i<snakePositions.length;i++) {
 				temp[i] = snakePositions[i];
 			}
