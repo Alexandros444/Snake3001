@@ -1,0 +1,17 @@
+#version 400 core
+
+// kriegt die interpolierten Texturkoordinaten als Input übergeben
+in vec2 pass_textureCoords;
+
+// gibt die Farbe des Pixels als RGBA-Vektor aus
+out vec4 color;
+
+// kriegt eine Textur als uniform übergeben
+uniform sampler2D textureSampler;
+
+void main(void){
+	
+	// gibt die Farbe der Textur an den gegeben Koordinaten zurück
+	color = texture(textureSampler,pass_textureCoords);
+	
+}

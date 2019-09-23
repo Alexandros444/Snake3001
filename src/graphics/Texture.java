@@ -1,11 +1,10 @@
 package graphics;
 
-import java.nio.ByteBuffer;
-
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 
 /**
- * Klasse für OpengGL-Texturen. Können zum Speichern und späteren ausrendern von Bildern genutzt werden.
+ * Klasse für OpengGL-Texturen. Können zum Speichern und späteren Rendern von Bildern genutzt werden.
  * 
  * @author Ben
  */
@@ -48,15 +47,23 @@ public class Texture {
 	 * 
 	 * @param width Breite in Pixeln
 	 * @param height Höhe in Pixeln
-	 * @param data Pixel-Daten im RGBA8-Format
+	 * @param data Pixel-Daten im RGBA8-Format - jeder Pixel wird durch einen Integer angegeben, wobei das insignifikanteste Byte den Farbwert für Rot angibt, das zweite für Grün usw.
 	 */
-	public void bufferData(int width, int height, ByteBuffer data) {
+	public void bufferData(int width, int height, int[] pixels) {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D,id);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D,0,GL11.GL_RGBA,width,height,0,GL11.GL_RGBA,GL11.GL_UNSIGNED_BYTE,data);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D,0,GL11.GL_RGBA,width,height,0,GL11.GL_RGBA,GL11.GL_UNSIGNED_BYTE,pixels);
 		this.width = width;
 		this.height = height;
 	}
-
+	
+	/**
+	 * Bindet das Texture an den OpenGL-Kontext, damit es zum Rendern benutzt werden kann.
+	 */
+	public void bind() {
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D,id);
+	}
+	
 	/**
 	 * Löscht das Texture, um Speicher freizugeben.
 	 */

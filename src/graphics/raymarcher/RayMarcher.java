@@ -33,7 +33,7 @@ public class RayMarcher {
 		shader.start();
 
 		// Erstellt ein neues VAO mit den Eckpunkten eines Rechtecks
-		vao = new Vao(new float[] {-1,-1,-1,1,1,-1,-1,1,1,1,1,-1});
+		vao = new Vao(new float[] {-1,-1,-1,1,1,-1,-1,1,1,1,1,-1},new float[12]);
 		
 		// erstellt einen neuen Framebuffer, in den gerendert werden kann
 		framebufferID = GL30.glGenFramebuffers();
@@ -65,6 +65,7 @@ public class RayMarcher {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
 		// lädt alle Infos in den Shader
+		shader.start();
 		shader.loadViewMatrix(snake.viewDirection);
 		shader.loadPosition(snake.cameraPosition);
 		shader.loadSnake(snake.snakePositions);
@@ -77,6 +78,8 @@ public class RayMarcher {
 		shader.loadScreenRatio(ratio);
 
 		// Rendert das Viereck in den Framebuffer
+		
+		vao.bind();
 		vao.render();
 		
 		// Kopiert das Ergebnis in den Haupt-Framebuffer

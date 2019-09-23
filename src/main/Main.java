@@ -6,6 +6,7 @@ import gamelogic.Snake;
 import graphics.Display;
 import graphics.FpsCounter;
 import graphics.Timer;
+import graphics.guiRenderer.GuiRenderer;
 import graphics.raymarcher.RayMarcher;
 
 /**
@@ -34,10 +35,13 @@ public class Main {
 		// Erstellt den Fps Zähler
 		FpsCounter fps = new FpsCounter();
 		
-		// Erstellt und den RayMarcher-Renderer
-		RayMarcher renderer = new RayMarcher();
+		// Erstellt den RayMarcher-Renderer
+		RayMarcher gameRenderer = new RayMarcher();
 		// Reduziert die Auflösung, um die FPS zu erhöhen
-		renderer.setPixelSize(3);
+		gameRenderer.setPixelSize(3);
+		
+		// Erstellt den Gui-Renderer
+		GuiRenderer guiRenderer = new GuiRenderer();
 		
 		// Initialisiert Schlange
 		Snake snake = new Snake();
@@ -58,14 +62,16 @@ public class Main {
 			}
 			
 			// rendert und updated den Bildschirm
-			renderer.render(snake,display.getWidth(),display.getHeight());
+			gameRenderer.render(snake,display.getWidth(),display.getHeight());
+			guiRenderer.render(display.getWidth(),display.getHeight());
 			display.update();
 			fps.update();
 			
 		}
 	
 		// Beendet den Renderer und schließt das Fenster
-		renderer.destroy();
+		gameRenderer.destroy();
+		guiRenderer.destroy();
 		display.close();
 	}
 	

@@ -3,7 +3,7 @@
 // kriegt einen 2D-Vektor als Position des Punktes als Input übergeben
 in vec2 position;
 
-// gibt einen 3D-Vektor (die Richtung des Strahls durch den Pixel von der Kamera aus) an der Fragment-Shader weiter
+// gibt einen 3D-Vektor (die Richtung des Strahls durch den Pixel von der Kamera aus) an den Fragment-Shader weiter
 out vec3 pass_direction;
 
 uniform mat3 viewDirection;

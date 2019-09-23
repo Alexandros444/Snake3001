@@ -1,0 +1,19 @@
+#version 400 core
+
+// kriegt einen 2D-Vektor als Position des Punktes als Input übergeben
+in vec2 position;
+// kriegt einen weiteren Vektor mit den Texturkoordinaten des Punktes übergeben
+in vec2 textureCoords;
+
+// gibt die Texturkoordinaten an den Fragment-Shader weiter
+out vec2 pass_textureCoords;
+
+void main(void){
+	
+	// setzt die Position des Punktes auf dem Bildschirm auf das Positions-Input
+	gl_Position = vec4(position,0,1);
+	
+	// gibt die Texturkoordinaten an den Fragment-Shader weiter
+	pass_textureCoords = textureCoords;
+	
+}
