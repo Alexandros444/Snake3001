@@ -25,7 +25,7 @@ public class GuiRenderer {
 	public GuiRenderer() {
 		shader = new GuiShader();
 		// erstellt ein Vao mit den Eckpunkten eines Vierecks, auf dem das Texture dargestellt werden soll
-		testVao = new Vao(new float[]{-0.1f,-0.1f,-0.1f,0.1f,0.1f,-0.1f,-0.1f,0.1f,0.1f,0.1f,0.1f,-0.1f},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
+		testVao = new Vao(new float[]{-25f,-25f,-25f,25f,25f,-25f,-25f,25f,25f,25f,25f,-25f},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
 		// erstellt ein neues Texture und lädt eine einfach Test-Grafik da rein
 		testTexture = new Texture();
 		testTexture.bufferData(2,2,new int[] {0xff000000,0xffff0000,0xff00ff00,0xff0000ff});
@@ -38,10 +38,11 @@ public class GuiRenderer {
 	 * @param height Höhe in Pixeln
 	 */
 	public void render(int width, int height) {
-		// bindet den Haupt-Framebuffer und startet den Gui-Shader
+		// bindet den Haupt-Framebuffer und bereitet den Gui-Shader vor
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER,0);
 		GL11.glViewport(0,0,width,height);
 		shader.start();
+		shader.loadScreenSize(width,height);
 		
 		// rendert das Viereck mit dem Texture
 		testTexture.bind();
@@ -58,5 +59,4 @@ public class GuiRenderer {
 		testTexture.destroy();
 		testVao.destroy();
 	}
-	
 }

@@ -113,6 +113,16 @@ public abstract class Shader {
 	}
 	
 	/**
+	 * Lädt einen Vektor in einen Uniform.
+	 * 
+	 * @param location die ID des Uniforms
+	 * @param value der zu ladende Vektor
+	 */
+	protected void loadVector2f(int location, Vector2f value) {
+		GL20.glUniform2f(location,value.x,value.y);
+	}
+	
+	/**
 	 * Lädt eine Matrix in einen Uniform.
 	 * 
 	 * @param location die ID des Uniforms

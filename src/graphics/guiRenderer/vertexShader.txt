@@ -8,10 +8,21 @@ in vec2 textureCoords;
 // gibt die Texturkoordinaten an den Fragment-Shader weiter
 out vec2 pass_textureCoords;
 
+// die Bildschirmgröße als Uniform übergeben
+// mit dem werden dann die Pixel-Koordinaten (von 0|0 bis width|height) in OpenGl-Koordinaten (von -1|-1 bis 1|1) umgerechnet
+uniform vec2 screenSize;
+
 void main(void){
 	
-	// setzt die Position des Punktes auf dem Bildschirm auf das Positions-Input
-	gl_Position = vec4(position,0,1);
+	// rechnet die Position aus Pixel-Koordinaten in OpenGL-Koordinaten um:
+	vec2 pos = position;
+	pos *= 2/screenSize;
+	pos += vec2(-1);
+	pos.y *= -1;
+	
+	
+	// setzt die Position des Punktes auf dem Bildschirm
+	gl_Position = vec4(pos,0,1);
 	
 	// gibt die Texturkoordinaten an den Fragment-Shader weiter
 	pass_textureCoords = textureCoords;

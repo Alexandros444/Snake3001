@@ -8,7 +8,7 @@ package graphics;
  */
 
 public class Matrix3f {
-	private float m00, m01, m02, m10, m11, m12, m20, m21, m22;
+	public float m00, m01, m02, m10, m11, m12, m20, m21, m22;
 	
 	/**
 	 * erstellt eine neue Identitätsmatrix
