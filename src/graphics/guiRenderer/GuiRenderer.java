@@ -3,6 +3,7 @@ package graphics.guiRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
+import graphics.Matrix3f;
 import graphics.Texture;
 import graphics.Vao;
 
@@ -18,6 +19,7 @@ public class GuiRenderer {
 	
 	private Vao testVao;
 	private Texture testTexture;
+	private Matrix3f testTransform;
 	
 	/**
 	 * Erstellt einen neuen Gui-Renderer.
@@ -29,6 +31,7 @@ public class GuiRenderer {
 		// erstellt ein neues Texture und lädt eine einfach Test-Grafik da rein
 		testTexture = new Texture();
 		testTexture.bufferData(2,2,new int[] {0xff000000,0xffff0000,0xff00ff00,0xff0000ff});
+		testTransform = new Matrix3f();
 	}
 	
 	/**
@@ -43,6 +46,12 @@ public class GuiRenderer {
 		GL11.glViewport(0,0,width,height);
 		shader.start();
 		shader.loadScreenSize(width,height);
+		
+		// ändert und lädt die Position des Vierecks
+		testTransform.rotate(0,0,1);
+		testTransform.m20 = width/2;
+		testTransform.m21 = height/2;
+		shader.loadTransformationMatrix(testTransform);
 		
 		// rendert das Viereck mit dem Texture
 		testTexture.bind();

@@ -12,10 +12,15 @@ out vec2 pass_textureCoords;
 // mit dem werden dann die Pixel-Koordinaten (von 0|0 bis width|height) in OpenGl-Koordinaten (von -1|-1 bis 1|1) umgerechnet
 uniform vec2 screenSize;
 
+// bekommt die Position, Rotation, Größe usw. des zu rendernden Objekts in Form einer Matrix übergeben
+uniform mat3 transformationMatrix;
+
 void main(void){
 	
+	// wendet die Transformation auf das Objekt an, sodass es an die richtige Position verschoben wird
+	vec2 pos = (transformationMatrix*vec3(position,1)).xy;
+	
 	// rechnet die Position aus Pixel-Koordinaten in OpenGL-Koordinaten um:
-	vec2 pos = position;
 	pos *= 2/screenSize;
 	pos += vec2(-1);
 	pos.y *= -1;

@@ -1,5 +1,6 @@
 package graphics.guiRenderer;
 
+import graphics.Matrix3f;
 import graphics.Shader;
 import graphics.Vector2f;
 
@@ -9,6 +10,7 @@ public class GuiShader extends Shader {
 	private static final String FRAGMENT_FILE = "graphics/guiRenderer/fragmentShader.txt";
 	
 	private int screenSizeUniformID;
+	private int transformationMatrixUniformID;
 	
 	/**
 	 * Lädt den Shader.
@@ -32,6 +34,7 @@ public class GuiShader extends Shader {
 	 */
 	protected void getUniformLocations() {
 		screenSizeUniformID = super.getUniformLocation("screenSize");
+		transformationMatrixUniformID = super.getUniformLocation("transformationMatrix");
 	}
 	
 	/**
@@ -44,6 +47,16 @@ public class GuiShader extends Shader {
 	 */
 	public void loadScreenSize(int width, int height) {
 		super.loadVector2f(screenSizeUniformID,new Vector2f(width,height));
+	}
+	
+	/**
+	 * Lädt die Transformation, mit der das Objekt gerendert werden soll<br>
+	 * In der Matrix sind Position, Rotation, Größe usw. kodiert
+	 * 
+	 * @param matrix Transformationmatrix
+	 */
+	public void loadTransformationMatrix(Matrix3f matrix) {
+		super.loadMatrix3f(transformationMatrixUniformID,matrix);
 	}
 	
 }
