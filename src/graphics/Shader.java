@@ -1,8 +1,9 @@
 package graphics;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -22,8 +23,6 @@ import org.lwjgl.opengl.GL20;
  */
 
 public abstract class Shader {
-	
-	private static final String PATH = "src/";
 	
 	private final int programID;
 	private final int vertexShaderID;
@@ -173,21 +172,23 @@ public abstract class Shader {
 	
 	/**
 	 * Lädt einen Vertex- oder Fragment-Shader aus einen Datei.
-	 * @param fileName
+	 * 
+	 * @param fileName Dateifad des Shaders relativ zum src-Ordner.
 	 * @param type Der Typ des Shaders. Entweder <code>GL20.GL_VERTEX_SHADER</code> oder <code>GL20.GL_FRAGMENT_SHADER</code>.
 	 * @return Die Id des geladenen Shaders.
 	 */
 	private static int loadShader(String fileName, int type) {
 		StringBuilder shaderSource = new StringBuilder();
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(PATH+fileName));
+			InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 			String line;
 			while ((line = reader.readLine())!=null) {
 				shaderSource.append(line).append("\n");
 			}
 			reader.close();
 		}catch(IOException e) {
-			System.err.println("Shader `"+PATH+fileName+"` konnte nicht gefunden werden!");
+			System.err.println("Shader `"+fileName+"` konnte nicht gefunden werden!");
 			e.printStackTrace();
 			System.exit(-1);
 		}
@@ -195,7 +196,7 @@ public abstract class Shader {
 		GL20.glShaderSource(shaderID,shaderSource);
 		GL20.glCompileShader(shaderID);
 		if (GL20.glGetShaderi(shaderID,GL20.GL_COMPILE_STATUS)==GL11.GL_FALSE) {
-			System.err.println("Shader `"+PATH+fileName+"` konnte nicht kompiliert werden!");
+			System.err.println("Shader `"+fileName+"` konnte nicht kompiliert werden!");
 			System.out.println(GL20.glGetShaderInfoLog(shaderID,500));
 			System.exit(-1);
 		}

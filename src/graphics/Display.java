@@ -1,5 +1,6 @@
 package graphics;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
@@ -11,6 +12,8 @@ import org.lwjgl.glfw.GLFWImage.Buffer;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.stb.STBImage;
+
+import main.StaticUtils;
 
 /**
  * Klasse zum erstellen eines Displays, hier wird unser Spiel angezeigt!
@@ -115,12 +118,18 @@ public class Display {
 		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
 		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
 		IntBuffer comp = BufferUtils.createIntBuffer(1);
-		ByteBuffer pixels = STBImage.stbi_load(path,widthBuffer,heightBuffer,comp,4);
-		GLFWImage image = GLFWImage.malloc();
-		image.set(widthBuffer.get(0),heightBuffer.get(0),pixels);
-		Buffer buffer = GLFWImage.malloc(1);
-		buffer.put(0,image);		
-		GLFW.glfwSetWindowIcon(windowID,buffer);			
+		try {
+			ByteBuffer fileContents = StaticUtils.ioResourceToByteBuffer("res/icon.png");
+			ByteBuffer pixels = STBImage.stbi_load_from_memory(fileContents,widthBuffer,heightBuffer,comp,4);
+			GLFWImage image = GLFWImage.malloc();
+			image.set(widthBuffer.get(0),heightBuffer.get(0),pixels);
+			Buffer buffer = GLFWImage.malloc(1);
+			buffer.put(0,image);		
+			GLFW.glfwSetWindowIcon(windowID,buffer);
+		} catch (IOException e) {
+			System.err.println("Display-Icon \""+path+"\" konnte nicht geladen werden!");
+			e.printStackTrace();
+		}			
 	}
 
 	
