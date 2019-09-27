@@ -27,10 +27,9 @@ public class GuiRenderer {
 	public GuiRenderer() {
 		shader = new GuiShader();
 		// erstellt ein Vao mit den Eckpunkten eines Vierecks, auf dem das Texture dargestellt werden soll
-		testVao = new Vao(new float[]{-25f,-25f,-25f,25f,25f,-25f,-25f,25f,25f,25f,25f,-25f},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
+		testVao = new Vao(new float[]{-20f,-20f,-20f,20f,20f,-20f,-20f,20f,20f,20f,20f,-20f},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
 		// erstellt ein neues Texture und lädt eine einfach Test-Grafik da rein
-		testTexture = new Texture();
-		testTexture.bufferData(2,2,new int[] {0xff000000,0xffff0000,0xff00ff00,0xff0000ff});
+		testTexture = new Texture("res/crosshairs.png");
 		testTransform = new Matrix3f();
 	}
 	
@@ -48,7 +47,7 @@ public class GuiRenderer {
 		shader.loadScreenSize(width,height);
 		
 		// ändert und lädt die Position des Vierecks
-		testTransform.rotate(0,0,1);
+		//testTransform.rotate(0,0,-1);
 		testTransform.m20 = width/2;
 		testTransform.m21 = height/2;
 		shader.loadTransformationMatrix(testTransform);
@@ -68,4 +67,6 @@ public class GuiRenderer {
 		testTexture.destroy();
 		testVao.destroy();
 	}
+	
+	
 }
