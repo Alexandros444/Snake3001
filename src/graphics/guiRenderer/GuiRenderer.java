@@ -31,6 +31,9 @@ public class GuiRenderer {
 		// erstellt ein neues Texture und lädt eine einfach Test-Grafik da rein
 		testTexture = new Texture("res/crosshairs.png");
 		testTransform = new Matrix3f();
+		
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}
 	
 	/**
