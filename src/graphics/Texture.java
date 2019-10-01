@@ -37,10 +37,10 @@ public class Texture {
 		bufferData(0,0,null);
 	}
 	
-	/*
+	/**
 	 * Erstellt neue Textur aus Datei
 	 * 
-	 * @param path relativ zur Datei
+	 * @param path Dateipfad relativ zu <code>res/res</code>
 	 */
 	public Texture(String path) {
 		// ruft normalen Konstruktor auf
@@ -114,6 +114,24 @@ public class Texture {
 	public void bind() {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D,id);
+	}
+	
+	/**
+	 * Gibt die Breite des Textures zurück.
+	 * 
+	 * @return Breite in Pixeln
+	 */
+	public int getWidth() {
+		return width;
+	}
+	
+	/**
+	 * Gibt die Höhe des Textures zurück.
+	 * 
+	 * @return Höhe in Pixeln
+	 */
+	public int getHeight() {
+		return height;
 	}
 	
 	/**

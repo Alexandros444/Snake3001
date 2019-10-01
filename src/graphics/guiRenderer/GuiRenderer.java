@@ -4,8 +4,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import graphics.Matrix3f;
-import graphics.Texture;
-import graphics.Vao;
+import graphics.gui.GuiComponent;
+import graphics.gui.ImageComponent;
 
 /**
  * Der Renderer für das Gui unseres Programms.<br>
@@ -17,20 +17,15 @@ public class GuiRenderer {
 	
 	private GuiShader shader;
 	
-	private Vao testVao;
-	private Texture testTexture;
-	private Matrix3f testTransform;
+	private GuiComponent crosshairs;
 	
 	/**
 	 * Erstellt einen neuen Gui-Renderer.
 	 */
 	public GuiRenderer() {
 		shader = new GuiShader();
-		// erstellt ein Vao mit den Eckpunkten eines Vierecks, auf dem das Texture dargestellt werden soll
-		testVao = new Vao(new float[]{-10f,-10f,-10f,10f,10f,-10f,-10f,10f,10f,10f,10f,-10f},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
-		// erstellt ein neues Texture und lädt eine einfach Test-Grafik da rein
-		testTexture = new Texture("res/simpleCrosshairs.png");
-		testTransform = new Matrix3f();
+		// erstellt eine neue Gui-Komponente aus dem Bild des Fadenkreuzes
+		crosshairs = new ImageComponent("res/simpleCrosshairs.png");
 		
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -49,17 +44,14 @@ public class GuiRenderer {
 		shader.start();
 		shader.loadScreenSize(width,height);
 		
-		// ändert und lädt die Position des Vierecks
-		//testTransform.rotate(0,0,-1);
-		testTransform.m20 = width/2;
-		testTransform.m21 = height/2;
-		//testTransform.rotate(0,0,-0.5f);
-		shader.loadTransformationMatrix(testTransform);
+		// berechnet und lädt die Position der Komponente
+		Matrix3f transform = new Matrix3f();
+		transform.m20 = width/2;
+		transform.m21 = height/2;
+		shader.loadTransformationMatrix(transform);
 		
-		// rendert das Viereck mit dem Texture
-		testTexture.bind();
-		testVao.bind();
-		testVao.render();
+		// rendert die Komponente
+		crosshairs.render();
 	}
 	
 	
@@ -68,8 +60,7 @@ public class GuiRenderer {
 	 */
 	public void destroy() {
 		shader.destroy();
-		testTexture.destroy();
-		testVao.destroy();
+		crosshairs.destroy();
 	}
 	
 	
