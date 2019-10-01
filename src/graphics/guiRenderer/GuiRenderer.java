@@ -29,7 +29,7 @@ public class GuiRenderer {
 		// erstellt ein Vao mit den Eckpunkten eines Vierecks, auf dem das Texture dargestellt werden soll
 		testVao = new Vao(new float[]{-10f,-10f,-10f,10f,10f,-10f,-10f,10f,10f,10f,10f,-10f},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
 		// erstellt ein neues Texture und lädt eine einfach Test-Grafik da rein
-		testTexture = new Texture("res/crosshairs3.png");
+		testTexture = new Texture("res/simpleCrosshairs.png");
 		testTransform = new Matrix3f();
 		
         GL11.glEnable(GL11.GL_BLEND);
@@ -53,7 +53,7 @@ public class GuiRenderer {
 		//testTransform.rotate(0,0,-1);
 		testTransform.m20 = width/2;
 		testTransform.m21 = height/2;
-		testTransform.rotate(0,0,-0.5f);
+		//testTransform.rotate(0,0,-0.5f);
 		shader.loadTransformationMatrix(testTransform);
 		
 		// rendert das Viereck mit dem Texture
