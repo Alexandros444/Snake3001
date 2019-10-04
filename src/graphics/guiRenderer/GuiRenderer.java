@@ -3,9 +3,12 @@ package graphics.guiRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
+import com.sun.org.apache.xml.internal.security.encryption.Transforms;
+
 import graphics.Matrix3f;
 import graphics.gui.GuiComponent;
 import graphics.gui.ImageComponent;
+import graphics.gui.TextComponent;
 
 /**
  * Der Renderer für das Gui unseres Programms.<br>
@@ -18,6 +21,7 @@ public class GuiRenderer {
 	private GuiShader shader;
 	
 	private GuiComponent crosshairs;
+	private TextComponent text;
 	
 	/**
 	 * Erstellt einen neuen Gui-Renderer.
@@ -25,7 +29,8 @@ public class GuiRenderer {
 	public GuiRenderer() {
 		shader = new GuiShader();
 		// erstellt eine neue Gui-Komponente aus dem Bild des Fadenkreuzes
-		crosshairs = new ImageComponent("res/simpleCrosshairs.png");
+		crosshairs = new ImageComponent("res/crosshairs1.png");
+		text = new TextComponent("hello this is a test-text");
 		
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -50,8 +55,16 @@ public class GuiRenderer {
 		transform.m21 = height/2;
 		shader.loadTransformationMatrix(transform);
 		
-		// rendert die Komponente
+		// rendert das Fadenkreuz
 		crosshairs.render();
+		
+		// ändert die Transformations-Martix und lädt sie
+		transform.scale(2);
+		transform.m20 = 100;
+		transform.m21 = 200;
+		shader.loadTransformationMatrix(transform);
+		// rendert die Textbox
+		text.render();
 	}
 	
 	
@@ -61,6 +74,7 @@ public class GuiRenderer {
 	public void destroy() {
 		shader.destroy();
 		crosshairs.destroy();
+		text.destroy();
 	}
 	
 	

@@ -118,5 +118,21 @@ public class Matrix3f {
 		return new float[] { m00, m01, m02, m10, m11, m12, m20, m21, m22 };
 
 	}
-
+	
+	/*
+	 * Scaliert Matrix um parameter
+	 * 
+	 * @param skalierungs-Faktor
+	 */
+	public void scale(float scale) {
+		m00*=scale;
+		m01*=scale;
+		m02*=scale;
+		m10*=scale;
+		m11*=scale;
+		m12*=scale;
+		m20*=scale;
+		m21*=scale;
+		m22*=scale;
+	}
 }
