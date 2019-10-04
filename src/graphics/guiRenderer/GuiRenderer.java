@@ -3,8 +3,6 @@ package graphics.guiRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
-import com.sun.org.apache.xml.internal.security.encryption.Transforms;
-
 import graphics.Matrix3f;
 import graphics.gui.GuiComponent;
 import graphics.gui.ImageComponent;
