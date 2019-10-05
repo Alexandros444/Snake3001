@@ -12,8 +12,6 @@ public class TextComponent extends GuiComponent{
 
 	private Vao vao;
 	private final Texture fontTexture;
-	private float[] positions;
-	private float[] textures;
 	
 	public TextComponent(String text) {
 		// ruft den GuiComponent-Konstruktor auf
@@ -27,18 +25,16 @@ public class TextComponent extends GuiComponent{
 		
 		setText(text);
 		
-		vao = new Vao(positions,textures);
 	}
-
 
 	/*
 	 * Setzt den Text
 	 * 
-	 * @param relativer Pfad
+	 * @param 
 	 */
-	private void setText(String text) {
-		positions = new float[text.length()*12];
-		textures = new float[text.length()*12];
+	private static Vao createTextVao(String text) {
+		float[] positions = new float[text.length()*12];
+		float[] textures = new float[text.length()*12];
 		
 		// Position Textur zuweisen
 		int index = 0;
@@ -92,12 +88,13 @@ public class TextComponent extends GuiComponent{
 					// Inkrementiert Pointer
 					index+=12;
 			}
+			return new Vao(positions,textures);
 	}
 	
-	public void changeText(String text) {
-		vao.destroy();
-		setText(text);
-		vao = new Vao(positions, textures);
+	
+	public void setText(String text) {
+		if(vao!=null)vao.destroy();
+		createTextVao(text);
 	}
 	
 	/**
