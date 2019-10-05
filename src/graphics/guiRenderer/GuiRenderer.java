@@ -27,7 +27,7 @@ public class GuiRenderer {
 	public GuiRenderer() {
 		shader = new GuiShader();
 		// erstellt eine neue Gui-Komponente aus dem Bild des Fadenkreuzes
-		crosshairs = new ImageComponent("res/crosshairs1.png");
+		crosshairs = new ImageComponent("res/simpleCrosshairs.png");
 		text = new TextComponent("hello this is a test-text");
 		
         GL11.glEnable(GL11.GL_BLEND);
@@ -58,11 +58,20 @@ public class GuiRenderer {
 		
 		// ändert die Transformations-Martix und lädt sie
 		transform.scale(2);
-		transform.m20 = 100;
-		transform.m21 = 200;
+		transform.m20 = 10;
+		transform.m21 = 10;
 		shader.loadTransformationMatrix(transform);
 		// rendert die Textbox
 		text.render();
+	}
+	
+	/**
+	 * Zeigt die gegebene Punktzahl als Text an
+	 * 
+	 * @param score Punktzahl
+	 */
+	public void displayScore(int score) {
+		text.setText("Score: "+score);
 	}
 	
 	

@@ -63,6 +63,7 @@ public class Main {
 			
 			// rendert und updated den Bildschirm
 			gameRenderer.render(snake,display.getWidth(),display.getHeight());
+			guiRenderer.displayScore(snake.getScore());
 			guiRenderer.render(display.getWidth(),display.getHeight());
 			display.update();
 			fps.update();

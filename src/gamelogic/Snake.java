@@ -19,7 +19,7 @@ public class Snake {
 	public Vector3f cameraPosition;
 	public Matrix3f viewDirection;
 	public boolean isAlive = true;
-	public Vector3f[]  snakePositions;
+	public Vector3f[] snakePositions;
 	public Food food;
 	
 	private long lastFrame;
@@ -190,7 +190,15 @@ public class Snake {
 			    snakePositions[i].add(delta);
 		    }
 		}
-		
+	}
+	
+	/**
+	 * Gibt die derzeitige Punktzahl zurück
+	 * 
+	 * @return Punktzahl
+	 */
+	public int getScore() {
+		return score;
 	}
 	
 	/**
