@@ -46,26 +46,35 @@ public class Main {
 		// Initialisiert Schlange
 		Snake snake = new Snake();
 		
+		// Initialisiert einen Timer der die Zeit stoppt
 		Timer timer = new Timer();
 		
+		// GAME LOOP läuft solange das Fenster nicht geschlossen ist
 		while(!display.isCloseRequested()) {	
 			// updated die Schlange
 			snake.update(display);
 			
+			// Fullscreen an/aus-schalten
 			if(display.isKeyPressed(GLFW.GLFW_KEY_F) && (timer.getTimeSec()>0)) {
+				// momentan nur im 1 sekunden abstand, später mit Key-Handler
 				timer.reset();
 				display.toggleFullscreeMode();
 			}
 			
+			// Überprüfen ob Schlange gestorben ist, wenn ja Spiel neu-Starten 
 			if ((snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
 			    snake = new Snake();
 			}
 			
-			// rendert und updated den Bildschirm
+			// Spiel wird gerendert
 			gameRenderer.render(snake,display.getWidth(),display.getHeight());
+			// Punktzahl wird angezeigt
 			guiRenderer.displayScore(snake.getScore());
+			// Gui wird gerendert
 			guiRenderer.render(display.getWidth(),display.getHeight());
+			// Display wird aktualisiert
 			display.update();
+			// Fps-Zähler wird aktualisiert
 			fps.update();
 			
 		}
