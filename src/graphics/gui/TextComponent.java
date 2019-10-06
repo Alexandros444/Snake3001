@@ -94,7 +94,7 @@ public class TextComponent extends GuiComponent{
 	
 	public void setText(String text) {
 		if(vao!=null)vao.destroy();
-		createTextVao(text);
+		vao = createTextVao(text);
 	}
 	
 	/**
