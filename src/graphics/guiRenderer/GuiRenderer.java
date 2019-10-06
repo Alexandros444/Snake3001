@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import graphics.Matrix3f;
-import graphics.Timer;
 import graphics.gui.Font;
 import graphics.gui.GuiComponent;
 import graphics.gui.ImageComponent;
@@ -22,7 +21,6 @@ public class GuiRenderer {
 	
 	private GuiComponent crosshairs;
 	private TextComponent text;
-	private Timer timer = new Timer();
 	
 	/**
 	 * Erstellt einen neuen Gui-Renderer.
@@ -66,19 +64,16 @@ public class GuiRenderer {
 		shader.loadTransformationMatrix(transform);
 		// rendert die Textbox
 		text.render();
-		// just for fun - Text_Test
-		if(timer.getTimeSec()<2) {
-			text.setText("We can also change this Text now^^");
-		}else if(timer.getTimeMil()<3800) {
-			text.setText("or offend you :p");
-		}else if(timer.getTimeSec()<4) {
-			text.setText("noob");
-		}
-		if(timer.getTimeSec()>=4) {
-			timer.reset();
-		}
 	}
-	
+
+	/**
+	 * Zeigt die gegebene Punktzahl als Text an
+	 * 
+	 * @param score Punktzahl
+	 */
+	public void displayScore(int score) {
+		text.setText("Score: "+score);
+	}
 	
 	/**
 	 * Löscht den Renderer und gibt genutzte Ressourcen frei.
