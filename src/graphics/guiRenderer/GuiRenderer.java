@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import graphics.Matrix3f;
+import graphics.Timer;
+import graphics.gui.Font;
 import graphics.gui.GuiComponent;
 import graphics.gui.ImageComponent;
 import graphics.gui.TextComponent;
@@ -20,6 +22,7 @@ public class GuiRenderer {
 	
 	private GuiComponent crosshairs;
 	private TextComponent text;
+	private Timer timer = new Timer();
 	
 	/**
 	 * Erstellt einen neuen Gui-Renderer.
@@ -28,7 +31,7 @@ public class GuiRenderer {
 		shader = new GuiShader();
 		// erstellt eine neue Gui-Komponente aus dem Bild des Fadenkreuzes
 		crosshairs = new ImageComponent("res/crosshairs1.png");
-		text = new TextComponent("hello this is a test-text");
+		text = new TextComponent("nothing", new Font("res/font/ascii.png"));
 		
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -58,11 +61,22 @@ public class GuiRenderer {
 		
 		// ändert die Transformations-Martix und lädt sie
 		transform.scale(2);
-		transform.m20 = 100;
-		transform.m21 = 200;
+		transform.m20 = width/32;
+		transform.m21 = height-height/16;
 		shader.loadTransformationMatrix(transform);
 		// rendert die Textbox
 		text.render();
+		// just for fun - Text_Test
+		if(timer.getTimeSec()<2) {
+			text.setText("We can also change this Text now^^");
+		}else if(timer.getTimeMil()<3800) {
+			text.setText("or offend you :p");
+		}else if(timer.getTimeSec()<4) {
+			text.setText("noob");
+		}
+		if(timer.getTimeSec()>=4) {
+			timer.reset();
+		}
 	}
 	
 	

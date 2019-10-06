@@ -13,92 +13,42 @@ public class TextComponent extends GuiComponent{
 	private Vao vao;
 	private final Texture fontTexture;
 	
-	public TextComponent(String text) {
+	private String currentText;
+	
+	public TextComponent(String text,Font font) {
 		// ruft den GuiComponent-Konstruktor auf
 		super(0,0);
 		
-		// lädt das Bild und passt eigene Größe an
-		fontTexture = new Texture("res/font/ascii.png");
-		int width = 2*fontTexture.getWidth();
-		int height = 2*fontTexture.getHeight();
-		super.setSize(width,height);
-		
-		setText(text);
-		
-	}
+		fontTexture = font.texture;
 
-	/*
-	 * Setzt den Text
-	 * 
-	 * @param 
-	 */
-	private static Vao createTextVao(String text) {
-		float[] positions = new float[text.length()*12];
-		float[] textures = new float[text.length()*12];
+		// lädt den Text
+		this.setText(text);
 		
-		// Position Textur zuweisen
-		int index = 0;
-		int xPxPos = 0;
-		int yPxPos = 0;
-			for (int textChar = 0; textChar < text.length(); textChar++) {
-						// TEXTUREN
-					// 0,0 der Textur
-					float xPos = (text.charAt(textChar)%16)/16f;
-					float yPos = (float) Math.floor(text.charAt(textChar)/16f)/16f-(1/16);
-					// Links-Oben
-					textures[index]= xPos;
-					textures[index+1]= yPos;
-					// Links-Unten
-					textures[index+2]= xPos;
-					textures[index+3]= yPos+(1/16f);
-					// Rechts-Oben
-					textures[index+4]= xPos+(1/16f);
-					textures[index+5]= yPos;
-					// Rechts-Oben
-					textures[index+6]= xPos+(1/16f);
-					textures[index+7]= yPos;
-					// Rechts-Unten
-					textures[index+8]= xPos+(1/16f);
-					textures[index+9]= yPos+(1/16f);
-					// Links-Unten
-					textures[index+10]= xPos;
-					textures[index+11]= yPos+(1/16f);
-					
-						// POSITIONEN
-					// Links-Oben
-					positions[index]=xPxPos;
-					positions[index+1]=yPxPos;
-					// Links-Unten
-					positions[index+2]=xPxPos;
-					positions[index+3]=yPxPos+8;
-					// Rechts-Oben
-					positions[index+4]=xPxPos+8;
-					positions[index+5]=yPxPos;
-					// Rechts-Oben
-					positions[index+6]=xPxPos+8;
-					positions[index+7]=yPxPos;
-					// Rechts-Unten
-					positions[index+8]=xPxPos+8;
-					positions[index+9]=yPxPos+8;
-					// Links-Unten
-					positions[index+10]=xPxPos;
-					positions[index+11]=yPxPos+8;
-					// Verschieben, abstand zwischen Buchstaben
-					xPxPos+=6;
-					// Inkrementiert Pointer
-					index+=12;
-			}
-			return new Vao(positions,textures);
-	}
-	
-	
-	public void setText(String text) {
-		if(vao!=null)vao.destroy();
-		vao = createTextVao(text);
 	}
 	
 	/**
-	 * Rendert das Bild
+	 * Setzt den Text der Komponente
+	 * 
+	 * @param text Text
+	 */
+	public void setText(String text) {
+		// prüft, ob der Text überhaupt geändert werden muss
+		if (!text.equals(this.currentText)) {
+			this.currentText = text;
+			// löscht altes Vao
+			if(vao!=null) {
+				vao.destroy();
+			}
+			// erstellt neues Vao
+			vao = createTextVao(text);
+			// passt die eigene Größe an
+			super.setSize(6*text.length(),8);
+		}
+		
+	}
+	
+	/**
+	 * Rendert den Text
 	 */
 	public void render() {
 		fontTexture.bind();
@@ -107,7 +57,7 @@ public class TextComponent extends GuiComponent{
 	}
 	
 	/**
-	 * Löscht das Bild, um Speicher freizugeben
+	 * Löscht das Vao, um Speicher freizugeben
 	 */
 	public void destroy() {
 		vao.destroy();
@@ -115,4 +65,69 @@ public class TextComponent extends GuiComponent{
 	}
 
 
+	/**
+	 * Erstellt aus dem gegebenen Text ein Vao
+	 * 
+	 * @param text Text
+	 * @return Vao
+	 */
+	private static Vao createTextVao(String text) {
+		float[] positions = new float[text.length()*12];
+		float[] textures = new float[text.length()*12];
+		
+		// Position Textur zuweisen
+		int index = 0;
+		int x = 0;
+		int y = 0;
+		for (int textChar = 0; textChar < text.length(); textChar++) {
+				// TEXTUREN
+			// obere linke Ecke des Buchstabens in der Textur
+			float texX = (text.charAt(textChar)%16)/16f;
+			float texY = (float) Math.floor(text.charAt(textChar)/16f)/16f-(1/16);
+			// Links-Oben
+			textures[index]= texX;
+			textures[index+1]= texY;
+			// Links-Unten
+			textures[index+2]= texX;
+			textures[index+3]= texY+(1/16f);
+			// Rechts-Oben
+			textures[index+4]= texX+(1/16f);
+			textures[index+5]= texY;
+			// Rechts-Oben
+			textures[index+6]= texX+(1/16f);
+			textures[index+7]= texY;
+			// Rechts-Unten
+			textures[index+8]= texX+(1/16f);
+			textures[index+9]= texY+(1/16f);
+			// Links-Unten
+			textures[index+10]= texX;
+			textures[index+11]= texY+(1/16f);
+			
+				// POSITIONEN
+			// Links-Oben
+			positions[index]=x;
+			positions[index+1]=y;
+			// Links-Unten
+			positions[index+2]=x;
+			positions[index+3]=y+8;
+			// Rechts-Oben
+			positions[index+4]=x+8;
+			positions[index+5]=y;
+			// Rechts-Oben
+			positions[index+6]=x+8;
+			positions[index+7]=y;
+			// Rechts-Unten
+			positions[index+8]=x+8;
+			positions[index+9]=y+8;
+			// Links-Unten
+			positions[index+10]=x;
+			positions[index+11]=y+8;
+			// Verschieben, Abstand zwischen Buchstaben
+			x+=6;
+			// Inkrementiert Pointer
+			index+=12;
+		}
+		return new Vao(positions,textures);
+	}
+	
 }
