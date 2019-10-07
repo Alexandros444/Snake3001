@@ -120,10 +120,10 @@ public class Matrix3f {
 
 	}
 	
-	/*
+	/**
 	 * Scaliert Matrix um parameter
 	 * 
-	 * @param skalierungs-Faktor
+	 * @param scale skalierungs-Faktor
 	 */
 	public void scale(float scale) {
 		m00*=scale;
@@ -136,4 +136,13 @@ public class Matrix3f {
 		m21*=scale;
 		m22*=scale;
 	}
+	
+	/**
+	 * Gibt die Matrix in Textform zurück. Nützlich zum Debuggen.
+	 * @return Matrixinhalt in Textform
+	 */
+	public String toString() {
+		return "[ "+m00+" "+m10+" "+m20+"\n  "+m01+" "+m11+" "+m21+"\n  "+m02+" "+m12+" "+m22+" ]";
+	}
+	
 }

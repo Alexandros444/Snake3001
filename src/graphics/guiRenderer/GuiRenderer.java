@@ -31,6 +31,13 @@ public class GuiRenderer {
 		crosshairs = new ImageComponent("res/crosshairs1.png");
 		text = new TextComponent("nothing", new Font("res/font/ascii.png"));
 		
+		// positioniert und skaliert den Text
+		Matrix3f transform = new Matrix3f();
+		transform.m20 = 24;
+		transform.m21 = 24;
+		text.setTransform(transform);
+		text.setScale(3);
+		
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}
@@ -52,18 +59,13 @@ public class GuiRenderer {
 		Matrix3f transform = new Matrix3f();
 		transform.m20 = width/2;
 		transform.m21 = height/2;
-		shader.loadTransformationMatrix(transform);
+		crosshairs.setTransform(transform);
 		
 		// rendert das Fadenkreuz
-		crosshairs.render();
+		crosshairs.render(shader);
 		
-		// ändert die Transformations-Martix und lädt sie
-		transform.scale(2);
-		transform.m20 = width/32;
-		transform.m21 = height-height/16;
-		shader.loadTransformationMatrix(transform);
-		// rendert die Textbox
-		text.render();
+		// rendert den Text
+		text.render(shader);
 	}
 
 	/**

@@ -1,7 +1,9 @@
 package graphics.gui;
 
+import graphics.Matrix3f;
 import graphics.Texture;
 import graphics.Vao;
+import graphics.guiRenderer.GuiShader;
 
 /*
  * Klasse für Text-Komponenten
@@ -14,13 +16,14 @@ public class TextComponent extends GuiComponent{
 	private final Texture fontTexture;
 	
 	private String currentText;
+	private int scale = 1;
 	
 	public TextComponent(String text,Font font) {
 		// ruft den GuiComponent-Konstruktor auf
 		super(0,0);
 		
 		fontTexture = font.texture;
-
+		
 		// lädt den Text
 		this.setText(text);
 		
@@ -42,15 +45,35 @@ public class TextComponent extends GuiComponent{
 			// erstellt neues Vao
 			vao = createTextVao(text);
 			// passt die eigene Größe an
-			super.setSize(6*text.length(),8);
+			refreshSize();
 		}
-		
+	}
+	
+	/**
+	 * Setzt die Schriftgröße bzw. Skalierung
+	 * @param scale Faktor
+	 */
+	public void setScale(int scale) {
+		this.scale = scale;
+		Matrix3f transform = new Matrix3f();
+		transform.scale(scale);
+		transform.m22 = 1;
+		super.setInnerTransform(transform);
+		refreshSize();
+	}
+	
+	/**
+	 * Passt die Größe des Elements an die Größe des Inhalts an.
+	 */
+	private void refreshSize() {
+		super.setSize(6*currentText.length()*scale,8*scale);
 	}
 	
 	/**
 	 * Rendert den Text
 	 */
-	public void render() {
+	public void render(GuiShader shader) {
+		shader.loadTransformationMatrix(super.getTotalTransform());
 		fontTexture.bind();
 		vao.bind();
 		vao.render();

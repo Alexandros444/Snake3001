@@ -2,6 +2,7 @@ package graphics.gui;
 
 import graphics.Texture;
 import graphics.Vao;
+import graphics.guiRenderer.GuiShader;
 
 /**
  * Die Klasse für Bild-Komponenten unseres Gui-Systems.
@@ -41,7 +42,8 @@ public class ImageComponent extends GuiComponent {
 	/**
 	 * Rendert das Bild
 	 */
-	public void render() {
+	public void render(GuiShader shader) {
+		shader.loadTransformationMatrix(super.getTotalTransform());
 		texture.bind();
 		vao.bind();
 		vao.render();

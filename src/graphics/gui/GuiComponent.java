@@ -1,5 +1,8 @@
 package graphics.gui;
 
+import graphics.Matrix3f;
+import graphics.guiRenderer.GuiShader;
+
 /**
  * Die abstrakte Klasse für all unsere Gui-Komponenten.<br>
  * Die Klasse <code>GuiComponent</code> kann <b>nicht</b> selber instanziiert werden, da es sich um eine abstrakte Klasse handelt - stattdessen können andere Klassen diese Klasse via Vererbung erweitern und dann instanziiert werden.<br>
@@ -17,6 +20,10 @@ public abstract class GuiComponent {
 	private int width;
 	private int height;
 	
+	private Matrix3f outerTransform;
+	private Matrix3f innerTransform;
+	private Matrix3f totalTransform;
+	
 	/**
 	 * Erstellt eine neuen Gui-Komponente.
 	 * 
@@ -26,12 +33,17 @@ public abstract class GuiComponent {
 	public GuiComponent(int width, int height) {
 		this.width = width;
 		this.height = height;
+		innerTransform = new Matrix3f();
+		outerTransform = new Matrix3f();
+		updateTotalTransform();
 	}
 	
 	/**
 	 * Rendert die Komponente. Muss von allen abgeleiteten Klassen implementiert werden.
+	 * 
+	 * @param shader zum Rendern benutzter Shader. Nötig zum Laden der Transformationsmatrizen
 	 */
-	public abstract void render();
+	public abstract void render(GuiShader shader);
 	
 	/**
 	 * Löscht alle von der Komponente abhängigen Objekte, um Speicher wieder freizugeben. Muss von allen abgeleiteten Klassen implementiert werden.
@@ -65,6 +77,46 @@ public abstract class GuiComponent {
 	 */
 	public int getHeight() {
 		return height;
+	}
+	
+	/**
+	 * Setzt die äußere Transformation des Elements. Public, also von überall aus aufrufbar.<br>
+	 * In der äußeren Transformation sollten in der Regel die Transformation des Elternelements und die Position in diesem kodiert sein.
+	 * 
+	 * @param transform Transformationmatrix
+	 */
+	public void setTransform(Matrix3f transform) {
+		outerTransform = transform.copy();
+		updateTotalTransform();
+	}
+	
+	/**
+	 * Setzt die innere Transformation des Elements. Protected, also nur von vererbten Klassen aus aufrufbar.<br>
+	 * Die innere Transformation kann genutzt werden, um z.B. Rotationen und Skalierungen auf das Element anzuwenden.
+	 * 
+	 * @param transform Transformationmatrix
+	 */
+	protected void setInnerTransform(Matrix3f transform) {
+		innerTransform = transform.copy();
+		updateTotalTransform();
+	}
+	
+	/**
+	 * Errechnet die Gesamttransformation aus den einzelnen Teiltransformationen
+	 */
+	private void updateTotalTransform() {
+		totalTransform = new Matrix3f();
+		totalTransform.multiply(outerTransform);
+		totalTransform.multiply(innerTransform);
+	}
+	
+	/**
+	 * Gibt die Gesamttransformation zurück.
+	 * 
+	 * @return Gesamttransformationsmatrix
+	 */
+	protected Matrix3f getTotalTransform() {
+		return totalTransform;
 	}
 	
 }
