@@ -4,7 +4,7 @@ package graphics;
  * 
  * Matrizenklasse für Sichtfeld <br> 
  * 
- * @Author Jakopo
+ * @author Jakopo
  */
 
 public class Matrix3f {
@@ -18,10 +18,11 @@ public class Matrix3f {
 		m11 = 1;
 		m22 = 1;
 	}
-/**
- * setzt die Matrix auf eine Rotation um die angegebene Achse um "rotation" Grad
- * @param rotation Winkel in Grad
- */
+	
+	/**
+	 * setzt die Matrix auf eine Rotation um die angegebene Achse um "rotation" Grad
+	 * @param rotation Winkel in Grad
+	 */
 	public void setRotationMatrixX(float rotation) {
 		m00 = 1;
 		m01 = 0;
@@ -76,7 +77,7 @@ public class Matrix3f {
 	}
 /**
  * multipliziert die Matrix 
- * @param B => andere Matrix
+ * @param B andere Matrix
  */
 	public void multiply(Matrix3f B) {
 		Matrix3f A = this.copy();

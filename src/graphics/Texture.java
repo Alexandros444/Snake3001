@@ -34,7 +34,7 @@ public class Texture {
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_MIN_FILTER,GL11.GL_NEAREST);
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_MAG_FILTER,GL11.GL_NEAREST);
 		// initialisiert Speicher des Textures
-		bufferData(0,0,null);
+		bufferData(0,0,(int[])null);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class Texture {
 			ByteBuffer fileContents = StaticUtils.ioResourceToByteBuffer(path);
 			ByteBuffer pixels = STBImage.stbi_load_from_memory(fileContents,widthBuffer,heightBuffer,comp,4);
 			// Textur wird aus Buffern erstellt
-			bufferData(pixels, widthBuffer.get(0), heightBuffer.get(0));
+			bufferData(widthBuffer.get(0),heightBuffer.get(0),pixels);
 				
 		} catch (IOException e) {
 			System.err.println("Bild konnte nicht geladen werden, Path: "+path);
@@ -75,7 +75,7 @@ public class Texture {
 	 */
 	public void resize(int width, int height) {
 		if (this.width!=width||this.height!=height) {
-			bufferData(width,height,null);
+			bufferData(width,height,(int[])null);
 		}
 	}
 	
@@ -84,7 +84,7 @@ public class Texture {
 	 * 
 	 * @param width Breite in Pixeln
 	 * @param height Höhe in Pixeln
-	 * @param data Pixel-Daten im RGBA8-Format - jeder Pixel wird durch einen Integer angegeben, wobei das insignifikanteste Byte den Farbwert für Rot angibt, das zweite für Grün usw.
+	 * @param pixels Pixel-Daten im RGBA8-Format - jeder Pixel wird durch einen Integer angegeben, wobei das insignifikanteste Byte den Farbwert für Rot angibt, das zweite für Grün usw.
 	 */
 	public void bufferData(int width, int height, int[] pixels) {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D,id);
@@ -96,11 +96,11 @@ public class Texture {
 	/**
 	 * Setzt das Texture auf die gegebene Größe und den gegebenen Inhalt.
 	 * 
-	 * @param Pixel-Daten ByteBuffer-Magic
 	 * @param width Breite in Pixeln
 	 * @param height Höhe in Pixeln
+	 * @param pixels Pixel-Daten ByteBuffer-Magic
 	 */
-	public void bufferData(ByteBuffer pixels, int width, int height) {
+	public void bufferData(int width, int height, ByteBuffer pixels) {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D,id);
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D,0,GL11.GL_RGBA,width,height,0,GL11.GL_RGBA,GL11.GL_UNSIGNED_BYTE,pixels);
 		this.width = width;

@@ -35,7 +35,6 @@ public class Display {
 	 * @param title Titel
 	 *
 	 */
-
 	public Display(int w, int h, String title) {
 		GLFWErrorCallback.createPrint(System.err).set();
 		if (!GLFW.glfwInit()) {
@@ -52,7 +51,6 @@ public class Display {
 	/**
 	 * Updated das Display und checkt die Events
 	 */
-	
 	public void update() {
 		GLFW.glfwSwapBuffers(windowID);
 		GLFW.glfwPollEvents(); 
@@ -61,7 +59,6 @@ public class Display {
 	/**
 	 * @return Ob das Fenster geschlossen werden soll
 	 */
-
 	public boolean isCloseRequested() {
 		return GLFW.glfwWindowShouldClose(windowID);
 	}
@@ -69,7 +66,6 @@ public class Display {
 	/**
 	 * Schließt das Fenster.
 	 */
-	
 	public void close() {
 		GLFW.glfwDestroyWindow(windowID);
 		GLFW.glfwTerminate();
@@ -77,8 +73,9 @@ public class Display {
 	
 	/**
 	 * Liefert die Breite des Fensters.
+	 * 
+	 * @return Breite in Pixeln
 	 */
-	
 	public int getWidth() {
 		IntBuffer w = BufferUtils.createIntBuffer(1);	
 		GLFW.glfwGetFramebufferSize(windowID,w,null);
@@ -87,8 +84,9 @@ public class Display {
 	
 	/**
 	 * Liefert die Höhe des Fensters.
+	 * 
+	 * @return Höhe in Pixeln
 	 */
-	
 	public int getHeight() {
 		IntBuffer h = BufferUtils.createIntBuffer(1);	
 		GLFW.glfwGetFramebufferSize(windowID,null,h);
@@ -100,7 +98,6 @@ public class Display {
 	 * @param key Tasten ID Format: GLFW_KEY_E 
 	 * @return true oder false ob taste gedrückt ist
 	 */
-	
 	public boolean isKeyPressed(int key) {
 		int state = GLFW.glfwGetKey(windowID, key);
 		if (state == GLFW.GLFW_PRESS) {
@@ -112,7 +109,7 @@ public class Display {
 	/**
 	 * Setzt das Fenster-Symbol
 	 * 
-	 * @param path relativ zum Projektordner
+	 * @param path Pfad relativ zum Projektordner
 	 */
 	public void setWindowIcon(String path){
 		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);

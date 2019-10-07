@@ -104,7 +104,7 @@ public class RayMarcherShader extends Shader{
 	/**
 	 * Lädt die Größe des Essens.
 	 * 
-	 * @param radius
+	 * @param radius Radius
 	 */
 	public void loadFoodRadius(float radius) {
 		super.loadFloat(foodRadiusUniformID, radius);
@@ -113,7 +113,7 @@ public class RayMarcherShader extends Shader{
 	/**
 	 * Lädt die Matrix zum Drehen des Essens.
 	 * 
-	 * @param matrix
+	 * @param matrix Rotationsmatrix
 	 */
 	public void loadFoodRotation(Matrix3f matrix) {
 		super.loadMatrix3f(foodRotationUniformID, matrix);

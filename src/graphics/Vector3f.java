@@ -15,9 +15,9 @@ public class Vector3f {
 	 * 
 	 * Setzt die Werte eines Vektors auf (x,y,z)
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param x x-Wert
+	 * @param y y-Wert
+	 * @param z z-Wert
 	 */
 	public Vector3f(float x, float y, float z) {
 		this.x = x;
@@ -30,7 +30,7 @@ public class Vector3f {
 	 * 
 	 * Setzt alle Werte des Vektors auf i
 	 * 
-	 * @param i
+	 * @param i Wert für x, y und z
 	 */
 	public Vector3f(float i) {
 		this(i, i, i);
@@ -46,9 +46,9 @@ public class Vector3f {
 	}
 
 	/**
-	 * Multipliziert den Vektor mit s
+	 * Multipliziert den Vektor mit einer Zahl
 	 * 
-	 * @param s
+	 * @param s Faktor
 	 */
 	public void scale(float s) {
 		x *= s;
@@ -59,42 +59,24 @@ public class Vector3f {
 	/**
 	 * Gibt einen neuen Vektor mit identischen Werten zurück
 	 * 
-	 * @return Vector3f Vektorkopie
+	 * @return Vektorkopie
 	 */
 	public Vector3f copy() {
 		return new Vector3f(x, y, z);
 	}
 
 	/**
-	 * andauobckab ckba fhadha d7a uiaw d
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
 	 * Die länge des Vektors wird zurückgegeben
-	 * @return float länge
+	 * @return Länge
 	 */
 	public float getLength() {
 		return (float) Math.sqrt(x * x + y * y + z * z);
 	}
 
 	/**
-	 * Setze die Länge des Vektors auf l, wobei die Richtung beibehalten wird
+	 * Setze die Länge des Vektors, wobei die Richtung beibehalten wird
 	 * 
-	 * @param l
+	 * @param l neue Länge
 	 */
 	public void setLength(float l) {
 		scale(l / getLength());
