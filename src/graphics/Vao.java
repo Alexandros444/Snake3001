@@ -40,7 +40,7 @@ public class Vao {
 	 * @param textureCoords Float-Array mit den Textur-positionen der Eckpunkte. Sollte in der Form {x1,y1,x2,y2,x3,y3 ... } übergeben werden.
 	 */
 	public Vao(float[] positions, float[] textureCoords) {
-		length = positions.length;
+		length = positions.length/2;
 		id = GL30.glGenVertexArrays();
 		GL30.glBindVertexArray(id);
 		positionsVboID = GL15.glGenBuffers();
