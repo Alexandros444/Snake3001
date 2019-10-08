@@ -3,19 +3,46 @@ package graphics.gui;
 import graphics.Texture;
 
 /**
- * Klasse für Schriftarten. Hält je eine Referenz auf eine Textur, in der alle Buchstaben enthalten sind
+ * Interface für Fonts
  * 
- * @author Alex
+ * @author Alexander
  */
-public class Font {
+public interface Font {
 
-	public Texture texture;
-	
+	// Lädt Textur
+	public abstract void loadTexture(String path);
+
+	// gibt Textur aus
+	public abstract Texture getTexture();
+
 	/**
-	 * @param path Pfad relativ zu <code>res/res</code>
+	 * X und Y choordinaten In der Textur, und Breiten in der Textur <br>
+	 * (0-1) Angaben für textures[]
+	 * 
+	 * @param asciiCode des Zeichens
+	 * @return Position (0-1)
 	 */
-	public Font(String path) {
-		texture = new Texture(path);
-	}
+	public abstract float getCharX(int asciiCode);
 
+	public abstract float getCharY(int asciiCode);
+
+	public abstract float getCharOffX(int asciiCode);
+
+	public abstract float getCharOffY(int asciiCode);
+
+	/**
+	 * @param asciiCode des Zeiches
+	 * @return Maße in px
+	 */
+	public abstract float getCharWidth(int asciiCode);
+
+	public abstract float getCharHeight(int asciiCode);
+
+	/**
+	 * Gibt die Distanz in px zwischen den Zeichen aus
+	 * 
+	 * @param asciiCode
+	 * @return Distanz in px
+	 */
+	public abstract float getPadding(int asciiCode);
 }

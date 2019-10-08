@@ -7,6 +7,7 @@ import graphics.Matrix3f;
 import graphics.gui.Font;
 import graphics.gui.GuiComponent;
 import graphics.gui.ImageComponent;
+import graphics.gui.MonospaceFont;
 import graphics.gui.TextComponent;
 
 /**
@@ -28,7 +29,7 @@ public class GuiRenderer {
 	 */
 	public GuiRenderer() {
 		shader = new GuiShader();
-		font = new Font("res/font/ascii.png");
+		font = new MonospaceFont("res/font/ascii.png");
 		// erstellt eine neue Gui-Komponente aus dem Bild des Fadenkreuzes
 		crosshairs = new ImageComponent("res/crosshairs1.png");
 		scoreText = new TextComponent("null", font);

@@ -5,30 +5,33 @@ import graphics.Texture;
 import graphics.Vao;
 import graphics.guiRenderer.GuiShader;
 
-/*
+/**
  * Klasse für Text-Komponenten
  * 
  * @author Alex
  */
-public class TextComponent extends GuiComponent{
+public class TextComponent extends GuiComponent {
 
 	private Vao vao;
 	private final Texture fontTexture;
-	
+
 	private String currentText;
 	private int scale = 1;
+
+	private Font font;
 	
-	public TextComponent(String text,Font font) {
+	public TextComponent(String text, Font font) {
 		// ruft den GuiComponent-Konstruktor auf
 		super(0,0);
-		
-		fontTexture = font.texture;
-		
+
+		this.font = font;
+		fontTexture = font.getTexture();
+
 		// lädt den Text
 		this.setText(text);
-		
+
 	}
-	
+
 	/**
 	 * Setzt den Text der Komponente
 	 * 
@@ -39,18 +42,19 @@ public class TextComponent extends GuiComponent{
 		if (!text.equals(this.currentText)) {
 			this.currentText = text;
 			// löscht altes Vao
-			if(vao!=null) {
+			if (vao!=null) {
 				vao.destroy();
 			}
 			// erstellt neues Vao
-			vao = createTextVao(text);
+			vao = createTextVao(text, font);
 			// passt die eigene Größe an
 			refreshSize();
 		}
 	}
-	
+
 	/**
 	 * Setzt die Schriftgröße bzw. Skalierung
+	 * 
 	 * @param scale Faktor
 	 */
 	public void setScale(int scale) {
@@ -61,14 +65,14 @@ public class TextComponent extends GuiComponent{
 		super.setInnerTransform(transform);
 		refreshSize();
 	}
-	
+
 	/**
 	 * Passt die Größe des Elements an die Größe des Inhalts an.
 	 */
 	private void refreshSize() {
 		super.setSize(6*currentText.length()*scale,8*scale);
 	}
-	
+
 	/**
 	 * Rendert den Text
 	 */
@@ -78,7 +82,7 @@ public class TextComponent extends GuiComponent{
 		vao.bind();
 		vao.render();
 	}
-	
+
 	/**
 	 * Löscht das Vao, um Speicher freizugeben
 	 */
@@ -87,70 +91,71 @@ public class TextComponent extends GuiComponent{
 		fontTexture.destroy();
 	}
 
-
 	/**
 	 * Erstellt aus dem gegebenen Text ein Vao
 	 * 
 	 * @param text Text
 	 * @return Vao
 	 */
-	private static Vao createTextVao(String text) {
+	private static Vao createTextVao(String text, Font font) {
 		float[] positions = new float[text.length()*12];
 		float[] textures = new float[text.length()*12];
-		
+
 		// Position Textur zuweisen
 		int index = 0;
 		int x = 0;
 		int y = 0;
-		for (int textChar = 0; textChar < text.length(); textChar++) {
-				// TEXTUREN
+		for (int textChar = 0;textChar<text.length();textChar++) {
+			// Ascii-Code vom Zeichen
+			int asciiCode = text.charAt(textChar);
 			// obere linke Ecke des Buchstabens in der Textur
-			float texX = (text.charAt(textChar)%16)/16f;
-			float texY = (float) Math.floor(text.charAt(textChar)/16f)/16f-(1/16);
+			float texX = font.getCharX(asciiCode);
+			float texY = font.getCharY(asciiCode);
+			// TEXTUREN
 			// Links-Oben
-			textures[index]= texX;
-			textures[index+1]= texY;
+			textures[index] = texX;
+			textures[index+1] = texY;
 			// Links-Unten
-			textures[index+2]= texX;
-			textures[index+3]= texY+(1/16f);
+			textures[index+2] = texX;
+			textures[index+3] = texY+font.getCharOffY(asciiCode);
 			// Rechts-Oben
-			textures[index+4]= texX+(1/16f);
-			textures[index+5]= texY;
+			textures[index+4] = texX+font.getCharOffX(asciiCode);
+			textures[index+5] = texY;
 			// Rechts-Oben
-			textures[index+6]= texX+(1/16f);
-			textures[index+7]= texY;
+			textures[index+6] = texX+font.getCharOffX(asciiCode);
+			textures[index+7] = texY;
 			// Rechts-Unten
-			textures[index+8]= texX+(1/16f);
-			textures[index+9]= texY+(1/16f);
+			textures[index+8] = texX+font.getCharOffX(asciiCode);
+			textures[index+9] = texY+font.getCharOffY(asciiCode);
 			// Links-Unten
-			textures[index+10]= texX;
-			textures[index+11]= texY+(1/16f);
-			
-				// POSITIONEN
+			textures[index+10] = texX;
+			textures[index+11] = texY+font.getCharOffY(asciiCode);
+
+			// POSITIONEN
 			// Links-Oben
-			positions[index]=x;
-			positions[index+1]=y;
+			positions[index] = x;
+			positions[index+1] = y;
 			// Links-Unten
-			positions[index+2]=x;
-			positions[index+3]=y+8;
+			positions[index+2] = x;
+			positions[index+3] = y+font.getCharHeight(asciiCode);
 			// Rechts-Oben
-			positions[index+4]=x+8;
-			positions[index+5]=y;
+			positions[index+4] = x+font.getCharWidth(asciiCode);
+			positions[index+5] = y;
 			// Rechts-Oben
-			positions[index+6]=x+8;
-			positions[index+7]=y;
+			positions[index+6] = x+font.getCharWidth(asciiCode);
+			positions[index+7] = y;
 			// Rechts-Unten
-			positions[index+8]=x+8;
-			positions[index+9]=y+8;
+			positions[index+8] = x+font.getCharWidth(asciiCode);
+			positions[index+9] = y+font.getCharHeight(asciiCode);
 			// Links-Unten
-			positions[index+10]=x;
-			positions[index+11]=y+8;
+			positions[index+10] = x;
+			positions[index+11] = y+font.getCharHeight(asciiCode);
 			// Verschieben, Abstand zwischen Buchstaben
-			x+=6;
+			x += font.getPadding(asciiCode);
 			// Inkrementiert Pointer
-			index+=12;
+			index += 12;
 		}
 		return new Vao(positions,textures);
 	}
-	
+
 }
