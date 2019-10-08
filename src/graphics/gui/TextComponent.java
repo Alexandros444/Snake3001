@@ -24,6 +24,7 @@ public class TextComponent extends GuiComponent {
 		// ruft den GuiComponent-Konstruktor auf
 		super(0,0);
 
+		// lädt die Textur des Fonts vom Interface Font
 		this.font = font;
 		fontTexture = font.getTexture();
 

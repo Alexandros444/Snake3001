@@ -5,12 +5,9 @@ import graphics.Texture;
 /**
  * Interface für Fonts
  * 
- * @author Alexander
+ * @author Alex
  */
 public interface Font {
-
-	// Lädt Textur
-	public abstract void loadTexture(String path);
 
 	// gibt Textur aus
 	public abstract Texture getTexture();
