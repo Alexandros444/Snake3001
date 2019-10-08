@@ -20,23 +20,20 @@ public class GuiRenderer {
 	private GuiShader shader;
 	
 	private GuiComponent crosshairs;
-	private TextComponent text;
+	private TextComponent scoreText, fpsText;
+	private Font font;
 	
 	/**
 	 * Erstellt einen neuen Gui-Renderer.
 	 */
 	public GuiRenderer() {
 		shader = new GuiShader();
+		font = new Font("res/font/ascii.png");
 		// erstellt eine neue Gui-Komponente aus dem Bild des Fadenkreuzes
 		crosshairs = new ImageComponent("res/crosshairs1.png");
-		text = new TextComponent("nothing", new Font("res/font/ascii.png"));
+		scoreText = new TextComponent("null", font);
+		fpsText = new TextComponent("null", font);
 		
-		// positioniert und skaliert den Text
-		Matrix3f transform = new Matrix3f();
-		transform.m20 = 24;
-		transform.m21 = 24;
-		text.setTransform(transform);
-		text.setScale(3);
 		
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -55,8 +52,18 @@ public class GuiRenderer {
 		shader.start();
 		shader.loadScreenSize(width,height);
 		
-		// berechnet und lädt die Position der Komponente
+		// positioniert und skaliert den ScoreText
 		Matrix3f transform = new Matrix3f();
+		transform.m20 = width/128;
+		transform.m21 = height/64;
+		scoreText.setTransform(transform);
+		scoreText.setScale((width+height)/460);
+		
+		transform.m20 = width-fpsText.getWidth();
+		transform.m21 = 0;
+		fpsText.setTransform(transform);
+		
+		// positioniert das Fadenkreuz
 		transform.m20 = width/2;
 		transform.m21 = height/2;
 		crosshairs.setTransform(transform);
@@ -64,8 +71,11 @@ public class GuiRenderer {
 		// rendert das Fadenkreuz
 		crosshairs.render(shader);
 		
-		// rendert den Text
-		text.render(shader);
+		// rendert den fpsText 
+		fpsText.render(shader);
+		
+		// rendert den scoreText
+		scoreText.render(shader);
 	}
 
 	/**
@@ -74,7 +84,16 @@ public class GuiRenderer {
 	 * @param score Punktzahl
 	 */
 	public void displayScore(int score) {
-		text.setText("Score: "+score);
+		scoreText.setText("Score: "+score);
+	}
+	
+	/**
+	 * Zeigt die FPS als Text an
+	 * 
+	 * @param fps
+	 */
+	public void displayFPS(int fps) {
+		fpsText.setText(""+fps);
 	}
 	
 	/**
@@ -83,7 +102,7 @@ public class GuiRenderer {
 	public void destroy() {
 		shader.destroy();
 		crosshairs.destroy();
-		text.destroy();
+		scoreText.destroy();
 	}
 	
 	

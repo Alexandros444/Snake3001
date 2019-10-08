@@ -68,8 +68,9 @@ public class Main {
 			
 			// Spiel wird gerendert
 			gameRenderer.render(snake,display.getWidth(),display.getHeight());
-			// Punktzahl wird angezeigt
+			// Punktzahl & Fps werden angezeigt
 			guiRenderer.displayScore(snake.getScore());
+			guiRenderer.displayFPS(fps.fps);
 			// Gui wird gerendert
 			guiRenderer.render(display.getWidth(),display.getHeight());
 			// Display wird aktualisiert
