@@ -9,37 +9,57 @@ import graphics.Texture;
  */
 public interface Font {
 
-	// gibt Textur aus
+	/**
+	 * Gibt Textur aus
+	 * @return Textur Textur des Fonts
+	 */
 	public abstract Texture getTexture();
 
 	/**
-	 * X und Y choordinaten In der Textur, und Breiten in der Textur <br>
+	 * X Choordinaten in der Textur<br>
 	 * (0-1) Angaben für textures[]
 	 * 
-	 * @param asciiCode des Zeichens
+	 * @param asciiCode Ascii-Code des Zeichens
 	 * @return Position (0-1)
 	 */
-	public abstract float getCharX(int asciiCode);
-
-	public abstract float getCharY(int asciiCode);
-
-	public abstract float getCharOffX(int asciiCode);
-
-	public abstract float getCharOffY(int asciiCode);
-
+	public abstract float getCharX(char asciiCode);
 	/**
-	 * @param asciiCode des Zeiches
-	 * @return Maße in px
-	 */
-	public abstract float getCharWidth(int asciiCode);
-
-	public abstract float getCharHeight(int asciiCode);
-
-	/**
-	 * Gibt die Distanz in px zwischen den Zeichen aus
+	 * Y Choordinaten In der Textur<br>
+	 * (0-1) Angaben für textures[]
 	 * 
-	 * @param asciiCode
-	 * @return Distanz in px
+	 * @param asciiCode Ascii-Code des Zeichens
+	 * @return Position (0-1)
 	 */
-	public abstract float getPadding(int asciiCode);
+	public abstract float getCharY(char asciiCode);
+	/**
+	 * Breite der Zeichens in der Textur <br>
+	 * (0-1) Angaben für textures[]
+	 * 
+	 * @param asciiCode Ascii-Code des Zeichens
+	 * @return Position (0-1)
+	 */
+	public abstract float getCharOffX(char asciiCode);
+	/**
+	 * Höhe in der Textur <br>
+	 * (0-1) Angaben für textures[]
+	 * 
+	 * @param asciiCode Ascii-Code des Zeichens
+	 * @return Position (0-1)
+	 */
+	public abstract float getCharOffY(char asciiCode);
+
+	/**
+	 * @param asciiCode Ascii-Code des Zeiches
+	 * @return Breite Breite in px
+	 */
+	public abstract float getCharWidth(char asciiCode);
+
+	/**
+	 * @param asciiCode Ascii-Code des Zeiches
+	 * @return Höhe Höhe in px
+	 */
+	public abstract float getCharHeight(char asciiCode);
+	
+	public abstract void destroy();
+
 }

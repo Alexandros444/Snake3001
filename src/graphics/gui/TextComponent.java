@@ -13,20 +13,24 @@ import graphics.guiRenderer.GuiShader;
 public class TextComponent extends GuiComponent {
 
 	private Vao vao;
-	private final Texture fontTexture;
 
 	private String currentText;
 	private int scale = 1;
 
 	private Font font;
 	
+	/**
+	 * Konstruktor eines Textkomponeneten
+	 * 
+	 * @param text Der anzuzeigende Text
+	 * @param font Die Schriftart des Textes
+	 */
 	public TextComponent(String text, Font font) {
 		// ruft den GuiComponent-Konstruktor auf
 		super(0,0);
 
-		// lädt die Textur des Fonts vom Interface Font
+		// Setzt die private Variable Font = des Parameters Font
 		this.font = font;
-		fontTexture = font.getTexture();
 
 		// lädt den Text
 		this.setText(text);
@@ -79,7 +83,7 @@ public class TextComponent extends GuiComponent {
 	 */
 	public void render(GuiShader shader) {
 		shader.loadTransformationMatrix(super.getTotalTransform());
-		fontTexture.bind();
+		font.getTexture().bind();
 		vao.bind();
 		vao.render();
 	}
@@ -89,14 +93,13 @@ public class TextComponent extends GuiComponent {
 	 */
 	public void destroy() {
 		vao.destroy();
-		fontTexture.destroy();
 	}
 
 	/**
 	 * Erstellt aus dem gegebenen Text ein Vao
 	 * 
-	 * @param text Text
-	 * @return Vao
+	 * @param text anzuzeigender Text
+	 * @return Vao Daten für den Renderer
 	 */
 	private static Vao createTextVao(String text, Font font) {
 		float[] positions = new float[text.length()*12];
@@ -108,7 +111,7 @@ public class TextComponent extends GuiComponent {
 		int y = 0;
 		for (int textChar = 0;textChar<text.length();textChar++) {
 			// Ascii-Code vom Zeichen
-			int asciiCode = text.charAt(textChar);
+			char asciiCode = text.charAt(textChar);
 			// obere linke Ecke des Buchstabens in der Textur
 			float texX = font.getCharX(asciiCode);
 			float texY = font.getCharY(asciiCode);
@@ -151,11 +154,12 @@ public class TextComponent extends GuiComponent {
 			// Links-Unten
 			positions[index+10] = x;
 			positions[index+11] = y+font.getCharHeight(asciiCode);
-			// Verschieben, Abstand zwischen Buchstaben
-			x += font.getPadding(asciiCode);
+			// Abstand zwischen Zeichen
+			x += font.getCharWidth(asciiCode); 
 			// Inkrementiert Pointer
 			index += 12;
 		}
+		// gibt das Voa, erstellt aus Daten von Positions/Textures, zurück
 		return new Vao(positions,textures);
 	}
 

@@ -17,6 +17,7 @@ import graphics.guiRenderer.GuiShader;
  */
 public class ContainerComponent extends GuiComponent {
 	
+	// Objekt-Liste in dem all Komponenten als ChildComponents gespeichert sind
 	private List<GuiComponent> childComponents;
 	
 	/**

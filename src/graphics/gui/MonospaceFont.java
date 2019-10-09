@@ -10,49 +10,92 @@ import graphics.Texture;
  */
 public class MonospaceFont implements Font {
 
-	public Texture texture;
+	private Texture texture;
 
 	/**
 	 * @param path Pfad relativ zu <code>res/res</code>
 	 */
 	public MonospaceFont(String path) {
-		loadTexture(path);
-	}
-	
-	public void loadTexture(String path) {
 		texture = new Texture(path);
 	}
-
-	public Texture getTexture() {
-		return texture;
-	}
-
-	public float getCharX(int asciiCode) {
+	
+	/**
+	 * Gibt die X Position des Zeichens in der Textur wieder
+	 * (0-1) für textures-array
+	 * 
+	 * @param asciiCode Ascii-Code des Zeichens
+	 * @return Position (0-1)
+	 */
+	public float getCharX(char asciiCode) {
 		return asciiCode%16/16f;
 	}
 
-	public float getCharY(int asciiCode) {
+	/**
+	 * Gibt die Y Position des Zeichens in der Textur wieder
+	 * (0-1) für textures-array
+	 * 
+	 * @param asciiCode Ascii-Code des Zeichens
+	 * @return Position (0-1)
+	 */
+	public float getCharY(char asciiCode) {
 		return (float) Math.floor(asciiCode/16f)/16f-1/16;
 	}
 
-	public float getCharOffX(int asciiCode) {
+	/**
+	 * Gibt die Breite des Zeichens in der Textur wieder
+	 * (0-1) für textures-array
+	 * 
+	 * @param asciiCode Ascii-Code des Zeichens
+	 * @return Position (0-1)
+	 */
+	public float getCharOffX(char asciiCode) {
 		return 1/16f;
 	}
 
-	public float getCharOffY(int asciiCode) {
+	/**
+	 * Gibt die Höhe des Zeichens in der Textur wieder
+	 * (0-1) für textures-array
+	 * 
+	 * @param asciiCode Ascii-Code des Zeichens
+	 * @return Position (0-1)
+	 */
+	public float getCharOffY(char asciiCode) {
 		return 1/16f;
 	}
 
-	public float getCharWidth(int asciiCode) {
+	/**
+	 * Gibt die Breite des Zeichens in px wieder
+	 * für positions-array
+	 * 
+	 * @param asciiCode Ascii-Code des Zeichens
+	 * @return Breite Breite in px
+	 */
+	public float getCharWidth(char asciiCode) {
 		return 8;
 	}
 
-	public float getCharHeight(int asciiCode) {
+	/**
+	 * Gibt die Höhe des Zeichens in px wieder
+	 * für positions-array
+	 * 
+	 *@param asciiCode Ascii-Code des Zeichens
+	 *@return Höhe Höhe in px
+	 */
+	public float getCharHeight(char asciiCode) {
 		return 8;
 	}
-
-	public float getPadding(int asciiCode) {
-		return 6;
+	
+	/**
+	 * Gibt die geladene Textur wieder
+	 * 
+	 *@return Texture geladene Textur
+	 */
+	public Texture getTexture() {
+		return texture;
 	}
-
+	
+	public void destroy() {
+		texture.destroy();
+	}
+	
 }

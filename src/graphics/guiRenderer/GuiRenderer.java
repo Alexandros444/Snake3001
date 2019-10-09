@@ -106,6 +106,7 @@ public class GuiRenderer {
 		shader.destroy();
 		crosshairs.destroy();
 		scoreText.destroy();
+		font.destroy();
 	}
 	
 	
