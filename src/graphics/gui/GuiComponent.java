@@ -36,6 +36,8 @@ public abstract class GuiComponent {
 	private int offsetX;
 	private int offsetY;
 	
+	private boolean wasSizeChanged;
+	
 	/**
 	 * Erstellt eine neuen Gui-Komponente.
 	 * 
@@ -58,6 +60,11 @@ public abstract class GuiComponent {
 	public abstract void render(GuiShader shader);
 	
 	/**
+	 * Updated die Komponente. Kann von abgeleiteten Klassen überschrieben werden, um gegebenenfalls jeden Frame Änderungen an ihrem Inhalt durchführen zu können.
+	 */
+	public void update() {}
+	
+	/**
 	 * Löscht alle von der Komponente abhängigen Objekte, um Speicher wieder freizugeben. Muss von allen abgeleiteten Klassen implementiert werden.
 	 */
 	public abstract void destroy();
@@ -73,6 +80,7 @@ public abstract class GuiComponent {
 			this.width = width;
 			this.height = height;
 			onSizeChange();
+			wasSizeChanged = true;
 		}
 	}
 	
@@ -80,6 +88,23 @@ public abstract class GuiComponent {
 	 * Wird bei jeglichen Größenänderungen des Elements aufgerufen. Kann von erweiternden Klassen überschrieben werden, um bei Größenänderungen ggf. eigene Werte anzupassen.
 	 */
 	protected void onSizeChange() {};
+	
+	/**
+	 * Gibt zurück, ob die Größe oder eine damit in Zusammenhang stehende Eigenschaft (z.B. Position oder Offset) geändert wurde.<br>
+	 * So kann das Elternelement ermitteln, ob eine Neuanordnung der Elemente nötig ist oder nicht.
+	 * <br><br>
+	 * Wurde eine solche Eigenschaft einmal geändert, gibt diese Methode solange <code>true</code> zurück, bis {@link #clearChangesBuffer()} aufgerufen wurde.
+	 */
+	public boolean wasSizeChanged() {
+		return wasSizeChanged;
+	}
+	
+	/**
+	 * Signalisiert dem Element, dass die erforderliche Neupositionierung stattgefunden hat und {@link #wasSizeChanged()} vorerst wieder <code>false</code> zurückgeben kann.
+	 */
+	public void clearChangesBuffer() {
+		wasSizeChanged = false;
+	}
 	
 	/**
 	 * Gibt die Breite des Elements zurück
@@ -146,6 +171,7 @@ public abstract class GuiComponent {
 	 */
 	public void setPosition(int position) {
 		this.position = position;
+		wasSizeChanged = true;
 	}
 	
 	/**
@@ -167,6 +193,7 @@ public abstract class GuiComponent {
 	public void setOffset(int offsetX, int offsetY) {
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
+		wasSizeChanged = true;
 	}
 	
 	/**

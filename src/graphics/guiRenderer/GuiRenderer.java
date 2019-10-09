@@ -48,6 +48,7 @@ public class GuiRenderer {
 		fpsText.setOffset(6,6);
 		fpsText.setScale(2);
 		
+		// erstellt den Container und fügt alle Elemente zu ihm zu
 		container = new ContainerComponent(640,480);
 		container.addComponent(crosshairs);
 		container.addComponent(scoreText);
@@ -72,6 +73,9 @@ public class GuiRenderer {
 
 		// passt die Größe des Containers an
 		container.setSize(width,height);
+		
+		// updated den Container
+		container.update();
 		
 		// rendert den Container mit allen Elementen
 		container.render(shader);

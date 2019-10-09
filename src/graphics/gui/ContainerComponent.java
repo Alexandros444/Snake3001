@@ -81,6 +81,25 @@ public class ContainerComponent extends GuiComponent {
 	}
 	
 	/**
+	 * Updated alle Kindelemente und nimmt gegebenenfalls eine Neupositionierung der Elemente vor.
+	 * <br><br>
+	 * Erweiternde Klassen können diese Methode überschreiben um eigene Funktionalität hinzuzufügen, sollten sie dabei aber immer nochmal über <code>super.update()</code> aufrufen.
+	 */
+	public void update() {
+		boolean wasChanged = false;
+		for (GuiComponent childComponent:childComponents) {
+			childComponent.update();
+			if (childComponent.wasSizeChanged()) {
+				wasChanged = true;
+				childComponent.clearChangesBuffer();
+			}
+		}
+		if (wasChanged) {
+			refreshChildPositions();
+		}
+	}
+	
+	/**
 	 * Rendert alle Kindelemente.
 	 * <br><br>
 	 * Erweiternde Klassen, die zusätzlich noch etwas anderes wie z.B. einen Hintergrund rendern wollen, können dazu diese Methode überschreiben, sollten sie aber dabei nochmal über <code>super.render(shader)</code> aufrufen, damit die Kindelemente auch gerendert werden.
