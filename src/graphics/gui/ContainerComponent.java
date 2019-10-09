@@ -1,0 +1,105 @@
+package graphics.gui;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import graphics.Matrix3f;
+import graphics.Vector3f;
+import graphics.guiRenderer.GuiShader;
+
+/**
+ * Die Basisklasse für Komponenten, die andere Komponenten enthalten können.<br>
+ * Die enthaltenen Komponenten werden von dieser Klasse automatisch positioniert, gerendert und am Ende gelöscht, sodass sie als eine Art Einheit betrachtet werden können - ein Aufruf der entsprechenden Methode dieser Klasse reicht bereits aus.
+ * <br><br>
+ * Andere Klassen können diese Klasse erweitern, um auch als Container für andere Komponenten dienen zu können. Dazu können sie die Methoden dieser Klasse überschrieben, sollten sie dabei aber auch immer mit <code>super.xyz()</code> wieder aufrufen, damit keine Funktionalität verloren geht.
+ * 
+ * @author Ben
+ */
+public class ContainerComponent extends GuiComponent {
+	
+	private List<GuiComponent> childComponents;
+	
+	/**
+	 * Erstellt einen neuen, leeren ContainerComponent
+	 * 
+	 * @param width Breite in Pixeln
+	 * @param height Höhe in Pixeln
+	 */
+	public ContainerComponent(int width, int height) {
+		super(width,height);
+		childComponents = new ArrayList<GuiComponent>();
+	}
+	
+	/**
+	 * Fügt eine Komponente als Kindelement hinzu
+	 * @param component die Komponente
+	 */
+	public void addComponent(GuiComponent component) {
+		childComponents.add(component);
+		refreshChildPositions();
+	}
+	
+	/**
+	 * Updated die Positionen aller Kindelemente. Sollte immer dann aufgerufen werden, wenn die Größe oder Position dieses Elements oder Größe, Position oder Offset einer Kindkomponente geändert wurden.
+	 */
+	protected void refreshChildPositions() {
+		Matrix3f baseTransformation = super.getTotalTransform();
+		int innerWidth = super.getWidth();
+		int innerHeight = super.getHeight();
+		for (GuiComponent childComponent:childComponents) {
+			Matrix3f transform = baseTransformation.copy();
+			Vector3f positionOffset = new Vector3f(0,0,1);
+			if (childComponent.getPosition()==POSITION_CENTER) {
+				positionOffset.x = (innerWidth-childComponent.getWidth())/2;
+				positionOffset.y = (innerHeight-childComponent.getHeight())/2;
+			}else if (childComponent.getPosition()==POSITION_CORNER_TOPLEFT){
+				positionOffset.x = childComponent.getOffsetX();
+				positionOffset.y = childComponent.getOffsetY();
+			}else if (childComponent.getPosition()==POSITION_CORNER_TOPRIGHT) {
+				positionOffset.x = innerWidth-childComponent.getWidth()-childComponent.getOffsetX();
+				positionOffset.y = childComponent.getOffsetY();
+			}else if (childComponent.getPosition()==POSITION_CORNER_BOTTOMRIGHT) {
+				positionOffset.x = innerWidth-childComponent.getWidth()-childComponent.getOffsetX();
+				positionOffset.y = innerHeight-childComponent.getHeight()-childComponent.getOffsetY();
+			}else if (childComponent.getPosition()==POSITION_CORNER_BOTTOMLEFT){
+				positionOffset.x = childComponent.getOffsetX();
+				positionOffset.y = innerHeight-childComponent.getHeight()-childComponent.getOffsetY();
+			}
+			positionOffset.apply(baseTransformation);
+			transform.m20 = positionOffset.x;
+			transform.m21 = positionOffset.y;
+			childComponent.setTransform(transform);
+		}
+	}
+	
+	/**
+	 * Passt bei Größenänderungen die Positionen der Kindelemente an. Wird von der Klasse GuiComponent aufgerufen, wenn sich die Größe des Elements ändert.<br>
+	 * Diese Methode kann von erweiternden Klassen überschrieben werden, um eigene Anpassungen an die neue Größe vorzunehmen, sollte aber stehts über <code>super.onSizeChange()</code> diese Methode auch ausführen.
+	 */
+	protected void onSizeChange() {
+		refreshChildPositions();
+	}
+	
+	/**
+	 * Rendert alle Kindelemente.
+	 * <br><br>
+	 * Erweiternde Klassen, die zusätzlich noch etwas anderes wie z.B. einen Hintergrund rendern wollen, können dazu diese Methode überschreiben, sollten sie aber dabei nochmal über <code>super.render(shader)</code> aufrufen, damit die Kindelemente auch gerendert werden.
+	 */
+	public void render(GuiShader shader) {
+		for (GuiComponent childComponent:childComponents) {
+			childComponent.render(shader);
+		}
+	}
+	
+	/**
+	 * Löscht alle Kindelemente, um Ressourcen freizugeben.
+	 * <br><br>
+	 * Erweiternde Klassen, die ebenfalls Ressourcen freizugeben haben, können dazu diese Methode überschreiben, sollten sie aber dabei nochmal über <code>super.destroy()</code> aufrufen.
+	 */
+	public void destroy() {
+		for (GuiComponent childComponent:childComponents) {
+			childComponent.destroy();
+		}
+	}
+	
+}

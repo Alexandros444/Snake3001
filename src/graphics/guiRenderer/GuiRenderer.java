@@ -3,7 +3,7 @@ package graphics.guiRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
-import graphics.Matrix3f;
+import graphics.gui.ContainerComponent;
 import graphics.gui.Font;
 import graphics.gui.GuiComponent;
 import graphics.gui.ImageComponent;
@@ -22,6 +22,7 @@ public class GuiRenderer {
 	
 	private GuiComponent crosshairs;
 	private TextComponent scoreText, fpsText;
+	private ContainerComponent container;
 	private Font font;
 	
 	/**
@@ -32,9 +33,25 @@ public class GuiRenderer {
 		font = new MonospaceFont("res/font/ascii.png");
 		// erstellt eine neue Gui-Komponente aus dem Bild des Fadenkreuzes
 		crosshairs = new ImageComponent("res/crosshairs1.png");
-		scoreText = new TextComponent("null", font);
-		fpsText = new TextComponent("null", font);
+		// erstellt zwei leere Textkomponenten für Punktzahl und FPS
+		scoreText = new TextComponent("", font);
+		fpsText = new TextComponent("", font);
 		
+		// legt die Positionen der Elemente fest
+		crosshairs.setPosition(GuiComponent.POSITION_CENTER);
+		
+		scoreText.setPosition(GuiComponent.POSITION_CORNER_TOPLEFT);
+		scoreText.setOffset(24,24);
+		scoreText.setScale(3);
+		
+		fpsText.setPosition(GuiComponent.POSITION_CORNER_TOPRIGHT);
+		fpsText.setOffset(6,6);
+		fpsText.setScale(2);
+		
+		container = new ContainerComponent(640,480);
+		container.addComponent(crosshairs);
+		container.addComponent(scoreText);
+		container.addComponent(fpsText);
 		
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -52,31 +69,12 @@ public class GuiRenderer {
 		GL11.glViewport(0,0,width,height);
 		shader.start();
 		shader.loadScreenSize(width,height);
+
+		// passt die Größe des Containers an
+		container.setSize(width,height);
 		
-		// positioniert und skaliert den ScoreText
-		Matrix3f transform = new Matrix3f();
-		transform.m20 = width/128;
-		transform.m21 = height/64;
-		scoreText.setTransform(transform);
-		scoreText.setScale((width+height)/460);
-		
-		transform.m20 = width-fpsText.getWidth();
-		transform.m21 = 0;
-		fpsText.setTransform(transform);
-		
-		// positioniert das Fadenkreuz
-		transform.m20 = width/2;
-		transform.m21 = height/2;
-		crosshairs.setTransform(transform);
-		
-		// rendert das Fadenkreuz
-		crosshairs.render(shader);
-		
-		// rendert den fpsText 
-		fpsText.render(shader);
-		
-		// rendert den scoreText
-		scoreText.render(shader);
+		// rendert den Container mit allen Elementen
+		container.render(shader);
 	}
 
 	/**

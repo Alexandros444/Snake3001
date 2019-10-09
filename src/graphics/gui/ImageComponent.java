@@ -34,9 +34,7 @@ public class ImageComponent extends GuiComponent {
 		System.out.println("Width: "+width+", height: "+height);
 		
 		// erstellt Rechteck-Vao
-		float x = 0.5f*width;
-		float y = 0.5f*height;
-		vao = new Vao(new float[]{-x,-y,-x,y,x,-y,-x,y,x,y,x,-y},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
+		vao = new Vao(new float[]{0,0,0,height,width,0,0,height,width,height,width,0},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
 	}
 	
 	/**
