@@ -92,6 +92,21 @@ public class Matrix3f {
 		m22 = A.m02 * B.m20 + A.m12 * B.m21 + A.m22 * B.m22;
 
 	}
+	
+	/**
+	 * Multipliziert den Vektor mit der Matrix. Der Vektor wird dabei geändert, die Matrix nicht.
+	 * 
+	 * @param v Vektor
+	 */
+	public void multiply(Vector3f v) {
+		float newX = v.x*m00 + v.y*m10 + v.z*m20;
+		float newY = v.x*m01 + v.y*m11 + v.z*m21;
+		float newZ = v.x*m02 + v.y*m12 + v.z*m22;
+		v.x = newX;
+		v.y = newY;
+		v.z = newZ;
+	}
+	
 /**
  * rotier die Matrix um die drei Variablen in x, y und z Richtung
  * @param rx Rotation in x Richtung in Grad

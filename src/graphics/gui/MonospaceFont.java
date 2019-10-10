@@ -49,7 +49,7 @@ public class MonospaceFont implements Font {
 	 * @return Position (0-1)
 	 */
 	public float getCharOffX(char asciiCode) {
-		return 1/16f;
+		return (5f/8f)*1f/16f;
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class MonospaceFont implements Font {
 	 * @return Breite Breite in px
 	 */
 	public float getCharWidth(char asciiCode) {
-		return 8;
+		return 5;
 	}
 
 	/**

@@ -96,17 +96,11 @@ public class Vector3f {
 	/**
 	 * Ändert den Vektor durch Multiplikation mit der Matrix.<br>
 	 * Kann genutzt werden, um den Vektor "in Richtung der Matrix" zu drehen, bzw. die in der Matrix gespeicherte Drehung auf ihn anzuwenden.
+	 * 
 	 * @param matrix die Matrix
 	 */
-	
 	public void apply(Matrix3f matrix) {
-		float[] mValues = matrix.toFloatArray();
-		float newX = x * mValues[0] + y * mValues[3] + z * mValues[6];
-		float newY = x * mValues[1] + y * mValues[4] + z * mValues[7];
-		float newZ = x * mValues[2] + y * mValues[5] + z * mValues[8];
-		x = newX;
-		y = newY;
-		z = newZ;
+		matrix.multiply(this);
 	}
 
 }

@@ -133,6 +133,7 @@ public abstract class GuiComponent {
 	public void setTransform(Matrix3f transform) {
 		outerTransform = transform.copy();
 		updateTotalTransform();
+		onPositionChange();
 	}
 	
 	/**
@@ -144,6 +145,7 @@ public abstract class GuiComponent {
 	protected void setInnerTransform(Matrix3f transform) {
 		innerTransform = transform.copy();
 		updateTotalTransform();
+		onPositionChange();
 	}
 	
 	/**
@@ -163,6 +165,11 @@ public abstract class GuiComponent {
 	protected Matrix3f getTotalTransform() {
 		return totalTransform;
 	}
+	
+	/**
+	 * Wird bei jeglichen Änderungen an der Transformation des Elements aufgerufen. Kann von erweiternden Klassen überschrieben werden, um bei solchen Änderungen ggf. eigene Werte anzupassen.
+	 */
+	protected void onPositionChange() {};
 	
 	/**
 	 * Setzt die Positionierungsart des Elements, z.B. POSITION_CENTER für zentriert oder POSITION_FLOW für automatische Positionierung der Flow-Elemente untereinander.

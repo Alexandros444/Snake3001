@@ -1,7 +1,6 @@
 package graphics.gui;
 
 import graphics.Matrix3f;
-import graphics.Texture;
 import graphics.Vao;
 import graphics.guiRenderer.GuiShader;
 
@@ -109,9 +108,9 @@ public class TextComponent extends GuiComponent {
 		int index = 0;
 		int x = 0;
 		int y = 0;
-		for (int textChar = 0;textChar<text.length();textChar++) {
+		for (int i=0;i<text.length();i++) {
 			// Ascii-Code vom Zeichen
-			char asciiCode = text.charAt(textChar);
+			char asciiCode = text.charAt(i);
 			// obere linke Ecke des Buchstabens in der Textur
 			float texX = font.getCharX(asciiCode);
 			float texY = font.getCharY(asciiCode);
@@ -155,7 +154,7 @@ public class TextComponent extends GuiComponent {
 			positions[index+10] = x;
 			positions[index+11] = y+font.getCharHeight(asciiCode);
 			// Abstand zwischen Zeichen
-			x += font.getCharWidth(asciiCode); 
+			x += font.getCharWidth(asciiCode)+1; 
 			// Inkrementiert Pointer
 			index += 12;
 		}

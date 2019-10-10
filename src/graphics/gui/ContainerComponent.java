@@ -17,7 +17,7 @@ import graphics.guiRenderer.GuiShader;
  */
 public class ContainerComponent extends GuiComponent {
 	
-	// Objekt-Liste in dem all Komponenten als ChildComponents gespeichert sind
+	// Liste mit allen Kind-Komponenten
 	private List<GuiComponent> childComponents;
 	
 	/**
@@ -78,6 +78,14 @@ public class ContainerComponent extends GuiComponent {
 	 * Diese Methode kann von erweiternden Klassen überschrieben werden, um eigene Anpassungen an die neue Größe vorzunehmen, sollte aber stehts über <code>super.onSizeChange()</code> diese Methode auch ausführen.
 	 */
 	protected void onSizeChange() {
+		refreshChildPositions();
+	}
+	
+	/**
+	 * Passt bei Positionsänderungen die Positionen der Kindelemente an. Wird von der Klasse GuiComponent aufgerufen, wenn sich die Größe des Elements ändert.<br>
+	 * Diese Methode kann von erweiternden Klassen überschrieben werden, um eigene Anpassungen an die neue Position vorzunehmen, sollte aber stehts über <code>super.onPositionChange()</code> diese Methode auch ausführen.
+	 */
+	protected void onPositionChange() {
 		refreshChildPositions();
 	}
 	
