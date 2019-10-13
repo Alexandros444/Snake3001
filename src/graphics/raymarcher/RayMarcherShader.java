@@ -5,8 +5,8 @@ import graphics.Shader;
 import graphics.Vector3f;
 
 /**
- * Erster Entwurf des Shaders zum Rendern in 3D. <br>
- * Rendert bisher nur ein 3D-Gitter, soll aber später die Schlange und Futterkörner usw. rendern.
+ * Der Shader zum Rendern in 3D, mithilfe von RayMarching.<br>
+ * Der eigentliche Rendering-Prozess findet im Fragmentshader statt, wo aus den Koordinaten jedes Pixels jeweils die Farbe bestimmt wird - diese Klasse enthält bloß Code, um den Shader zu initialisieren und Werte in ihn zu laden.
  * 
  * @author Ben
  */

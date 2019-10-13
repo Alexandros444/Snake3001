@@ -18,7 +18,7 @@ import main.StaticUtils;
 /**
  * Klasse zum erstellen eines Displays, hier wird unser Spiel angezeigt!
  * 
- * @author Alex diktiert von Ben(Dem Diktator)
+ * @author Alex
  */
 
 public class Display {
@@ -129,8 +129,10 @@ public class Display {
 		}			
 	}
 
-	
-	public void toggleFullscreeMode(){
+	/**
+	 * Schaltet den Vollbildmodus an und aus.
+	 */
+	public void toggleFullscreenMode(){
 		if(isFullscreenMode) {
 			GLFW.glfwSetWindowMonitor(windowID, 0, beforeFullscreenBounds[0], beforeFullscreenBounds[1], beforeFullscreenBounds[2], beforeFullscreenBounds[3], GLFW.GLFW_DONT_CARE);
 			isFullscreenMode = false;
@@ -142,7 +144,10 @@ public class Display {
 		}
 		
 	}
-
+	
+	/**
+	 * Speichert die aktuelle Position und Größe des Fensters, sodass sie später wiederhergestellt werden kann.
+	 */
 	private void setBeforePosition() {
 		IntBuffer tempX = BufferUtils.createIntBuffer(1);
 		IntBuffer tempY = BufferUtils.createIntBuffer(1);

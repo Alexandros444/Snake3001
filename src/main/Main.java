@@ -24,7 +24,6 @@ public class Main {
 	 * 
 	 * @param args Kommandozeilenparameter
 	 */
-	
 	public static void main(String[] args) {
 		
 		// Erstellt ein neues Fenster
@@ -58,7 +57,7 @@ public class Main {
 			if(display.isKeyPressed(GLFW.GLFW_KEY_F) && (timer.getTimeSec()>0)) {
 				// momentan nur im 1 sekunden abstand, später mit Key-Handler
 				timer.reset();
-				display.toggleFullscreeMode();
+				display.toggleFullscreenMode();
 			}
 			
 			// Überprüfen ob Schlange gestorben ist, wenn ja Spiel neu-Starten 

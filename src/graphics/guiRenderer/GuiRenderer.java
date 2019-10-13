@@ -12,7 +12,7 @@ import graphics.gui.TextComponent;
 
 /**
  * Der Renderer für das Gui unseres Programms.<br>
- * Enthält bisher nur einen einfachen Test, um zu schauen, ob der GuiShader funktioniert.
+ * Enthält bisher nur ein paar einfache Anzeigen als Test, um zu schauen, ob das Gui-Komponentensystem funktioniert
  * 
  * @author Ben
  */
@@ -32,7 +32,7 @@ public class GuiRenderer {
 		shader = new GuiShader();
 		font = new MonospaceFont("res/font/ascii.png");
 		// erstellt eine neue Gui-Komponente aus dem Bild des Fadenkreuzes
-		crosshairs = new ImageComponent("res/crosshairs1.png");
+		crosshairs = new ImageComponent("res/simpleCrosshairs.png");
 		// erstellt zwei leere Textkomponenten für Punktzahl und FPS
 		scoreText = new TextComponent("", font);
 		fpsText = new TextComponent("", font);
@@ -93,10 +93,10 @@ public class GuiRenderer {
 	/**
 	 * Zeigt die FPS als Text an
 	 * 
-	 * @param fps
+	 * @param fps FPS
 	 */
 	public void displayFPS(int fps) {
-		fpsText.setText(""+fps);
+		fpsText.setText(fps+" FPS");
 	}
 	
 	/**

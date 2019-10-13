@@ -98,6 +98,7 @@ public class TextComponent extends GuiComponent {
 	 * Erstellt aus dem gegebenen Text ein Vao
 	 * 
 	 * @param text anzuzeigender Text
+	 * @param font zu nutzende Schriftart
 	 * @return Vao Daten für den Renderer
 	 */
 	private static Vao createTextVao(String text, Font font) {

@@ -94,6 +94,8 @@ public abstract class GuiComponent {
 	 * So kann das Elternelement ermitteln, ob eine Neuanordnung der Elemente nötig ist oder nicht.
 	 * <br><br>
 	 * Wurde eine solche Eigenschaft einmal geändert, gibt diese Methode solange <code>true</code> zurück, bis {@link #clearChangesBuffer()} aufgerufen wurde.
+	 * 
+	 * @return ob Größe, Position oder Offset des Elements sein dem letzten Aufruf von {@link #clearChangesBuffer()} geändert worden sind
 	 */
 	public boolean wasSizeChanged() {
 		return wasSizeChanged;

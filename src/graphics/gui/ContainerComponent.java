@@ -48,7 +48,7 @@ public class ContainerComponent extends GuiComponent {
 		int innerWidth = super.getWidth();
 		int innerHeight = super.getHeight();
 		for (GuiComponent childComponent:childComponents) {
-			Matrix3f transform = baseTransformation.copy();
+			// bestimmt die Position des Kindelements innerhalb des Elternelements
 			Vector3f positionOffset = new Vector3f(0,0,1);
 			if (childComponent.getPosition()==POSITION_CENTER) {
 				positionOffset.x = (innerWidth-childComponent.getWidth())/2;
@@ -66,7 +66,9 @@ public class ContainerComponent extends GuiComponent {
 				positionOffset.x = childComponent.getOffsetX();
 				positionOffset.y = innerHeight-childComponent.getHeight()-childComponent.getOffsetY();
 			}
+			// wendet die Transformation des Elternelements darauf an, um die absolute Position zu ermitteln
 			positionOffset.apply(baseTransformation);
+			Matrix3f transform = baseTransformation.copy();
 			transform.m20 = positionOffset.x;
 			transform.m21 = positionOffset.y;
 			childComponent.setTransform(transform);
