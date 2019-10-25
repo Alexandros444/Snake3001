@@ -25,8 +25,11 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
+		// Erstellt Config-Datei, Spielstände werden geladen
+		Values values = new Values();
+		
 		// Erstellt ein neues Fenster
-		Display display = new Display(960,540,"SNAKE 3001");
+		Display display = new Display(values,"SNAKE 3001");
 		// Setzt das Fenster-Symbol
 		display.setWindowIcon("res/icon.png");
 		
@@ -39,7 +42,7 @@ public class Main {
 		GuiRenderer guiRenderer = new GuiRenderer();
 		
 		// Initialisiert Schlange
-		Snake snake = new Snake();
+		Snake snake = new Snake(values);
 		
 		// Initialisiert einen Timer der die Zeit stoppt
 		Timer timer = new Timer();
@@ -58,7 +61,7 @@ public class Main {
 			
 			// Überprüfen ob Schlange gestorben ist, wenn ja Spiel neu-Starten 
 			if ((snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
-			    snake = new Snake();
+			    snake = new Snake(values);
 			}
 			
 			// Spiel wird gerendert
@@ -75,6 +78,7 @@ public class Main {
 		gameRenderer.destroy();
 		guiRenderer.destroy();
 		display.close();
+		values.save();		
 	}
 	
 }
