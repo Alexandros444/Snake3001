@@ -4,7 +4,6 @@ import org.lwjgl.glfw.GLFW;
 
 import gamelogic.Snake;
 import graphics.Display;
-import graphics.FpsCounter;
 import graphics.Timer;
 import graphics.guiRenderer.GuiRenderer;
 import graphics.raymarcher.RayMarcher;
@@ -30,9 +29,6 @@ public class Main {
 		Display display = new Display(960,540,"SNAKE 3001");
 		// Setzt das Fenster-Symbol
 		display.setWindowIcon("res/icon.png");
-		
-		// Erstellt den Fps Z‰hler
-		FpsCounter fps = new FpsCounter();
 		
 		// Erstellt den RayMarcher-Renderer
 		RayMarcher gameRenderer = new RayMarcher();
@@ -69,14 +65,10 @@ public class Main {
 			gameRenderer.render(snake,display.getWidth(),display.getHeight());
 			// Punktzahl & Fps werden angezeigt
 			guiRenderer.displayScore(snake.getScore());
-			guiRenderer.displayFPS(fps.fps);
 			// Gui wird gerendert
 			guiRenderer.render(display.getWidth(),display.getHeight());
 			// Display wird aktualisiert
 			display.update();
-			// Fps-Z‰hler wird aktualisiert
-			fps.update();
-			
 		}
 	
 		// Beendet den Renderer und schlieﬂt das Fenster

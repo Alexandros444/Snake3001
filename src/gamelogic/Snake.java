@@ -162,7 +162,7 @@ public class Snake {
 	 * Überprüft ob die Schlange mit sich kollidiert
 	 */
 	private void checkCollision() {
-		if(gridDistance(snakePositions[0])-sphereRadius<0) {
+		if(gridDistance(snakePositions[0])-0.8f*sphereRadius<0) {
 			isAlive=false;
 			System.out.println("Du bist gestorben");
 		}

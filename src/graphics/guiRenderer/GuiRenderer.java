@@ -3,6 +3,7 @@ package graphics.guiRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
+import graphics.FpsCounter;
 import graphics.gui.ContainerComponent;
 import graphics.gui.Font;
 import graphics.gui.GuiComponent;
@@ -19,7 +20,6 @@ import graphics.gui.TextComponent;
 public class GuiRenderer {
 	
 	private GuiShader shader;
-	
 	private GuiComponent crosshairs;
 	private TextComponent scoreText, fpsText;
 	private ContainerComponent container;
@@ -35,7 +35,7 @@ public class GuiRenderer {
 		crosshairs = new ImageComponent("res/simpleCrosshairs.png");
 		// erstellt zwei leere Textkomponenten für Punktzahl und FPS
 		scoreText = new TextComponent("", font);
-		fpsText = new TextComponent("", font);
+		fpsText = new FpsCounter(font);
 		
 		// legt die Positionen der Elemente fest
 		crosshairs.setPosition(GuiComponent.POSITION_CENTER);
