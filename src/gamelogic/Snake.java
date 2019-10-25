@@ -1,11 +1,10 @@
 package gamelogic;
 
 import org.lwjgl.glfw.GLFW;
-
 import graphics.Display;
 import graphics.Matrix3f;
 import graphics.Vector3f;
-import main.Values;
+import main.Settings;
 
 /**
  * Die Klasse für die Schlange.<br>
@@ -22,7 +21,7 @@ public class Snake {
 	public Vector3f[] snakePositions;
 	public Food food;
 	
-	private Values values;
+	private Settings settings;
 	
 	private long lastFrame;
 	
@@ -37,8 +36,8 @@ public class Snake {
 	/**
 	 * Erstellt eine neue Schlange
 	 */
-	public Snake(Values values){
-		this.values = values;
+	public Snake(Settings values){
+		this.settings = values;
 	    cameraPosition = new Vector3f(0,0,0.5f);  
 	    viewDirection = new Matrix3f();
 	    snakePositions = new Vector3f[5];
@@ -179,8 +178,8 @@ public class Snake {
 	
 	// Speichert den Score und setzt den Status auf Tod
 	private void deathEvent() {
-		if(values.snakeScore<score) {
-			values.snakeScore = score;
+		if(settings.snakeScore<score) {
+			settings.snakeScore = score;
 		}
 		isAlive=false;
 		System.out.println("Du bist gestorben");
