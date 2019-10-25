@@ -67,6 +67,19 @@ public class Texture {
 	}
 	
 	/**
+	 * Erstellt eine neue Textur mit dem gegebenen Inhalt.<br><br>
+	 * Hat den selben Effekt wie ein Aufruf von {@link #bufferData(int, int, int[])}
+	 * 
+	 * @param width Breite in Pixeln
+	 * @param height Höhe in Pixeln
+	 * @param pixels Pixel-Daten im Format 0xAABBGGRR (also Hexadezimal)
+	 */
+	public Texture(int width, int height, int[] pixels) {
+		this();
+		bufferData(width,height,pixels);
+	}
+	
+	/**
 	 * Ändert die Größe des Textures, falls es noch nicht die richtige Größe hat.<br>
 	 * Der Inhalt des Textures wird in dem Fall zurückgesetzt.
 	 * 

@@ -57,6 +57,33 @@ public class Vao {
 	}
 	
 	/**
+	 *  Erstellt ein Rechteck-Vao aus den gegebenen Abmessungen und Texturkoordinaten.
+	 *  
+	 * @param x1 kleinste x-Position
+	 * @param y1 kleinste y-Position
+	 * @param x2 größte x-Position
+	 * @param y2 größte y-Position
+	 * @param tx1 Texturkoordinate zu x1
+	 * @param ty1 Texturkoordinate zu y1
+	 * @param tx2 Texturkoordinate zu x2
+	 * @param ty2 Texturkoordinate zu y2
+	 */
+	public Vao(float x1, float y1, float x2, float y2, float tx1, float ty1, float tx2, float ty2) {
+		this(new float[]{x1,y1,x1,y2,x2,y1,x1,y2,x2,y2,x2,y1},new float[]{tx1,ty1,tx1,ty2,tx2,ty1,tx1,ty2,tx2,ty2,tx2,ty1});
+	}
+	
+	/**
+	 * Erstellt ein neues Rechteck-Vao mit den gegebenen Seitenlängen.<br>
+	 * Die Texturkoordinaten erstrecken sich automatisch von 0 bis 1.
+	 * 
+	 * @param width
+	 * @param height
+	 */
+	public Vao(int width, int height) {
+		this(0,0,width,height,0,0,1,1);
+	}
+	
+	/**
 	 * Bindet das VAO an den OpenGL-Kontext.
 	 */
 	public void bind() {

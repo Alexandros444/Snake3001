@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import graphics.FpsCounter;
+import graphics.gui.BoxComponent;
 import graphics.gui.ContainerComponent;
 import graphics.gui.Font;
 import graphics.gui.GuiComponent;
@@ -48,11 +49,20 @@ public class GuiRenderer {
 		fpsText.setOffset(6,6);
 		fpsText.setScale(2);
 		
+		BoxComponent testBox = new BoxComponent(150,50,0x80000000,0xa0808080,3);
+		testBox.setPosition(GuiComponent.POSITION_CORNER_BOTTOMLEFT);
+		testBox.setOffset(6,6);
+		TextComponent testText = new TextComponent("TextBox-Test",font);
+		testText.setPosition(GuiComponent.POSITION_CORNER_TOPLEFT);
+		testText.setOffset(6,7);
+		testBox.addComponent(testText);
+		
 		// erstellt den Container und fügt alle Elemente zu ihm zu
 		container = new ContainerComponent(640,480);
 		container.addComponent(crosshairs);
 		container.addComponent(scoreText);
 		container.addComponent(fpsText);
+		container.addComponent(testBox);
 		
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
