@@ -107,15 +107,6 @@ public class GuiRenderer {
 	}
 	
 	/**
-	 * Zeigt die FPS als Text an
-	 * 
-	 * @param fps FPS
-	 */
-	public void displayFPS(int fps) {
-		fpsText.setText(fps+" FPS");
-	}
-	
-	/**
 	 * Löscht den Renderer und gibt genutzte Ressourcen frei.
 	 */
 	public void destroy() {
@@ -124,6 +115,5 @@ public class GuiRenderer {
 		scoreText.destroy();
 		font.destroy();
 	}
-	
 	
 }

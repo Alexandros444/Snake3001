@@ -3,8 +3,8 @@ package graphics;
 import graphics.gui.Font;
 import graphics.gui.TextComponent;
 
-/*
- * Fps Zähler
+/**
+ * Fps Zähler zählt die Fps und zeigt sie an 
  * 
  * @author Alex
  */
@@ -16,36 +16,32 @@ public class FpsCounter extends TextComponent{
 	private int deltaTime = 0;
 	private short frames = 0;
 	private short fps;
-	
-	private Timer timer;
-	
-	// Konstruktor
+
+	/**
+	 * Erstellt den FPSCounter
+	 * 
+	 * @param font Schriftart der FPS
+	 */
 	public FpsCounter(Font font) {
-		super("",font);
+		super("FPS",font);
 		startTime = (int) System.currentTimeMillis();
-		timer = new Timer();
 	}
 	
-	// Wird jeden Frame aufgerufen und aktualisiert die Zeit, und alle 4 sekunden die Fps
+	/**
+	 * aktualisiert Zeit, und alle 4 sekunden Fps
+	 */
 	public void update() {
 		deltaTime = ((int)System.currentTimeMillis()) - startTime;
 		frames++;
 		
-		// überprüfen ob 4 sekunde oder (4000ms) um sind, und aktualisiert dann die Fps
+		// überprüfen ob 1 sekunde oder (1000ms) um sind, und aktualisiert dann die Fps
 		if(deltaTime >= 1000) {
 			startTime = (int) System.currentTimeMillis();
 			fps = (short) (frames/(deltaTime/1000));
 			deltaTime = 0;
 			frames = 0;
-			
-			// gibt die Fps und die vergangene Spielzeit alle 2 Sekunden aus
-			if (timer.getTimeSec() > 2) {		
-				timer.reset();
-				System.out.println(fps);
-			}
+			super.setText(fps+" FPS");
 		}
-		super.setText(fps+" FPS");
 	}
-
 	
 }

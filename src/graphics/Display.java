@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.stb.STBImage;
 
 import main.StaticUtils;
+import main.Values;
 
 /**
  * Klasse zum erstellen eines Displays, hier wird unser Spiel angezeigt!
@@ -22,6 +23,7 @@ import main.StaticUtils;
  */
 
 public class Display {
+	private Values values;
 	private long windowID;
 	private boolean isFullscreenMode;
 	private int[] beforeFullscreenBounds = new int[4];
@@ -35,12 +37,13 @@ public class Display {
 	 * @param title Titel
 	 *
 	 */
-	public Display(int w, int h, String title) {
+	public Display(Values values, String title) {		
+		this.values = values;
 		GLFWErrorCallback.createPrint(System.err).set();
 		if (!GLFW.glfwInit()) {
 			throw new IllegalStateException("GLFW kaputt");
 		}
-		windowID = GLFW.glfwCreateWindow(w, h, title, 0, 0);
+		windowID = GLFW.glfwCreateWindow(values.displayWidth, values.displayHeight, title, 0, 0);
 		if (windowID == 0) {
 			throw new IllegalStateException("Fenster kaputt");
 		}
@@ -67,6 +70,8 @@ public class Display {
 	 * Schlieﬂt das Fenster.
 	 */
 	public void close() {
+		values.displayWidth = getWidth();
+		values.displayHeight = getHeight();
 		GLFW.glfwDestroyWindow(windowID);
 		GLFW.glfwTerminate();
 	}
@@ -157,7 +162,6 @@ public class Display {
 		GLFW.glfwGetWindowSize(windowID, tempX, tempY);
 		beforeFullscreenBounds[2] = tempX.get(0);
 		beforeFullscreenBounds[3] = tempY.get(0);
-		
 	}
 	
 
