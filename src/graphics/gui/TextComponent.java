@@ -27,6 +27,7 @@ public class TextComponent extends GuiComponent {
 	public TextComponent(String text, Font font) {
 		// ruft den GuiComponent-Konstruktor auf
 		super(0,0);
+		super.setPosition(POSITION_FLOW);
 
 		// Setzt die private Variable Font = des Parameters Font
 		this.font = font;
