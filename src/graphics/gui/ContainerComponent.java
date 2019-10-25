@@ -20,6 +20,9 @@ public class ContainerComponent extends GuiComponent {
 	// Liste mit allen Kind-Komponenten
 	private List<GuiComponent> childComponents;
 	
+	private int innerOffsetX;
+	private int innerOffsetY;
+	
 	/**
 	 * Erstellt einen neuen, leeren ContainerComponent
 	 * 
@@ -47,6 +50,8 @@ public class ContainerComponent extends GuiComponent {
 		Matrix3f baseTransformation = super.getTotalTransform();
 		int innerWidth = super.getWidth();
 		int innerHeight = super.getHeight();
+		int flowX = innerOffsetX;
+		int flowY = innerOffsetY;
 		for (GuiComponent childComponent:childComponents) {
 			// bestimmt die Position des Kindelements innerhalb des Elternelements
 			Vector3f positionOffset = new Vector3f(0,0,1);
@@ -65,6 +70,10 @@ public class ContainerComponent extends GuiComponent {
 			}else if (childComponent.getPosition()==POSITION_CORNER_BOTTOMLEFT){
 				positionOffset.x = childComponent.getOffsetX();
 				positionOffset.y = innerHeight-childComponent.getHeight()-childComponent.getOffsetY();
+			}else if (childComponent.getPosition()==POSITION_FLOW){
+				positionOffset.x = flowX;
+				positionOffset.y = flowY;
+				flowY += childComponent.getHeight()+childComponent.getOffsetY();
 			}
 			// wendet die Transformation des Elternelements darauf an, um die absolute Position zu ermitteln
 			positionOffset.apply(baseTransformation);
@@ -108,6 +117,18 @@ public class ContainerComponent extends GuiComponent {
 		if (wasChanged) {
 			refreshChildPositions();
 		}
+	}
+	
+	/**
+	 * Setzt das "innere Offset" des Elements, also den Abstand, den Flow-Kindelemente zum Rand des Containers haben sollen.
+	 * 
+	 * @param x Abstand links und rechts in Pixeln
+	 * @param y Abstand oben und unten in Pixeln
+	 */
+	public void setInnerOffset(int x, int y) {
+		innerOffsetX = x;
+		innerOffsetY = y;
+		refreshChildPositions();
 	}
 	
 	/**
