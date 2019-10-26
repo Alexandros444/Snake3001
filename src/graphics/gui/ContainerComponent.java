@@ -91,7 +91,6 @@ public class ContainerComponent extends GuiComponent {
 			childComponent.setTransform(transform);
 		}
 		if (widthMode==WIDTH_AUTO&&heightMode==HEIGHT_AUTO) {
-			System.out.println("Auto-resizing ContainerComponent! contentWidth: "+contentWidth+", contentHeight: "+contentHeight);
 			super.setSize(contentWidth,contentHeight);
 		}else if (widthMode==WIDTH_AUTO) {
 			super.setSize(contentWidth,super.getHeight());

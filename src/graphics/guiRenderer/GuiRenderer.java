@@ -60,15 +60,27 @@ public class GuiRenderer {
 		TextComponent testText1 = new TextComponent("TextBox-Test",font);
 		TextComponent testText2 = new TextComponent("Element-Flow-Test",font);
 		TextComponent testText3 = new TextComponent("Und kuck mal, automatisch angepasste Breite ^^",font);
+		TextComponent testText4 = new TextComponent("(ach ja, und natürlich Höhe)",font);
+		TextComponent testText5 = new TextComponent("Und Umlaute gehen jetzt auch =D",font);
+		TextComponent testText6 = new TextComponent("Jetzt fehlt bloß noch mehrzeiliger Text...",font);
 		testText1.setScale(2);
 		testText2.setScale(2);
 		testText3.setScale(2);
+		testText4.setScale(2);
+		testText5.setScale(2);
+		testText6.setScale(2);
 		testText1.setOffset(4,4);
 		testText2.setOffset(4,4);
 		testText3.setOffset(4,4);
+		testText4.setOffset(4,4);
+		testText5.setOffset(4,4);
+		testText6.setOffset(4,4);
 		testBox.addComponent(testText1);
 		testBox.addComponent(testText2);
 		testBox.addComponent(testText3);
+		testBox.addComponent(testText4);
+		testBox.addComponent(testText5);
+		testBox.addComponent(testText6);
 		
 		// erstellt den Container und fügt alle Elemente zu ihm zu
 		container = new ContainerComponent(640,480);
