@@ -23,6 +23,9 @@ public class ContainerComponent extends GuiComponent {
 	private int innerOffsetX;
 	private int innerOffsetY;
 	
+	private int widthMode = WIDTH_STATIC;
+	private int heightMode = HEIGHT_STATIC;
+	
 	/**
 	 * Erstellt einen neuen, leeren ContainerComponent
 	 * 
@@ -52,27 +55,32 @@ public class ContainerComponent extends GuiComponent {
 		int innerHeight = super.getHeight();
 		int flowX = innerOffsetX;
 		int flowY = innerOffsetY;
+		int contentWidth = 0;
+		int contentHeight = 0;
 		for (GuiComponent childComponent:childComponents) {
 			// bestimmt die Position des Kindelements innerhalb des Elternelements
 			Vector3f positionOffset = new Vector3f(0,0,1);
-			if (childComponent.getPosition()==POSITION_CENTER) {
+			int childPosition = childComponent.getPosition();
+			if (childPosition==POSITION_CENTER) {
 				positionOffset.x = (innerWidth-childComponent.getWidth())/2;
 				positionOffset.y = (innerHeight-childComponent.getHeight())/2;
-			}else if (childComponent.getPosition()==POSITION_CORNER_TOPLEFT){
+			}else if (childPosition==POSITION_CORNER_TOPLEFT){
 				positionOffset.x = childComponent.getOffsetX();
 				positionOffset.y = childComponent.getOffsetY();
-			}else if (childComponent.getPosition()==POSITION_CORNER_TOPRIGHT) {
+			}else if (childPosition==POSITION_CORNER_TOPRIGHT) {
 				positionOffset.x = innerWidth-childComponent.getWidth()-childComponent.getOffsetX();
 				positionOffset.y = childComponent.getOffsetY();
-			}else if (childComponent.getPosition()==POSITION_CORNER_BOTTOMRIGHT) {
+			}else if (childPosition==POSITION_CORNER_BOTTOMRIGHT) {
 				positionOffset.x = innerWidth-childComponent.getWidth()-childComponent.getOffsetX();
 				positionOffset.y = innerHeight-childComponent.getHeight()-childComponent.getOffsetY();
-			}else if (childComponent.getPosition()==POSITION_CORNER_BOTTOMLEFT){
+			}else if (childPosition==POSITION_CORNER_BOTTOMLEFT){
 				positionOffset.x = childComponent.getOffsetX();
 				positionOffset.y = innerHeight-childComponent.getHeight()-childComponent.getOffsetY();
-			}else if (childComponent.getPosition()==POSITION_FLOW){
+			}else if (childPosition==POSITION_FLOW){
 				positionOffset.x = flowX;
 				positionOffset.y = flowY;
+				contentWidth = Math.max(contentWidth,flowX+childComponent.getWidth()+innerOffsetX);
+				contentHeight = Math.max(contentHeight,flowY+childComponent.getHeight()+innerOffsetY);
 				flowY += childComponent.getHeight()+childComponent.getOffsetY();
 			}
 			// wendet die Transformation des Elternelements darauf an, um die absolute Position zu ermitteln
@@ -81,6 +89,14 @@ public class ContainerComponent extends GuiComponent {
 			transform.m20 = positionOffset.x;
 			transform.m21 = positionOffset.y;
 			childComponent.setTransform(transform);
+		}
+		if (widthMode==WIDTH_AUTO&&heightMode==HEIGHT_AUTO) {
+			System.out.println("Auto-resizing ContainerComponent! contentWidth: "+contentWidth+", contentHeight: "+contentHeight);
+			super.setSize(contentWidth,contentHeight);
+		}else if (widthMode==WIDTH_AUTO) {
+			super.setSize(contentWidth,super.getHeight());
+		}else if (heightMode==HEIGHT_AUTO) {
+			super.setSize(super.getWidth(),contentHeight);
 		}
 	}
 	
@@ -128,6 +144,26 @@ public class ContainerComponent extends GuiComponent {
 	public void setInnerOffset(int x, int y) {
 		innerOffsetX = x;
 		innerOffsetY = y;
+		refreshChildPositions();
+	}
+	
+	/**
+	 * Setzt den "Width Mode" des Elements - der bestimmt, ob sich das Element der Breite seines Inhalts anpassen soll oder nicht.<br>
+	 * 
+	 * @param mode eine der Konstanten <code>WIDTH_STATIC</code> oder <code>WIDTH_AUTO</code>
+	 */
+	public void setWidthMode(int mode) {
+		widthMode = mode;
+		refreshChildPositions();
+	}
+	
+	/**
+	 * Setzt den "Height Mode" des Elements - der bestimmt, ob sich das Element der Höhe seines Inhalts anpassen soll oder nicht.<br>
+	 * 
+	 * @param mode eine der Konstanten <code>HEIGHT_STATIC</code> oder <code>HEIGHT_AUTO</code>
+	 */
+	public void setHeightMode(int mode) {
+		heightMode = mode;
 		refreshChildPositions();
 	}
 	

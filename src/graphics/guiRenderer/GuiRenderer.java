@@ -52,17 +52,23 @@ public class GuiRenderer {
 		
 		// Box zum Testen von Boxkomponenten, unten links in der Ecke
 		BoxComponent testBox = new BoxComponent(250,100,0x80000000,0xa0808080,3);
+		testBox.setWidthMode(GuiComponent.WIDTH_AUTO);
+		testBox.setHeightMode(GuiComponent.HEIGHT_AUTO);
 		testBox.setPosition(GuiComponent.POSITION_CORNER_BOTTOMLEFT);
 		testBox.setOffset(6,6);
 		testBox.setInnerOffset(6,6);
 		TextComponent testText1 = new TextComponent("TextBox-Test",font);
 		TextComponent testText2 = new TextComponent("Element-Flow-Test",font);
+		TextComponent testText3 = new TextComponent("Und kuck mal, automatisch angepasste Breite ^^",font);
 		testText1.setScale(2);
 		testText2.setScale(2);
+		testText3.setScale(2);
 		testText1.setOffset(4,4);
 		testText2.setOffset(4,4);
+		testText3.setOffset(4,4);
 		testBox.addComponent(testText1);
 		testBox.addComponent(testText2);
+		testBox.addComponent(testText3);
 		
 		// erstellt den Container und fügt alle Elemente zu ihm zu
 		container = new ContainerComponent(640,480);

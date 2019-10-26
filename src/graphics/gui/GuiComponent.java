@@ -25,6 +25,11 @@ public abstract class GuiComponent {
 	public static final int POSITION_CORNER_BOTTOMRIGHT = 4;
 	public static final int POSITION_CORNER_BOTTOMLEFT = 5;
 	
+	public static final int WIDTH_STATIC = 0;
+	public static final int WIDTH_AUTO = 1;
+	public static final int HEIGHT_STATIC = 2;
+	public static final int HEIGHT_AUTO = 3;
+	
 	private int width;
 	private int height;
 	
