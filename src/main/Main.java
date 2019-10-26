@@ -39,7 +39,7 @@ public class Main {
 		gameRenderer.setPixelSize(3);
 		
 		// Erstellt den Gui-Renderer
-		GuiRenderer guiRenderer = new GuiRenderer();
+		GuiRenderer guiRenderer = new GuiRenderer(settings);
 		
 		// Initialisiert Schlange
 		Snake snake = new Snake(settings);

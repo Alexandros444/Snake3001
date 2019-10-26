@@ -49,6 +49,9 @@ public class Display {
 		}
 		GLFW.glfwMakeContextCurrent(windowID);
 		GL.createCapabilities();
+		if(settings.displayFullscreen) {
+			toggleFullscreenMode();
+		}		
 	}
 
 	/**
@@ -70,10 +73,20 @@ public class Display {
 	 * Schlieﬂt das Fenster.
 	 */
 	public void close() {
-		settings.displayWidth = getWidth();
-		settings.displayHeight = getHeight();
+		saveSettings();
 		GLFW.glfwDestroyWindow(windowID);
 		GLFW.glfwTerminate();
+	}
+	
+	/**
+	 * ‹bergibt Einstellungen des Displays an die Einstellungen wo sie gespeichert werden
+	 */
+	private void saveSettings(){
+		settings.displayFullscreen = isFullscreenMode;
+		if(!isFullscreenMode) {
+			settings.displayWidth = getWidth();
+			settings.displayHeight = getHeight();
+		}
 	}
 	
 	/**

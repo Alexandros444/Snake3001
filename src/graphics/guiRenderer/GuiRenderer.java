@@ -11,6 +11,7 @@ import graphics.gui.GuiComponent;
 import graphics.gui.ImageComponent;
 import graphics.gui.MonospaceFont;
 import graphics.gui.TextComponent;
+import main.Settings;
 
 /**
  * Der Renderer für das Gui unseres Programms.<br>
@@ -29,11 +30,11 @@ public class GuiRenderer {
 	/**
 	 * Erstellt einen neuen Gui-Renderer.
 	 */
-	public GuiRenderer() {
+	public GuiRenderer(Settings settings) {
 		shader = new GuiShader();
 		font = new MonospaceFont("res/font/ascii.png");
 		// erstellt eine neue Gui-Komponente aus dem Bild des Fadenkreuzes
-		crosshairs = new ImageComponent("res/simpleCrosshairs.png");
+		crosshairs = new ImageComponent("res/"+settings.guiRendererCrosshair+".png");
 		// erstellt zwei leere Textkomponenten für Punktzahl und FPS
 		scoreText = new TextComponent("", font);
 		fpsText = new FpsCounter(font);

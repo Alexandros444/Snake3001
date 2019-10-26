@@ -65,6 +65,7 @@ public class SettingsLoader {
 			exitLoading = true;
 			loadPreferences();
 		}
+		System.out.println(config.values());
 	}
 
 	// Überprüft die Datei auf Richtigkeit
@@ -104,7 +105,7 @@ public class SettingsLoader {
 
 	// setzt die Werte auf ihren Standard-Wert
 	private void setStandardPrefernces() {
-		System.out.println("standard");
+		System.out.println("standard preferences load");
 		int i = 0;
 		for (String name : STANDARD_NAMES) {
 			newValue(name,STANDARD_VALUES[i]);
@@ -199,14 +200,14 @@ public class SettingsLoader {
 		}
 		return temp;
 	}
-
+	
 	/**
 	 * speichert die Einstellungen, schreibt sie in eine Datei
 	 */
 	public void saveToFile() {
 		try {
-			os = new FileOutputStream(FILE_PATH);
-			config.store(os,null);
+			os = new FileOutputStream(FILE_PATH,false);
+			config.store(os,"Settings, \\ means its deactivated(unknown)");
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Fehler beim Speichern der Spieldaten");
