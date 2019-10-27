@@ -3,6 +3,7 @@ package main;
 import org.lwjgl.glfw.GLFW;
 
 import gamelogic.Snake;
+import gamelogic.World;
 import graphics.Display;
 import graphics.InputHandler;
 import graphics.Timer;
@@ -43,8 +44,8 @@ public class Main {
 		// Erstellt den Gui-Renderer
 		GuiRenderer guiRenderer = new GuiRenderer(settings);
 		
-		// Initialisiert Schlange
-		Snake snake = new Snake(settings);
+		
+		World world = new World(settings);
 		
 		// Initialisiert einen Timer der die Zeit stoppt
 		Timer timer = new Timer();
@@ -52,7 +53,7 @@ public class Main {
 		// GAME LOOP läuft solange das Fenster nicht geschlossen ist
 		while(!display.isCloseRequested()) {	
 			// updated die Schlange
-			snake.update(display);
+			world.update(display);
 			
 			// Fullscreen an/aus-schalten
 			if(display.isKeyPressed(GLFW.GLFW_KEY_F) && (timer.getTimeSec()>0)) {
@@ -62,14 +63,14 @@ public class Main {
 			}
 			
 			// Überprüfen ob Schlange gestorben ist, wenn ja Spiel neu-Starten 
-			if ((snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
-			    snake = new Snake(settings);
+			if ((world.snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
+			    world.respawnSnake();
 			}
 			
 			// Spiel wird gerendert
-			gameRenderer.render(snake,display.getWidth(),display.getHeight());
+			gameRenderer.render(world,display.getWidth(),display.getHeight());
 			// Punktzahl wird geupdated
-			guiRenderer.displayScore(snake.getScore());
+			guiRenderer.displayScore(world.score);
 			// Gui wird gerendert
 			guiRenderer.render(display.getWidth(),display.getHeight(),inputHandler.getCurrentMouseEvent());
 			// Display und Inputs werden aktualisiert

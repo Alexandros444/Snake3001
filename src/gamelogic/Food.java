@@ -32,13 +32,13 @@ public class Food {
 		foodRotation = new Matrix3f();
 		foodRotation.rotate(0, 45, 45);
 	}
-		
+	
 	/**
 	 * Gibt Distanz zwischen dem Mittepunkt des Essens und einer beliebigen Position zurück
 	 *
 	 * @param a beliebige Position
 	 * @return Distanz von Korn zu a 
-	 */ 
+	 * 
 	public float distanceTo(Vector3f a) {
 		Vector3f temp = a.copy();
 		temp.scale(-1);
@@ -50,7 +50,7 @@ public class Food {
 		//gibt Distanz zwischen Kopf und essen zurück
 		return temp.getLength();
 	}
-		
+	*/	
 	/**
 	 * Updated das Essen
 	 * @param deltaTime Zeit seit letztem Frame

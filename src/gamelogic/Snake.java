@@ -15,38 +15,34 @@ public class Snake {
 
 	private static final int MAX_LENGTH = 64;
 	
-	public Vector3f cameraPosition;
-	public Matrix3f viewDirection;
-	public boolean isAlive = true;
+	public boolean isAlive;
 	public Vector3f[] snakePositions;
-	public Food food;
-	
-	private Settings settings;
 	
 	private long lastFrame;
 	
+	public Vector3f cameraPosition;
+	public Matrix3f viewDirection;
+
 	private float rotationSpeed = 0.75f;
 	private float movementSpeed = 0.0045f;
 
-	private float sphereRadius = 0.05f;
-	
-	private int score = 0;
-
+	public float sphereRadius = 0.05f;
 	
 	/**
 	 * Erstellt eine neue Schlange
 	 */
-	public Snake(Settings values){
-		this.settings = values;
-	    cameraPosition = new Vector3f(0,0,0.5f);  
-	    viewDirection = new Matrix3f();
+	public Snake(){
+		
 	    snakePositions = new Vector3f[5];
-	    food = new Food();
+	    viewDirection = new Matrix3f();
+	    cameraPosition = new Vector3f(0,0,0.5f); 
 	    
 	    //Startposition der Kugeln des SchlangenSchwanzes
 	     for (int l = 0; l < snakePositions.length; l++) {
 			 snakePositions[l] = new Vector3f(); 
 		}
+	     
+	     isAlive = true;
 	     
 	     lastFrame = System.nanoTime();
 	}
@@ -104,52 +100,14 @@ public class Snake {
 			cameraPosition.add(movement);
 		}
 
-		food.update(deltaTime);
-		
 		// bewegt die Schlange
 		updateSnakePositions(); 
-		
-		//checkt für jede Kugel ob man kollidiert
-		checkCollision();
-		
-		//falls Schlangenkopf Essen trifft dann neues Essen erstellen
-		if(food.distanceTo(snakePositions[0])<sphereRadius) {   
-			score += 1;
-			System.out.println("Punktzahl: "+score+", Länge: "+snakePositions.length);
-			// Erweitert Schlangenlänge um 1
-			addSphere();
-			// platziert das Korn neu
-			placeFood();
-		}
 	}
 	
 	/**
-	 * Platziert ein neues Futterkorn
-	 */
-	private void placeFood() {
-		boolean goodPosition = false;
-		//solange keine gute Position gefunden wurde soll das Korn woanders erscheinen
-		while(!goodPosition) {
-			food = new Food();
-			goodPosition = true;
-			
-			//Kontrolle ob Korn im Gitter landet
-			if(gridDistance(food.foodPosition)<(1.5 * Food.BASE_RADIUS)) {
-					goodPosition = false;
-			}
-			//Kontrolle ob Korn in der Schlange landet
-			for(int i=0;i<snakePositions.length;i++) {
-				if(food.distanceTo(snakePositions[i])<sphereRadius) {
-					goodPosition = false;
-				}
-			}
-		}
-	}
-
-	/**
 	 * Fügt eine Kugel zur Schlange hinzu, es sei denn die Schlange hat bereits ihre Maximallänge erreicht
 	 */
-	private void addSphere() {
+	public void addSphere() {
 		if(snakePositions.length<MAX_LENGTH) {
 			Vector3f[] temp =  new Vector3f [snakePositions.length+1];
 			for(int i = 0;i<snakePositions.length;i++) {
@@ -158,31 +116,6 @@ public class Snake {
 			temp[snakePositions.length] = snakePositions[snakePositions.length-1].copy();
 			snakePositions = temp;
 		}
-	}
-	
-	/**
-	 * Überprüft ob die Schlange mit sich kollidiert
-	 */
-	private void checkCollision() {
-		if(gridDistance(snakePositions[0])-0.8f*sphereRadius<0) {
-			deathEvent();
-		}
-		for(int i=2;i<snakePositions.length;i++) {
-			if(sphereDistance(snakePositions[0],snakePositions[i])<0) {
-				deathEvent();
-				
-				break;
-			}
-		}		
-	}
-	
-	// Speichert den Score und setzt den Status auf Tod
-	private void deathEvent() {
-		if(settings.snakeScore<score) {
-			settings.snakeScore = score;
-		}
-		isAlive=false;
-		System.out.println("Du bist gestorben");
 	}
 
 	/**
@@ -200,50 +133,6 @@ public class Snake {
 			    snakePositions[i].add(delta);
 		    }
 		}
-	}
-	
-	/**
-	 * Gibt die derzeitige Punktzahl zurück
-	 * 
-	 * @return Punktzahl
-	 */
-	public int getScore() {
-		return score;
-	}
-	
-	/**
-	 * Gibt die Distanz zwischen zwei Kugeln der Schlange zurück.
-	 * 
-	 * @param a Ortsvektor der ersten Kugel
-	 * @param b OrtsVektor der zweiten Kugel
-	 * @return Distanz zwischen den Kugeln
-	 */
-	private float sphereDistance(Vector3f a, Vector3f b) { 
-		// setzt  temp auf den Gegenvektor von a und addiert dann b
-		// temp ist dann b-a
-		Vector3f temp = a.copy();
-		temp.scale(-1);
-		temp.add(b);
-		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f       
-		// sorgt so für Kollision mit Schlangen aus anderen Kästen
-		temp.x = (temp.x+10.5f)%1-0.5f;
-		temp.y = (temp.y+10.5f)%1-0.5f;
-		temp.z = (temp.z+10.5f)%1-0.5f;
-		// gibt die Distanz zwischen den Mittelpunkten minus die Radien zurück
-		return temp.getLength()-2*sphereRadius;
-	}
-	
-	/**
-	 * Gibt die Distanz des gegebenen Punktes zum Gitter zurück.
-	 * 
-	 * @param p Ortsvektor
-	 * @return Distanz zum Gitter
-	 */
-	private static float gridDistance(Vector3f p) {
-		float x = Math.max(0,Math.abs(Math.abs(p.x)%1-0.5f)-0.02f);
-		float y = Math.max(0,Math.abs(Math.abs(p.y)%1-0.5f)-0.02f);
-		float z = Math.max(0,Math.abs(Math.abs(p.z)%1-0.5f)-0.02f);
-		return (float)Math.min(Math.sqrt(x*x+y*y),Math.min(Math.sqrt(y*y+z*z),Math.sqrt(z*z+x*x)));
 	}
 	
 }

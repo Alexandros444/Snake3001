@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL32;
 
-import gamelogic.Snake;
+import gamelogic.World;
 import graphics.Texture;
 import graphics.Vao;
 
@@ -52,7 +52,7 @@ public class RayMarcher {
 	 * @param width Breite in Pixeln
 	 * @param height Höhe in Pixeln
 	 */
-	public void render(Snake snake, int width, int height) {
+	public void render(World world, int width, int height) {
 		
 		// Setzt den zu rendernden Bereich (bei Fenstergrößenänderungen wichtig)
 		int innerWidth = width/pixelSize+1;
@@ -66,12 +66,12 @@ public class RayMarcher {
 		
 		// lädt alle Infos in den Shader
 		shader.start();
-		shader.loadViewMatrix(snake.viewDirection);
-		shader.loadPosition(snake.cameraPosition);
-		shader.loadSnake(snake.snakePositions);
-		shader.loadFoodPosition(snake.food.foodPosition);
-		shader.loadFoodRadius(snake.food.radius);
-		shader.loadFoodRotation(snake.food.foodRotation);
+		shader.loadViewMatrix(world.snake.viewDirection);
+		shader.loadPosition(world.snake.cameraPosition);
+		shader.loadSnake(world.snake.snakePositions);
+		shader.loadFoodPosition(world.food.foodPosition);
+		shader.loadFoodRadius(world.food.radius);
+		shader.loadFoodRotation(world.food.foodRotation);
 		
 		// lädt das aktuelle Seitenverhältnis des Fensters in den Shader
 		float ratio = (float)width/height;
