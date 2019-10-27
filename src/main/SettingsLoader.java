@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Vector;
 
 /**
  * Klasse zum Speichern und laden der Einstellungn
@@ -17,7 +20,7 @@ import java.util.Properties;
 public class SettingsLoader {
 
 	// Variablen Deklaration
-	private Properties config;
+	private SortedProperties config;
 	private static final String FILE_PATH = "saves/config.cfg";
 	private static final String DIR_PATH = "saves";
 	InputStream is = null;
@@ -36,14 +39,14 @@ public class SettingsLoader {
 		STANDARD_NAMES = names;
 		STANDARD_VALUES = values;
 
-		loadPreferences();
+		loadProperties();
 	}
 
 	// lädt Einstellungen und synchronisiert sie
-	private void loadPreferences() {
+	private void loadProperties() {
 		if(exitLoading)return;
 		// Instanz der Java-Klasse Properties
-		config = new Properties();
+		config = new SortedProperties();
 		try {
 			// erstellt Input-Stream aus Datei
 			is = new FileInputStream(FILE_PATH);
@@ -55,14 +58,14 @@ public class SettingsLoader {
 			// Es ist noch keine Datei da oder es gab Problem beim laden, erstes wird hier direkt behoben
 			System.out.println("no file found, creating new standard File");
 			// neue Datei erstellen
-			createPreferenceFile();
+			createPropertiesFile();
 			// setzt die Standard-Werte
-			setStandardPrefernces();
+			setStandardProperties();
 			// Speichert die Einsellungen
 			saveToFile();
 			// lädt die Einsellungen erneut(Break nach einem Durchgang um Dauer-Schleife zu vermeiden)
 			exitLoading = true;
-			loadPreferences();
+			loadProperties();
 		}
 		System.out.println(config.values());
 	}
@@ -78,7 +81,7 @@ public class SettingsLoader {
 		}
 		// wenn nicht werden die StandardWerte gesetzt
 		if (!isInteger) {
-			setStandardPrefernces();
+			setStandardProperties();
 		}
 		// überprüft ob die Datei bearbeitet wurde bzw. ob mehr Einträge vorhanden sind
 		// als gebraucht werden
@@ -103,8 +106,8 @@ public class SettingsLoader {
 	}
 
 	// setzt die Werte auf ihren Standard-Wert
-	private void setStandardPrefernces() {
-		System.out.println("standard preferences load");
+	private void setStandardProperties() {
+		System.out.println("standard properties load");
 		int i = 0;
 		for (String name : STANDARD_NAMES) {
 			newValue(name,STANDARD_VALUES[i]);
@@ -214,7 +217,7 @@ public class SettingsLoader {
 	}
 
 	// erstellt neue config.cfg Datei im angegebenen ordner(pfad)
-	private void createPreferenceFile() {
+	private void createPropertiesFile() {
 		try {
 			new File(DIR_PATH).mkdirs();
 			File file = new File(FILE_PATH);
@@ -223,5 +226,18 @@ public class SettingsLoader {
 			e.printStackTrace();
 			System.out.println("Fehler beim Ersellen der Config-Datei");
 		}
+	}
+	
+	// Code für sortierte Properties, VON: http://www.java2s.com/Tutorial/Java/0140__Collections/SortPropertieswhensaving.htm
+	class SortedProperties extends Properties {
+		  public Enumeration keys() {
+		     Enumeration keysEnum = super.keys();
+		     Vector<String> keyList = new Vector<String>();
+		     while(keysEnum.hasMoreElements()){
+		       keyList.add((String)keysEnum.nextElement());
+		     }
+		     Collections.sort(keyList);
+		     return keyList.elements();
+		  }  
 	}
 }
