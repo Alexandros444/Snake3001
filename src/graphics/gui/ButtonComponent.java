@@ -1,0 +1,79 @@
+package graphics.gui;
+
+/**
+ * Klasse für einfache Buttons
+ * 
+ * @author Ben
+ */
+public class ButtonComponent extends BoxComponent {
+	
+	private TextComponent text;
+	
+	private boolean wasClicked;
+	
+	/**
+	 * Erstellt einen neuen Button
+	 * 
+	 * @param width Breite in Pixeln
+	 * @param height Höhe in Pixeln
+	 * @param text Beschriftung
+	 * @param font Schriftart
+	 */
+	public ButtonComponent(int width, int height, String text, Font font) {
+		super(width,height,0x80000000,0xa0808080,4);
+		this.text = new TextComponent(text,font);
+		this.text.setPosition(POSITION_CENTER);
+		this.text.setScale(2);
+		super.addComponent(this.text);
+	}
+	
+	/**
+	 * Ändert die Hintergrundfarbe, wenn der Mauszeiger den Button berührt
+	 * 
+	 * @param event Event mit Informationen zur Maus
+	 */
+	protected void onMouseOn(MouseEvent event) {
+		super.onMouseOn(event);
+		super.setBackgroundColor(0xa0505050);
+	}
+	
+	/**
+	 * Ändert die Hintergrundfarbe wieder zurück, wenn der Mauszeiger den Button nicht mehr berührt
+	 * 
+	 * @param event Event mit Informationen zur Maus
+	 */
+	protected void onMouseOff(MouseEvent event) {
+		super.onMouseOff(event);
+		super.setBackgroundColor(0x80000000);
+	}
+	
+	/**
+	 * Gibt zurück, ob der Button in diesem Frame angeklickt worden ist
+	 * 
+	 * @return ob der Button angeklickt wurde
+	 */
+	public boolean wasClicked() {
+		return wasClicked;
+	}
+	
+	/**
+	 * Setzt die Variable <code>wasClicked</code> auf <code>false</code>, wann immer ein neues <code>MouseEvent</code> verarbeitet wird<br>
+	 * So ist diese Variable nur dann <code>true</code>, wenn das Element im selben Frame auch geklickt wurde.
+	 * <br><br>
+	 * Anschließend wird ganz normal das <code>MouseEvent</code> verarbeitet.
+	 */
+	public void receiveMouseEvent(boolean canTouchMouse, MouseEvent event) {
+		wasClicked = false;
+		super.receiveMouseEvent(canTouchMouse,event);
+	}
+	
+	/**
+	 * Setzt die Variable <code>wasClicked</code> auf <code>true</code>, wenn auf das Element geklickt wurde.<br>
+	 * {@link #wasClicked()} gibt dann solange <code>true</code> zurück, bis das nächste <code>MouseEvent</code> verarbeitet wurde.
+	 */
+	protected void onLeftClick(MouseEvent event) {
+		super.onLeftClick(event);
+		wasClicked = true;
+	}
+	
+}

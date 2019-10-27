@@ -2,6 +2,7 @@ package graphics;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
@@ -109,6 +110,46 @@ public class Display {
 		IntBuffer h = BufferUtils.createIntBuffer(1);	
 		GLFW.glfwGetFramebufferSize(windowID,null,h);
 		return h.get(0);
+	}
+	
+	/**
+	 * Liefert die X-Position der Maus.
+	 * 
+	 * @return X-Position relativ zur oberen linken Ecke in Pixeln
+	 */
+	public float getMouseX() {
+		DoubleBuffer x = BufferUtils.createDoubleBuffer(1);	
+		GLFW.glfwGetCursorPos(windowID,x,null);
+		return (float)x.get(0);
+	}
+	
+	/**
+	 * Liefert die Y-Position der Maus.
+	 * 
+	 * @return Y-Position relativ zur oberen linken Ecke in Pixeln
+	 */
+	public float getMouseY() {
+		DoubleBuffer y = BufferUtils.createDoubleBuffer(1);	
+		GLFW.glfwGetCursorPos(windowID,null,y);
+		return (float)y.get(0);
+	}
+	
+	/**
+	 * Gibt zurück, ob die linke Maustaste gedrückt ist.
+	 * 
+	 * @return ob die linke Maustaste gedrückt ist
+	 */
+	public boolean isLeftMouseDown() {
+		return GLFW.glfwGetMouseButton(windowID,GLFW.GLFW_MOUSE_BUTTON_LEFT)==GLFW.GLFW_PRESS;
+	}
+	
+	/**
+	 * Gibt zurück, ob die rechte Maustaste gedrückt ist.
+	 * 
+	 * @return ob die rechte Maustaste gedrückt ist
+	 */
+	public boolean isRightMouseDown() {
+		return GLFW.glfwGetMouseButton(windowID,GLFW.GLFW_MOUSE_BUTTON_RIGHT)==GLFW.GLFW_PRESS;
 	}
 	
 	/**

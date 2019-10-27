@@ -51,6 +51,17 @@ public class BoxComponent extends ContainerComponent {
 	}
 	
 	/**
+	 * Setzt die Hintergrundfarbe
+	 * 
+	 * @param color Hintergrundfarbe im Format 0xaabbggrr (Hexadezimal)
+	 */
+	public void setBackgroundColor(int color) {
+		backgroundColor = color;
+		texture.destroy();
+		texture = generateTexture(super.getWidth(),super.getHeight(),backgroundColor,borderColor,borderWidth);
+	}
+	
+	/**
 	 * Rendert das Element und all seine Kindelemente.
 	 */
 	public void render(GuiShader shader) {

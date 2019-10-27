@@ -1,6 +1,7 @@
 package graphics.gui;
 
 import graphics.Matrix3f;
+import graphics.Vector3f;
 import graphics.guiRenderer.GuiShader;
 
 /**
@@ -36,12 +37,15 @@ public abstract class GuiComponent {
 	private Matrix3f outerTransform;
 	private Matrix3f innerTransform;
 	private Matrix3f totalTransform;
+	private Matrix3f inverseTransform;
 	
 	private int position = POSITION_FLOW;
 	private int offsetX;
 	private int offsetY;
 	
 	private boolean wasSizeChanged;
+	
+	private boolean touchesMouse;
 	
 	/**
 	 * Erstellt eine neuen Gui-Komponente.
@@ -132,6 +136,74 @@ public abstract class GuiComponent {
 	}
 	
 	/**
+	 * Gibt zur¸ck, ob das Element den gegebenen Punkt ber¸hrt.
+	 * 
+	 * @param x x-Position des Punktes
+	 * @param y y-Position des Punktes
+	 * @return ob das Element den Punkt ber¸hrt
+	 */
+	public boolean touchesPoint(float x, float y) {
+		Vector3f mouseCoords = new Vector3f(x,y,1);
+		mouseCoords.apply(inverseTransform);
+		return mouseCoords.x>0&&mouseCoords.y>0&&mouseCoords.x<width&&mouseCoords.y<height;
+	}
+	
+	/**
+	 * Gibt Informationen ¸ber den aktuellen Zustand der Maus an das Element weiter.
+	 * 
+	 * @param canTouchMouse ob das MouseEvent nicht bereits von anderen Elementen im Vordergrund abgefangen wurde.
+	 * @param event Event mit Informationen zur Maus
+	 */
+	public void receiveMouseEvent(boolean canTouchMouse, MouseEvent event) {
+		boolean touchesMouse = canTouchMouse&&touchesPoint(event.mouseX,event.mouseY);
+		if (touchesMouse&&!this.touchesMouse) {
+			onMouseOn(event);
+		}else if (this.touchesMouse&&!touchesMouse) {
+			onMouseOff(event);
+		}
+		this.touchesMouse = touchesMouse;
+		if(touchesMouse) {
+			onMouseMove(event);
+			if (event.wasLeftClicked) {
+				onLeftClick(event);
+			}
+			if (event.wasRightClicked) {
+				onRightClick(event);
+			}
+		}
+	}
+	
+	/**
+	 * Wird aufgerufen, wenn die Maus sich auf das Element bewegt. Kann von erweiternden Klassen ¸berschrieben werden, um dann z.B. Farb‰nderungen vorzunehmen.
+	 * @param event Event mit Informationen zur Maus
+	 */
+	protected void onMouseOn(MouseEvent event) {}
+	
+	/**
+	 * Wird aufgerufen, wenn die Maus das Element wieder verl‰sst. Kann von erweiternden Klassen ¸berschrieben werden, um dann z.B. Farb‰nderungen vorzunehmen.
+	 * @param event Event mit Informationen zur Maus
+	 */
+	protected void onMouseOff(MouseEvent event) {}
+	
+	/**
+	 * Wird aufgerufen, wenn sich die Maus auf dem Element bewegt. Kann von erweiternden Klassen ¸berschrieben werden.
+	 * @param event Event mit Informationen zur Maus
+	 */
+	protected void onMouseMove(MouseEvent event) {}
+	
+	/**
+	 * Wird aufgerufen, wenn mit der linken Maustaste auf das Element geklickt wird. Kann von erweiternden Klassen ¸berschrieben werden, um auf den Klick zu reagieren.
+	 * @param event Event mit Informationen zur Maus
+	 */
+	protected void onLeftClick(MouseEvent event) {}
+	
+	/**
+	 * Wird aufgerufen, wenn mit der rechten Maustaste auf das Element geklickt wird. Kann von erweiternden Klassen ¸berschrieben werden, um auf den Klick zu reagieren.
+	 * @param event Event mit Informationen zur Maus
+	 */
+	protected void onRightClick(MouseEvent event) {}
+	
+	/**
 	 * Setzt die ‰uﬂere Transformation des Elements. Public, also von ¸berall aus aufrufbar.<br>
 	 * In der ‰uﬂeren Transformation sollten in der Regel die Transformation des Elternelements und die Position in diesem kodiert sein.
 	 * 
@@ -162,6 +234,7 @@ public abstract class GuiComponent {
 		totalTransform = new Matrix3f();
 		totalTransform.multiply(outerTransform);
 		totalTransform.multiply(innerTransform);
+		inverseTransform = totalTransform.getInverse();
 	}
 	
 	/**

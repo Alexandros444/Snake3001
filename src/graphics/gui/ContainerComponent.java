@@ -135,6 +135,33 @@ public class ContainerComponent extends GuiComponent {
 	}
 	
 	/**
+	 * Gibt das MouseEvent an die Kindelemente weiter, wenn sich die Maus über das Element bewegt
+	 * 
+	 * @param event Event mit Informationen zur Maus
+	 */
+	protected void onMouseMove(MouseEvent event) {
+		boolean mouseCovered = false;
+		for (int i=childComponents.size()-1;i>=0;i--) {
+			boolean touchesMouse = childComponents.get(i).touchesPoint(event.mouseX,event.mouseY);
+			childComponents.get(i).receiveMouseEvent(!mouseCovered,event);
+			if (touchesMouse) {
+				mouseCovered = true;
+			}
+		}
+	}
+	
+	/**
+	 * Gibt das MouseEvent ein letztes Mal an die Kindelemente weiter, wenn die Maus das Element verlässt
+	 * 
+	 * @param event Event mit Informationen zur Maus
+	 */
+	protected void onMouseOff(MouseEvent event) {
+		for (GuiComponent childComponent:childComponents) {
+			childComponent.receiveMouseEvent(false,event);
+		}
+	}
+	
+	/**
 	 * Setzt das "innere Offset" des Elements, also den Abstand, den Flow-Kindelemente zum Rand des Containers haben sollen.
 	 * 
 	 * @param x Abstand links und rechts in Pixeln

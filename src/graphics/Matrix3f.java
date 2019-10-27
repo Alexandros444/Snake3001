@@ -153,6 +153,35 @@ public class Matrix3f {
 	}
 	
 	/**
+	 * Gibt die Umkehrung der Matrix zurück, also die Matrix, die den Effekt dieser Matrix genau wieder aufhebt.
+	 * 
+	 * @return Umkehrung der Matrix
+	 */
+	public Matrix3f getInverse() {
+		Matrix3f matrix = new Matrix3f();
+		float det = getDeterminant();
+		matrix.m00 = (m11*m22-m21*m12)/det;
+		matrix.m01 = (m21*m02-m01*m22)/det;
+		matrix.m02 = (m01*m12-m11*m02)/det;
+		matrix.m10 = (m20*m12-m10*m22)/det;
+		matrix.m11 = (m00*m22-m20*m02)/det;
+		matrix.m12 = (m10*m02-m00*m12)/det;
+		matrix.m20 = (m10*m21-m20*m11)/det;
+		matrix.m21 = (m20*m01-m00*m21)/det;
+		matrix.m22 = (m00*m11-m10*m01)/det;
+		return matrix;
+	}
+	
+	/**
+	 * Gibt die Determinante der Matrix zurück
+	 * 
+	 * @return Determinante der Matrix
+	 */
+	public float getDeterminant() {
+		return m00*(m11*m22-m21*m12)-m10*(m01*m22-m21*m02)+m20*(m01*m12-m11*m02);
+	}
+	
+	/**
 	 * Gibt die Matrix in Textform zurück. Nützlich zum Debuggen.
 	 * @return Matrixinhalt in Textform
 	 */

@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import gamelogic.Snake;
 import graphics.Display;
+import graphics.InputHandler;
 import graphics.Timer;
 import graphics.guiRenderer.GuiRenderer;
 import graphics.raymarcher.RayMarcher;
@@ -30,8 +31,9 @@ public class Main {
 		
 		// Erstellt ein neues Fenster
 		Display display = new Display(settings,"SNAKE 3001");
-		// Setzt das Fenster-Symbol
 		display.setWindowIcon("res/icon.png");
+		// erstellt InputHandler zum verarbeiten der Inputs auf das Fenster
+		InputHandler inputHandler = new InputHandler(display);
 		
 		// Erstellt den RayMarcher-Renderer
 		RayMarcher gameRenderer = new RayMarcher();
@@ -66,12 +68,13 @@ public class Main {
 			
 			// Spiel wird gerendert
 			gameRenderer.render(snake,display.getWidth(),display.getHeight());
-			// Punktzahl & Fps werden angezeigt
+			// Punktzahl wird geupdated
 			guiRenderer.displayScore(snake.getScore());
 			// Gui wird gerendert
-			guiRenderer.render(display.getWidth(),display.getHeight());
-			// Display wird aktualisiert
+			guiRenderer.render(display.getWidth(),display.getHeight(),inputHandler.getCurrentMouseEvent());
+			// Display und Inputs werden aktualisiert
 			display.update();
+			inputHandler.update();
 		}
 	
 		// Beendet den Renderer und schlieﬂt das Fenster
