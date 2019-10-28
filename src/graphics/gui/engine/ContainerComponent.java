@@ -1,11 +1,11 @@
-package graphics.gui;
+package graphics.gui.engine;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import graphics.Matrix3f;
-import graphics.Vector3f;
-import graphics.guiRenderer.GuiShader;
+import graphics.gui.renderer.GuiShader;
+import util.math.Matrix3f;
+import util.math.Vector3f;
 
 /**
  * Die Basisklasse für Komponenten, die andere Komponenten enthalten können.<br>

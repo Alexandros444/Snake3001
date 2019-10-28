@@ -1,4 +1,4 @@
-package graphics;
+package graphics.core;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -14,8 +14,8 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.stb.STBImage;
 
-import main.StaticUtils;
-import main.Settings;
+import util.Settings;
+import util.StaticUtils;
 
 /**
  * Klasse zum erstellen eines Displays, hier wird unser Spiel angezeigt!

@@ -1,6 +1,6 @@
-package graphics.gui;
+package graphics.gui.engine.fonts;
 
-import graphics.Texture;
+import graphics.core.Texture;
 
 /**
  * Interface für Fonts

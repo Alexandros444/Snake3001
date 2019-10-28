@@ -1,4 +1,4 @@
-package graphics;
+package graphics.core;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,6 +7,10 @@ import java.io.InputStreamReader;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+
+import util.math.Matrix3f;
+import util.math.Vector2f;
+import util.math.Vector3f;
 
 /**
  * Basis-Klasse für OpenGL-Shader.<br>

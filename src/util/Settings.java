@@ -1,7 +1,7 @@
-package main;
+package util;
 
 /**
- * Klasse für zu speichernde Werte
+ * Speichert die derzeitigen Einstellungen
  * 
  * @author Alex
  */

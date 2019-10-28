@@ -1,19 +1,20 @@
-package graphics.guiRenderer;
+package graphics;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
-import graphics.FpsCounter;
-import graphics.gui.BoxComponent;
-import graphics.gui.ButtonComponent;
-import graphics.gui.ContainerComponent;
-import graphics.gui.Font;
-import graphics.gui.GuiComponent;
-import graphics.gui.ImageComponent;
-import graphics.gui.MonospaceFont;
-import graphics.gui.MouseEvent;
-import graphics.gui.TextComponent;
-import main.Settings;
+import graphics.gui.FpsCounter;
+import graphics.gui.engine.ContainerComponent;
+import graphics.gui.engine.GuiComponent;
+import graphics.gui.engine.MouseEvent;
+import graphics.gui.engine.components.BoxComponent;
+import graphics.gui.engine.components.ButtonComponent;
+import graphics.gui.engine.components.ImageComponent;
+import graphics.gui.engine.components.TextComponent;
+import graphics.gui.engine.fonts.Font;
+import graphics.gui.engine.fonts.MonospaceFont;
+import graphics.gui.renderer.GuiShader;
+import util.Settings;
 
 /**
  * Der Renderer für das Gui unseres Programms.<br>

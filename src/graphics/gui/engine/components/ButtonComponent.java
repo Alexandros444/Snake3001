@@ -1,4 +1,7 @@
-package graphics.gui;
+package graphics.gui.engine.components;
+
+import graphics.gui.engine.MouseEvent;
+import graphics.gui.engine.fonts.Font;
 
 /**
  * Klasse für einfache Buttons

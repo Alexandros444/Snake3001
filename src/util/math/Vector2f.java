@@ -1,4 +1,4 @@
-package graphics;
+package util.math;
 
 /**
  * Hilfsklasse für 2D-Vektoren

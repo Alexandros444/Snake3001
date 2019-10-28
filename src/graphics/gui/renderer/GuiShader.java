@@ -1,13 +1,13 @@
-package graphics.guiRenderer;
+package graphics.gui.renderer;
 
-import graphics.Matrix3f;
-import graphics.Shader;
-import graphics.Vector2f;
+import graphics.core.Shader;
+import util.math.Matrix3f;
+import util.math.Vector2f;
 
 public class GuiShader extends Shader {
 	
-	private static final String VERTEX_FILE = "graphics/guiRenderer/vertexShader.txt";
-	private static final String FRAGMENT_FILE = "graphics/guiRenderer/fragmentShader.txt";
+	private static final String VERTEX_FILE = "graphics/gui/renderer/vertexShader.txt";
+	private static final String FRAGMENT_FILE = "graphics/gui/renderer/fragmentShader.txt";
 	
 	private int screenSizeUniformID;
 	private int transformationMatrixUniformID;

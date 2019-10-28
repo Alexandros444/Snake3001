@@ -1,4 +1,4 @@
-package main;
+package util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -230,7 +230,10 @@ public class SettingsLoader {
 	
 	// Code für sortierte Properties, VON: http://www.java2s.com/Tutorial/Java/0140__Collections/SortPropertieswhensaving.htm
 	class SortedProperties extends Properties {
-		  public Enumeration keys() {
+		// serializer-ID, automatisch generiert
+		private static final long serialVersionUID = 2684454100225725384L;
+
+		public Enumeration keys() {
 		     Enumeration keysEnum = super.keys();
 		     Vector<String> keyList = new Vector<String>();
 		     while(keysEnum.hasMoreElements()){

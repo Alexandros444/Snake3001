@@ -2,19 +2,17 @@ package gamelogic;
 
 import org.lwjgl.glfw.GLFW;
 
-import graphics.Display;
-import graphics.Vector3f;
-import main.Settings;
+import graphics.core.Display;
+import util.Settings;
+import util.math.Vector3f;
 
 /**
- * Beinhaltet alles Klassen die sich "physisch" in der Welt befindet 
- * 
+ * Enthält alle Informationen zur Spielwelt, also die Schlange, das Essen, das Gitter usw.
  * 
  * @author Alexander
  */
 public class World {
-
-	// Variablen
+	
 	public Snake snake;
 	public Food food;
 	public int score;
@@ -59,7 +57,7 @@ public class World {
 	 * Überprüft ob die Schlange mit Food kollidiert
 	 */
 	private void checkFoodCollision() {
-		if(sphereDistance(snake.snakePositions[0], food.foodPosition)<snake.sphereRadius) {   
+		if(sphereDistance(snake.snakePositions[0], food.position)<snake.sphereRadius) {   
 			score += 1;
 			System.out.println("Punktzahl: "+score+", Länge: "+snake.snakePositions.length);
 			// Erweitert Schlangenlänge um 1
@@ -94,12 +92,12 @@ public class World {
 			goodPosition = true;
 			
 			//Kontrolle ob Korn im Gitter landet
-			if(gridDistance(food.foodPosition)<(1.8 * Food.BASE_RADIUS)) {
-					goodPosition = false;
+			if(gridDistance(food.position)<2*Food.BASE_RADIUS) {
+				goodPosition = false;
 			}
 			//Kontrolle ob Korn in der Schlange landet
 			for(int i=0;i<snake.snakePositions.length;i++) {
-				if(sphereDistance(snake.snakePositions[i], food.foodPosition)<snake.sphereRadius) {
+				if(sphereDistance(snake.snakePositions[i], food.position)<snake.sphereRadius) {
 					goodPosition = false;
 				}
 			}

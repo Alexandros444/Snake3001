@@ -1,7 +1,7 @@
 package gamelogic;
 
-import graphics.Matrix3f;
-import graphics.Vector3f;
+import util.math.Matrix3f;
+import util.math.Vector3f;
 
 /**
  * Die Klasse für das Essen was die Schlange wachsen lässt.<br>
@@ -13,9 +13,9 @@ public class Food {
 	
 	public static final float BASE_RADIUS = 0.025f;
 	
-	public Vector3f foodPosition;
+	public Vector3f position;
 	public float radius;
-	public Matrix3f foodRotation;
+	public Matrix3f rotation;
 	
 	/**
 	 * Erstellt eine neues Essen
@@ -27,10 +27,10 @@ public class Food {
 		float b = (float) (Math.random()-0.5);
 		float c = (float) (Math.random()-0.5);
 			
-		foodPosition = new Vector3f(a,b,c);
+		position = new Vector3f(a,b,c);
 			
-		foodRotation = new Matrix3f();
-		foodRotation.rotate(0, 45, 45);
+		rotation = new Matrix3f();
+		rotation.rotate(0, 45, 45);
 	}
 	
 	/**
@@ -57,6 +57,6 @@ public class Food {
 	 */ 
 	public void update(float deltaTime) {
 		radius += (BASE_RADIUS-radius)/10;
-		foodRotation.rotate(1.5f * ((deltaTime)*(1e-7f)), 1.5f * ((deltaTime)*(1e-7f)), 0);
+		rotation.rotate(1.5f * ((deltaTime)*(1e-7f)), 1.5f * ((deltaTime)*(1e-7f)), 0);
 	}
 }

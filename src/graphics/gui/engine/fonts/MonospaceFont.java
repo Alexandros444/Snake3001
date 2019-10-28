@@ -1,6 +1,6 @@
-package graphics.gui;
+package graphics.gui.engine.fonts;
 
-import graphics.Texture;
+import graphics.core.Texture;
 
 /**
  * Klasse für Schriftarten. Hält je eine Referenz auf eine Textur, in der alle

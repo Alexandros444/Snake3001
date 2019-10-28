@@ -1,8 +1,10 @@
-package graphics.gui;
+package graphics.gui.engine.components;
 
-import graphics.Matrix3f;
-import graphics.Vao;
-import graphics.guiRenderer.GuiShader;
+import graphics.core.Vao;
+import graphics.gui.engine.GuiComponent;
+import graphics.gui.engine.fonts.Font;
+import graphics.gui.renderer.GuiShader;
+import util.math.Matrix3f;
 
 /**
  * Klasse für Text-Komponenten

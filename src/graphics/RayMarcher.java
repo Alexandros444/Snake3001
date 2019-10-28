@@ -1,12 +1,13 @@
-package graphics.raymarcher;
+package graphics;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL32;
 
 import gamelogic.World;
-import graphics.Texture;
-import graphics.Vao;
+import graphics.core.Texture;
+import graphics.core.Vao;
+import graphics.raymarcher.RayMarcherShader;
 
 /**
  * Der 3D-Renderer unseres Programms, basierend auf RayMarching.<br>
@@ -69,9 +70,9 @@ public class RayMarcher {
 		shader.loadViewMatrix(world.snake.viewDirection);
 		shader.loadPosition(world.snake.cameraPosition);
 		shader.loadSnake(world.snake.snakePositions);
-		shader.loadFoodPosition(world.food.foodPosition);
+		shader.loadFoodPosition(world.food.position);
 		shader.loadFoodRadius(world.food.radius);
-		shader.loadFoodRotation(world.food.foodRotation);
+		shader.loadFoodRotation(world.food.rotation);
 		
 		// lädt das aktuelle Seitenverhältnis des Fensters in den Shader
 		float ratio = (float)width/height;

@@ -1,4 +1,4 @@
-package graphics.gui;
+package graphics.gui.engine;
 
 /**
  * Enthält Informationen über den Zustand der Maus.<br>

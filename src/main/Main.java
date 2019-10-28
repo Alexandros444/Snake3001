@@ -2,13 +2,13 @@ package main;
 
 import org.lwjgl.glfw.GLFW;
 
-import gamelogic.Snake;
 import gamelogic.World;
-import graphics.Display;
-import graphics.InputHandler;
-import graphics.Timer;
-import graphics.guiRenderer.GuiRenderer;
-import graphics.raymarcher.RayMarcher;
+import graphics.GuiRenderer;
+import graphics.RayMarcher;
+import graphics.core.Display;
+import graphics.gui.InputHandler;
+import util.Settings;
+import util.Timer;
 
 /**
  * Die Klasse mit der Main-Methode unseres Programms.<br>

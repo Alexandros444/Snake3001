@@ -1,6 +1,7 @@
-package graphics;
+package graphics.gui;
 
-import graphics.gui.MouseEvent;
+import graphics.core.Display;
+import graphics.gui.engine.MouseEvent;
 
 /**
  * Klasse zur Verarbeitung der Inputs auf ein Fenster.

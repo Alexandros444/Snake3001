@@ -1,8 +1,8 @@
-package graphics.gui;
+package graphics.gui.engine;
 
-import graphics.Matrix3f;
-import graphics.Vector3f;
-import graphics.guiRenderer.GuiShader;
+import graphics.gui.renderer.GuiShader;
+import util.math.Matrix3f;
+import util.math.Vector3f;
 
 /**
  * Die abstrakte Klasse für all unsere Gui-Komponenten.<br>

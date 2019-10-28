@@ -1,4 +1,4 @@
-package graphics;
+package graphics.core;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.stb.STBImage;
 
-import main.StaticUtils;
+import util.StaticUtils;
 
 /**
  * Klasse für OpengGL-Texturen. Können zum Speichern und späteren Rendern von Bildern genutzt werden.

@@ -1,7 +1,7 @@
-package graphics;
+package graphics.gui;
 
-import graphics.gui.Font;
-import graphics.gui.TextComponent;
+import graphics.gui.engine.components.TextComponent;
+import graphics.gui.engine.fonts.Font;
 
 /**
  * Fps Zähler zählt die Fps und zeigt sie an 

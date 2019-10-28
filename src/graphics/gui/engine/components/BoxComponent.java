@@ -1,8 +1,9 @@
-package graphics.gui;
+package graphics.gui.engine.components;
 
-import graphics.Texture;
-import graphics.Vao;
-import graphics.guiRenderer.GuiShader;
+import graphics.core.Texture;
+import graphics.core.Vao;
+import graphics.gui.engine.ContainerComponent;
+import graphics.gui.renderer.GuiShader;
 
 /**
  * Die Klasse für ContainerKomponenten mit eigenem Hintergrund.<br>

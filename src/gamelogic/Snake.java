@@ -1,10 +1,10 @@
 package gamelogic;
 
 import org.lwjgl.glfw.GLFW;
-import graphics.Display;
-import graphics.Matrix3f;
-import graphics.Vector3f;
-import main.Settings;
+
+import graphics.core.Display;
+import util.math.Matrix3f;
+import util.math.Vector3f;
 
 /**
  * Die Klasse für die Schlange.<br>

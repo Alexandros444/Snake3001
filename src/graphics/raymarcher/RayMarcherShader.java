@@ -1,8 +1,8 @@
 package graphics.raymarcher;
 
-import graphics.Matrix3f;
-import graphics.Shader;
-import graphics.Vector3f;
+import graphics.core.Shader;
+import util.math.Matrix3f;
+import util.math.Vector3f;
 
 /**
  * Der Shader zum Rendern in 3D, mithilfe von RayMarching.<br>
