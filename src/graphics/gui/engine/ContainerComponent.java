@@ -45,6 +45,11 @@ public class ContainerComponent extends GuiComponent {
 		childComponents.add(component);
 		refreshChildPositions();
 	}
+
+	public void removeComponent(GuiComponent component) {
+		childComponents.remove(component);
+		refreshChildPositions();
+	}
 	
 	/**
 	 * Updated die Positionen aller Kindelemente. Sollte immer dann aufgerufen werden, wenn die Größe oder Position dieses Elements oder Größe, Position oder Offset einer Kindkomponente geändert wurden.

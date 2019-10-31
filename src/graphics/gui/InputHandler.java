@@ -1,6 +1,10 @@
 package graphics.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import graphics.core.Display;
+import graphics.gui.engine.KeyInput;
 import graphics.gui.engine.MouseEvent;
 
 /**
@@ -19,6 +23,8 @@ public class InputHandler {
 	private boolean wasLeftMouseClicked;
 	private boolean wasRightMouseClicked;
 	
+	private List<KeyInput> keyInputs;
+	
 	/**
 	 * Erstellt einen neuen InputHandler.
 	 * 
@@ -26,6 +32,7 @@ public class InputHandler {
 	 */
 	public InputHandler(Display display) {
 		this.display = display;
+		keyInputs = new ArrayList<KeyInput>();
 	}
 	
 	/**
@@ -40,6 +47,15 @@ public class InputHandler {
 		wasRightMouseClicked = isRightMouseDown&&!wasRightMouseDown;
 		mouseX = display.getMouseX();
 		mouseY = display.getMouseY();
+		for(KeyInput keyInput:keyInputs) {
+			keyInput.update(display.isKeyPressed(keyInput.getKey()));
+		}
+	}
+	
+	public KeyInput getKeyInput(int key) {
+		KeyInput keyInput = new KeyInput(key);
+		keyInputs.add(keyInput);
+		return keyInput;
 	}
 	
 	/**

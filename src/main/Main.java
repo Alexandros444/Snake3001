@@ -7,8 +7,8 @@ import graphics.GuiRenderer;
 import graphics.RayMarcher;
 import graphics.core.Display;
 import graphics.gui.InputHandler;
+import graphics.gui.engine.KeyInput;
 import util.Settings;
-import util.Timer;
 
 /**
  * Die Klasse mit der Main-Methode unseres Programms.<br>
@@ -35,6 +35,7 @@ public class Main {
 		display.setWindowIcon("res/icon.png");
 		// erstellt InputHandler zum verarbeiten der Inputs auf das Fenster
 		InputHandler inputHandler = new InputHandler(display);
+		KeyInput keyInputF = inputHandler.getKeyInput(GLFW.GLFW_KEY_F);
 		
 		// Erstellt den RayMarcher-Renderer
 		RayMarcher gameRenderer = new RayMarcher();
@@ -42,13 +43,10 @@ public class Main {
 		gameRenderer.setPixelSize(3);
 		
 		// Erstellt den Gui-Renderer
-		GuiRenderer guiRenderer = new GuiRenderer(settings);
+		GuiRenderer guiRenderer = new GuiRenderer(settings,inputHandler.getKeyInput(GLFW.GLFW_KEY_ESCAPE));
 		
 		
 		World world = new World(settings);
-		
-		// Initialisiert einen Timer der die Zeit stoppt
-		Timer timer = new Timer();
 		
 		// GAME LOOP läuft solange das Fenster nicht geschlossen ist
 		while(!display.isCloseRequested()) {	
@@ -56,9 +54,7 @@ public class Main {
 			world.update(display);
 			
 			// Fullscreen an/aus-schalten
-			if(display.isKeyPressed(GLFW.GLFW_KEY_F) && (timer.getTimeSec()>0)) {
-				// momentan nur im 1 sekunden abstand, später mit Key-Handler
-				timer.reset();
+			if(keyInputF.wasKeyPressed()) {
 				display.toggleFullscreenMode();
 			}
 			
