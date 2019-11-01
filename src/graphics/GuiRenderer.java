@@ -93,6 +93,12 @@ public class GuiRenderer {
 				pauseMenu = null;
 			}
 		}
+		if(isPauseMenuOpen && pauseMenu.isCloseRequested()) {
+			isPauseMenuOpen = false;
+			container.removeComponent(pauseMenu);
+			pauseMenu.destroy();
+			pauseMenu = null;
+		}
 		
 		// passt die Größe des Containers an
 		container.setSize(width,height);
