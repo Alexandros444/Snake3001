@@ -121,6 +121,8 @@ public class World {
 	 */
 	public void respawnSnake(){
 		snake = new Snake();
+		score = 0;
+		food = new Food();
 	}
 	
 	/**
@@ -149,9 +151,9 @@ public class World {
 		temp.add(b);
 		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f       
 		// sorgt so für Kollision mit Schlangen aus anderen Kästen
-		temp.x = (temp.x+10.5f)%1-0.5f;
-		temp.y = (temp.y+10.5f)%1-0.5f;
-		temp.z = (temp.z+10.5f)%1-0.5f;
+		temp.x = ((temp.x+0.5f)%1+1)%1-0.5f;
+		temp.y = ((temp.y+0.5f)%1+1)%1-0.5f;
+		temp.z = ((temp.z+0.5f)%1+1)%1-0.5f;
 		// gibt die Distanz zwischen den Mittelpunkten minus die Radien zurück
 		return temp.getLength();
 	}
