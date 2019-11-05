@@ -14,6 +14,7 @@ public class PauseMenu extends BoxComponent {
 	
 	public PauseMenu(Font font) {
 		super(0,0,0x80000000,0,0);
+		super.setPosition(POSITION_FULL);
 		ContainerComponent container = new ContainerComponent(0,0);
 		container.setWidthMode(WIDTH_AUTO);
 		container.setHeightMode(HEIGHT_AUTO);

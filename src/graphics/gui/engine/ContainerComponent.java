@@ -66,7 +66,11 @@ public class ContainerComponent extends GuiComponent {
 			// bestimmt die Position des Kindelements innerhalb des Elternelements
 			Vector3f positionOffset = new Vector3f(0,0,1);
 			int childPosition = childComponent.getPosition();
-			if (childPosition==POSITION_CENTER) {
+			if (childPosition==POSITION_FULL) {
+				positionOffset.x = childComponent.getOffsetX();
+				positionOffset.y = childComponent.getOffsetY();;
+				childComponent.setSize(innerWidth-2*childComponent.getOffsetX(),innerHeight-2*childComponent.getOffsetY());
+			}else if (childPosition==POSITION_CENTER) {
 				positionOffset.x = (innerWidth-childComponent.getWidth())/2;
 				positionOffset.y = (innerHeight-childComponent.getHeight())/2;
 			}else if (childPosition==POSITION_CORNER_TOPLEFT){

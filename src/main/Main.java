@@ -6,7 +6,7 @@ import gamelogic.World;
 import graphics.GuiRenderer;
 import graphics.RayMarcher;
 import graphics.core.Display;
-import graphics.gui.InputHandler;
+import graphics.gui.engine.InputHandler;
 import graphics.gui.engine.KeyInput;
 import util.Settings;
 

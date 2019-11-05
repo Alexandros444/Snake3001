@@ -1,11 +1,9 @@
-package graphics.gui;
+package graphics.gui.engine;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import graphics.core.Display;
-import graphics.gui.engine.KeyInput;
-import graphics.gui.engine.MouseEvent;
 
 /**
  * Klasse zur Verarbeitung der Inputs auf ein Fenster.

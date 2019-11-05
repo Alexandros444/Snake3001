@@ -4,14 +4,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import gamelogic.World;
-import graphics.gui.FpsCounter;
 import graphics.gui.PauseMenu;
 import graphics.gui.engine.ContainerComponent;
-import graphics.gui.engine.GuiComponent;
+import graphics.gui.engine.GameGui;
 import graphics.gui.engine.KeyInput;
 import graphics.gui.engine.MouseEvent;
-import graphics.gui.engine.components.ImageComponent;
-import graphics.gui.engine.components.TextComponent;
 import graphics.gui.engine.fonts.Font;
 import graphics.gui.engine.fonts.MonospaceFont;
 import graphics.gui.renderer.GuiShader;
@@ -26,9 +23,8 @@ import util.Settings;
 public class GuiRenderer {
 	
 	private GuiShader shader;
-	private GuiComponent crosshairs;
-	private TextComponent scoreText, fpsText;
 	private ContainerComponent container;
+	private GameGui gameGui;
 	private Font font;
 	
 	private KeyInput pauseKey;
@@ -42,28 +38,11 @@ public class GuiRenderer {
 		this.pauseKey = pauseKey;
 		shader = new GuiShader();
 		font = new MonospaceFont("res/font/ascii.png");
-		// erstellt eine neue Gui-Komponente aus dem Bild des Fadenkreuzes
-		crosshairs = new ImageComponent("res/"+settings.guiRendererCrosshair+".png");
-		// erstellt zwei leere Textkomponenten für Punktzahl und FPS
-		scoreText = new TextComponent("", font);
-		fpsText = new FpsCounter(font);
 		
-		// legt die Positionen der Elemente fest
-		crosshairs.setPosition(GuiComponent.POSITION_CENTER);
-		
-		scoreText.setPosition(GuiComponent.POSITION_CORNER_TOPLEFT);
-		scoreText.setOffset(24,24);
-		scoreText.setScale(3);
-		
-		fpsText.setPosition(GuiComponent.POSITION_CORNER_TOPRIGHT);
-		fpsText.setOffset(6,6);
-		fpsText.setScale(2);
-		
-		// erstellt den Container und fügt alle Elemente zu ihm zu
+		// erstellt den Container und fügt ihm das "GameGui" mit FPS-Counter, Punktzahl und Fadenkreuz hinzu
 		container = new ContainerComponent(640,480);
-		container.addComponent(crosshairs);
-		container.addComponent(scoreText);
-		container.addComponent(fpsText);
+		gameGui = new GameGui(font,settings);
+		container.addComponent(gameGui);
 		
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -97,9 +76,6 @@ public class GuiRenderer {
 		
 		// passt die Größe des Containers an
 		container.setSize(width,height);
-		if(isPauseMenuOpen) {
-			pauseMenu.setSize(width,height);
-		}
 
 		// verarbeitet Maus-Events
 		container.receiveMouseEvent(true,mouseEvent);
@@ -117,7 +93,7 @@ public class GuiRenderer {
 	 * @param score Punktzahl
 	 */
 	public void displayScore(int score) {
-		scoreText.setText("Score: "+score);
+		gameGui.displayScore(score);
 	}
 	
 	/**
@@ -125,8 +101,7 @@ public class GuiRenderer {
 	 */
 	public void destroy() {
 		shader.destroy();
-		crosshairs.destroy();
-		scoreText.destroy();
+		container.destroy();
 		font.destroy();
 	}
 	

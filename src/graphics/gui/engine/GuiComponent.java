@@ -18,13 +18,14 @@ import util.math.Vector3f;
  */
 public abstract class GuiComponent {
 	
-	// Kontanten für die verschiedenen Positionierungsarten; so können Zahlen als symbolische Werte für Positionen übergeben werden
+	// Konstanten für die verschiedenen Positionierungsarten; so können Zahlen als symbolische Werte für Positionen übergeben werden
 	public static final int POSITION_FLOW = 0;
 	public static final int POSITION_CENTER = 1;
 	public static final int POSITION_CORNER_TOPLEFT = 2;
 	public static final int POSITION_CORNER_TOPRIGHT = 3;
 	public static final int POSITION_CORNER_BOTTOMRIGHT = 4;
 	public static final int POSITION_CORNER_BOTTOMLEFT = 5;
+	public static final int POSITION_FULL = 6;
 	
 	public static final int WIDTH_STATIC = 0;
 	public static final int WIDTH_AUTO = 1;
