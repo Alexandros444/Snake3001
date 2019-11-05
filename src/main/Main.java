@@ -68,7 +68,7 @@ public class Main {
 			// Punktzahl wird geupdated
 			guiRenderer.displayScore(world.score);
 			// Gui wird gerendert
-			guiRenderer.render(display.getWidth(),display.getHeight(),inputHandler.getCurrentMouseEvent());
+			guiRenderer.render(display.getWidth(),display.getHeight(),world,inputHandler.getCurrentMouseEvent());
 			// Display und Inputs werden aktualisiert
 			display.update();
 			inputHandler.update();

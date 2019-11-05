@@ -18,8 +18,6 @@ public class Snake {
 	public boolean isAlive;
 	public Vector3f[] snakePositions;
 	
-	private long lastFrame;
-	
 	public Vector3f cameraPosition;
 	public Matrix3f viewDirection;
 
@@ -43,8 +41,6 @@ public class Snake {
 		}
 	     
 	     isAlive = true;
-	     
-	     lastFrame = System.nanoTime();
 	}
 
 	/**
@@ -53,13 +49,7 @@ public class Snake {
 	 * @param display Das Display, von dem aus Tastendrücke eingelesen werden sollen
 	 */
 	
-	public void update(Display display) {
-		// Vergangene Zeit wird berechnet
-		float deltaTime = System.nanoTime()-lastFrame;
-		lastFrame = System.nanoTime();
-		
-		// Überprüfen ob die Schlange noch lebt
-		if(!isAlive)return;
+	public void update(Display display, float deltaTime) {
 		
 		// STEUERUNG
 		// dreht die Sichtmatrix je nach Tasteninput und lädt sie in den Shader

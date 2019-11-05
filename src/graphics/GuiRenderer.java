@@ -3,6 +3,7 @@ package graphics;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
+import gamelogic.World;
 import graphics.gui.FpsCounter;
 import graphics.gui.PauseMenu;
 import graphics.gui.engine.ContainerComponent;
@@ -74,30 +75,24 @@ public class GuiRenderer {
 	 * @param width Breite in Pixeln
 	 * @param height Höhe in Pixeln
 	 */
-	public void render(int width, int height, MouseEvent mouseEvent) {
+	public void render(int width, int height, World world, MouseEvent mouseEvent) {
 		// bindet den Haupt-Framebuffer und bereitet den Gui-Shader vor
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER,0);
 		GL11.glViewport(0,0,width,height);
 		shader.start();
 		shader.loadScreenSize(width,height);
 
-		if(pauseKey.wasKeyPressed()) {
-			if(!isPauseMenuOpen) {
-				isPauseMenuOpen = true;
-				pauseMenu = new PauseMenu(font);
-				container.addComponent(pauseMenu);
-			}else {
-				isPauseMenuOpen = false;
-				container.removeComponent(pauseMenu);
-				pauseMenu.destroy();
-				pauseMenu = null;
-			}
-		}
-		if(isPauseMenuOpen && pauseMenu.isCloseRequested()) {
+		if(!isPauseMenuOpen&&pauseKey.wasKeyPressed()) {
+			isPauseMenuOpen = true;
+			pauseMenu = new PauseMenu(font);
+			container.addComponent(pauseMenu);
+			world.pause();
+		}else if (isPauseMenuOpen && (pauseMenu.isCloseRequested())||pauseKey.wasKeyPressed()){
 			isPauseMenuOpen = false;
 			container.removeComponent(pauseMenu);
 			pauseMenu.destroy();
 			pauseMenu = null;
+			world.unpause();
 		}
 		
 		// passt die Größe des Containers an

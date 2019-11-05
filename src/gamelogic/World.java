@@ -13,9 +13,12 @@ import util.math.Vector3f;
  */
 public class World {
 	
+	
 	public Snake snake;
 	public Food food;
 	public int score;
+	
+	public boolean isPaused;
 	
 	private long lastFrame;
 	
@@ -31,6 +34,7 @@ public class World {
 
 		snake = new Snake();
 		food = new Food();
+		isPaused = false;
 		
 	    lastFrame = System.nanoTime();
 	}
@@ -46,8 +50,8 @@ public class World {
 		
 		if(display.isKeyPressed(GLFW.GLFW_KEY_G))placeFood();
 		
-		if(snake.isAlive) {
-			snake.update(display);
+		if(snake.isAlive&&!isPaused) {
+			snake.update(display,deltaTime);
 			food.update(deltaTime);
 			checkFoodCollision();
 			checkDeathCollision();
@@ -121,6 +125,8 @@ public class World {
 	 */
 	public void respawnSnake(){
 		snake = new Snake();
+		score = 0;
+		food = new Food();
 	}
 	
 	/**
@@ -149,11 +155,20 @@ public class World {
 		temp.add(b);
 		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f       
 		// sorgt so für Kollision mit Schlangen aus anderen Kästen
-		temp.x = (temp.x+10.5f)%1-0.5f;
-		temp.y = (temp.y+10.5f)%1-0.5f;
-		temp.z = (temp.z+10.5f)%1-0.5f;
+		temp.x = ((temp.x+0.5f)%1+1)%1-0.5f;
+		temp.y = ((temp.y+0.5f)%1+1)%1-0.5f;
+		temp.z = ((temp.z+0.5f)%1+1)%1-0.5f;
 		// gibt die Distanz zwischen den Mittelpunkten minus die Radien zurück
 		return temp.getLength();
+	}
+	
+	public void pause() {
+		isPaused = true;
+	}
+	
+	public void unpause() {
+		isPaused = false;
+		lastFrame = System.nanoTime();
 	}
 	
 }

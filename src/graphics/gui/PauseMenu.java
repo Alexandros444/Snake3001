@@ -41,4 +41,5 @@ public class PauseMenu extends BoxComponent {
 		return isCloseRequested;
 	}
 	
+	
 }
