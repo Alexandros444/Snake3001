@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import gamelogic.World;
+import graphics.gui.GameGui;
 import graphics.gui.PauseMenu;
 import graphics.gui.engine.ContainerComponent;
-import graphics.gui.engine.GameGui;
 import graphics.gui.engine.KeyInput;
 import graphics.gui.engine.MouseEvent;
 import graphics.gui.engine.fonts.Font;
@@ -26,6 +26,7 @@ public class GuiRenderer {
 	private ContainerComponent container;
 	private GameGui gameGui;
 	private Font font;
+	private Settings settings;
 	
 	private KeyInput pauseKey;
 	private PauseMenu pauseMenu;
@@ -35,6 +36,7 @@ public class GuiRenderer {
 	 * Erstellt einen neuen Gui-Renderer.
 	 */
 	public GuiRenderer(Settings settings, KeyInput pauseKey) {
+		this.settings = settings;
 		this.pauseKey = pauseKey;
 		shader = new GuiShader();
 		font = new MonospaceFont("res/font/ascii.png");
@@ -63,7 +65,7 @@ public class GuiRenderer {
 
 		if(!isPauseMenuOpen&&pauseKey.wasKeyPressed()) {
 			isPauseMenuOpen = true;
-			pauseMenu = new PauseMenu(font);
+			pauseMenu = new PauseMenu(font,settings);
 			container.addComponent(pauseMenu);
 			world.pause();
 		}else if (isPauseMenuOpen && (pauseMenu.isCloseRequested())||pauseKey.wasKeyPressed()){

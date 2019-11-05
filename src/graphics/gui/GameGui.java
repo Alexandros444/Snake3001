@@ -1,6 +1,7 @@
-package graphics.gui.engine;
+package graphics.gui;
 
-import graphics.gui.FpsCounter;
+import graphics.gui.engine.ContainerComponent;
+import graphics.gui.engine.GuiComponent;
 import graphics.gui.engine.components.ImageComponent;
 import graphics.gui.engine.components.TextComponent;
 import graphics.gui.engine.fonts.Font;
