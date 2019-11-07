@@ -12,6 +12,7 @@ public class ButtonComponent extends BoxComponent {
 	
 	private TextComponent text;
 	
+	private int backgroundColor, hoverColor;
 	private boolean wasClicked;
 	
 	/**
@@ -28,6 +29,8 @@ public class ButtonComponent extends BoxComponent {
 		this.text.setPosition(POSITION_CENTER);
 		this.text.setScale(2);
 		super.addComponent(this.text);
+		
+		hoverColor = 0xa0505050;
 	}
 	
 	/**
@@ -37,7 +40,7 @@ public class ButtonComponent extends BoxComponent {
 	 */
 	protected void onMouseOn(MouseEvent event) {
 		super.onMouseOn(event);
-		super.setBackgroundColor(0xa0505050);
+		super.setBackgroundColor(hoverColor);
 	}
 	
 	/**
@@ -47,7 +50,7 @@ public class ButtonComponent extends BoxComponent {
 	 */
 	protected void onMouseOff(MouseEvent event) {
 		super.onMouseOff(event);
-		super.setBackgroundColor(0x80000000);
+		super.setBackgroundColor(backgroundColor);
 	}
 	
 	/**
@@ -77,6 +80,26 @@ public class ButtonComponent extends BoxComponent {
 	protected void onLeftClick(MouseEvent event) {
 		super.onLeftClick(event);
 		wasClicked = true;
+	}
+	
+	
+	/**
+	 * Setzt die Hintergrundfarbe
+	 * 
+	 * @param color Hintergrundfarbe im Format 0xaabbggrr (Hexadezimal)
+	 */
+	public void setBackgroundColor(int color) {
+		backgroundColor = color;
+		super.setBackgroundColor(color);
+	}
+	
+	/**
+	 * Setzt die Maus-Überflug-Farbe
+	 * 
+	 * @param color Hoverfarbe im Format 0xaabbggrr (Hexadezimal)
+	 */
+	public void setHoverColor(int color) {
+		hoverColor = color;
 	}
 	
 }

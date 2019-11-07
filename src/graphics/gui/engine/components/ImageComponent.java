@@ -13,7 +13,7 @@ import graphics.gui.renderer.GuiShader;
 public class ImageComponent extends GuiComponent {
 	
 	private final Vao vao;
-	private final Texture texture;
+	private Texture texture;
 	
 	/**
 	 * Erstellt eine neue Bild-Komponente aus dem gegebenen Dateipfad.
@@ -54,6 +54,16 @@ public class ImageComponent extends GuiComponent {
 	public void destroy() {
 		vao.destroy();
 		texture.destroy();
+	}
+	
+	/**
+	 * lädt das Bild neu
+	 * 
+	 * @param path Pfad relativ
+	 */
+	public void reloadImage(String path) {
+		texture.destroy();
+		texture = new Texture(path);
 	}
 	
 }

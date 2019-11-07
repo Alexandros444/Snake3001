@@ -51,7 +51,7 @@ public class GuiRenderer {
 		gameGui = new GameGui(font,settings);
 		container.addComponent(gameGui);
 		
-		startMenu = new StartMenu(font);
+		startMenu = new StartMenu(font,settings);
 		hasGameStarted = false;
 		container.addComponent(startMenu);
 		
@@ -72,27 +72,60 @@ public class GuiRenderer {
 		shader.start();
 		shader.loadScreenSize(width,height);
 		
-		if(!hasGameStarted&&startMenu.isStartRequested()) {
-			hasGameStarted = true;
-			container.removeComponent(startMenu);
-			startMenu.destroy();
-			startMenu = null;
-		}
-			
-		if(!isPauseMenuOpen&&pauseKey.wasKeyPressed()) {
-			isPauseMenuOpen = true;
-			pauseMenu = new PauseMenu(font,settings);
-			container.addComponent(pauseMenu);
-			world.pause();
-		}else if (isPauseMenuOpen && (pauseMenu.isCloseRequested())||pauseKey.wasKeyPressed()){
-			isPauseMenuOpen = false;
-			container.removeComponent(pauseMenu);
-			pauseMenu.destroy();
-			pauseMenu = null;
-			world.unpause();
-		}
 		
-		
+		// GUI-MANAGEMENT
+		if(!hasGameStarted) {
+			// Hauptmenü ist offen
+			if(startMenu.isStartRequested()) {
+				// Start Button wurde gedrückt
+				hasGameStarted = true;
+				container.removeComponent(startMenu);
+				startMenu.destroy();
+				startMenu = null;
+			}else if(startMenu.hasSettingsChanged) {
+				// Einstellungen im Start-Menü wurden geändert
+				gameGui.crosshairs.reloadImage(settings.crosshairPath);
+			}
+		}else {
+			// Spiel hat begonnen
+			if(isPauseMenuOpen) {
+				// Pausenmenü IST offen
+				if (pauseMenu.isContinueRequested()||pauseKey.wasKeyPressed()){
+					// Pausenmenü soll geschlossen werden
+					isPauseMenuOpen = false;
+					container.removeComponent(pauseMenu);
+					pauseMenu.destroy();
+					pauseMenu = null;
+					world.unpause();
+					System.out.println("clos");
+				}else if(pauseMenu.isExitRequested()) {
+					// zum Hauptmenü zurückkehren
+					// Pausenmenü beenden
+					isPauseMenuOpen = false;
+					container.removeComponent(pauseMenu);
+					pauseMenu.destroy();
+					pauseMenu = null;
+					// Hauptmenü "Starten"
+					startMenu = new StartMenu(font,settings);
+					hasGameStarted = false;
+					container.addComponent(startMenu);
+					// Welt Speichern und Neu starten
+					world.deathEvent();
+					world.respawnSnake();
+					world.unpause();
+				}else if(pauseMenu.hasSettingsChanged) {
+					// Einstellungen wurden geändert
+					gameGui.crosshairs.reloadImage(settings.crosshairPath);
+				}
+			} else if(pauseKey.wasKeyPressed()) {
+				// Pausenmenü soll geöffnet werden
+				isPauseMenuOpen = true;
+				pauseMenu = new PauseMenu(font,settings);
+				container.addComponent(pauseMenu);
+				world.pause();
+			}
+		}
+		//ENDE GUI-MANAGEMENT
 		
 		// passt die Größe des Containers an
 		container.setSize(width,height);

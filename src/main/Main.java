@@ -76,10 +76,10 @@ public class Main {
 		}
 	
 		// Beendet den Renderer und schließt das Fenster
+		settings.save();
 		gameRenderer.destroy();
 		guiRenderer.destroy();
-		display.close();
-		settings.save();		
+		display.close();	
 	}
 	
 }
