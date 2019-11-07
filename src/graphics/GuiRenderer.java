@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL30;
 import gamelogic.World;
 import graphics.gui.GameGui;
 import graphics.gui.PauseMenu;
+import graphics.gui.StartMenu;
 import graphics.gui.engine.ContainerComponent;
 import graphics.gui.engine.KeyInput;
 import graphics.gui.engine.MouseEvent;
@@ -32,6 +33,9 @@ public class GuiRenderer {
 	private PauseMenu pauseMenu;
 	private boolean isPauseMenuOpen;
 	
+	private StartMenu startMenu;
+	private boolean hasGameStarted;   
+	
 	/**
 	 * Erstellt einen neuen Gui-Renderer.
 	 */
@@ -41,10 +45,15 @@ public class GuiRenderer {
 		shader = new GuiShader();
 		font = new MonospaceFont("res/font/ascii.png");
 		
+		
 		// erstellt den Container und fügt ihm das "GameGui" mit FPS-Counter, Punktzahl und Fadenkreuz hinzu
 		container = new ContainerComponent(640,480);
 		gameGui = new GameGui(font,settings);
 		container.addComponent(gameGui);
+		
+		startMenu = new StartMenu(font);
+		hasGameStarted = false;
+		container.addComponent(startMenu);
 		
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -62,7 +71,14 @@ public class GuiRenderer {
 		GL11.glViewport(0,0,width,height);
 		shader.start();
 		shader.loadScreenSize(width,height);
-
+		
+		if(!hasGameStarted&&startMenu.isStartRequested()) {
+			hasGameStarted = true;
+			container.removeComponent(startMenu);
+			startMenu.destroy();
+			startMenu = null;
+		}
+			
 		if(!isPauseMenuOpen&&pauseKey.wasKeyPressed()) {
 			isPauseMenuOpen = true;
 			pauseMenu = new PauseMenu(font,settings);
@@ -76,6 +92,8 @@ public class GuiRenderer {
 			world.unpause();
 		}
 		
+		
+		
 		// passt die Größe des Containers an
 		container.setSize(width,height);
 
@@ -87,6 +105,10 @@ public class GuiRenderer {
 		
 		// rendert den Container mit allen Elementen
 		container.render(shader);
+	}
+	
+	public boolean isCloseRequested() {
+		return !hasGameStarted&&startMenu.isCloseRequested(); 
 	}
 
 	/**

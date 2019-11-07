@@ -6,6 +6,7 @@ import gamelogic.World;
 import graphics.GuiRenderer;
 import graphics.RayMarcher;
 import graphics.core.Display;
+import graphics.gui.StartMenu;
 import graphics.gui.engine.InputHandler;
 import graphics.gui.engine.KeyInput;
 import util.Settings;
@@ -45,11 +46,10 @@ public class Main {
 		// Erstellt den Gui-Renderer
 		GuiRenderer guiRenderer = new GuiRenderer(settings,inputHandler.getKeyInput(GLFW.GLFW_KEY_ESCAPE));
 		
-		
 		World world = new World(settings);
 		
 		// GAME LOOP läuft solange das Fenster nicht geschlossen ist
-		while(!display.isCloseRequested()) {	
+		while(!display.isCloseRequested()&&!guiRenderer.isCloseRequested()) {	
 			// updated die Schlange
 			world.update(display);
 			
@@ -62,6 +62,7 @@ public class Main {
 			if ((world.snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
 			    world.respawnSnake();
 			}
+			
 			
 			// Spiel wird gerendert
 			gameRenderer.render(world,display.getWidth(),display.getHeight());

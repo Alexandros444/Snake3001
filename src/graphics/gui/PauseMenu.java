@@ -57,6 +57,7 @@ public class PauseMenu extends BoxComponent {
 			settingsGui.destroy();
 			settingsGui = null;
 		}
+		
 	}
 	
 	public boolean isCloseRequested() {
