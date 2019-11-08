@@ -14,7 +14,7 @@ import util.Settings;
  */
 public class GameGui extends ContainerComponent {
 
-	private ImageComponent crosshairs;
+	public ImageComponent crosshairs;
 	private TextComponent scoreText;
 	private FpsCounter fpsCounter;
 	
@@ -29,7 +29,7 @@ public class GameGui extends ContainerComponent {
 		super.setPosition(POSITION_FULL);
 		
 		// Erstellt das Fadenkreuz
-		crosshairs = new ImageComponent("res/"+settings.guiRendererCrosshair+".png");
+		crosshairs = new ImageComponent(settings.crosshairPath);
 		crosshairs.setPosition(GuiComponent.POSITION_CENTER);
 		
 		// Erstellt den Text für die Punktzahl
