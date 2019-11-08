@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import graphics.core.Display;
 import util.Settings;
+import util.math.Matrix3f;
 import util.math.Vector3f;
 
 /**
@@ -19,6 +20,13 @@ public class World {
 	public int score;
 	
 	public boolean isPaused;
+	public boolean hasSnake;
+	
+	public Vector3f cameraPosition;
+	public Matrix3f viewDirection;
+
+	private float rotationSpeed = 0.75f;
+	private float movementSpeed = 0.0045f;
 	
 	private long lastFrame;
 	
@@ -32,8 +40,7 @@ public class World {
 	public World(Settings settings) {
 		this.settings = settings; 
 
-		snake = new Snake();
-		food = new Food();
+		reset();
 		isPaused = false;
 		
 	    lastFrame = System.nanoTime();
@@ -50,11 +57,44 @@ public class World {
 		
 		if(display.isKeyPressed(GLFW.GLFW_KEY_G))placeFood();
 		
-		if(snake.isAlive&&!isPaused) {
-			snake.update(display,deltaTime);
+		if(!(hasSnake&&!snake.isAlive)&&!isPaused) {
+			if (hasSnake&&snake.isAlive) {
+				if (display.isKeyPressed(GLFW.GLFW_KEY_W) || display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
+					viewDirection.rotate(-rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
+				}
+				if (display.isKeyPressed(GLFW.GLFW_KEY_S) || display.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
+					viewDirection.rotate(rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
+				}
+				if (display.isKeyPressed(GLFW.GLFW_KEY_A) || display.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+					viewDirection.rotate(0, -rotationSpeed* (deltaTime*(1e-7f)), 0);
+				}
+				if (display.isKeyPressed(GLFW.GLFW_KEY_D) || display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
+					viewDirection.rotate(0, rotationSpeed* (deltaTime*(1e-7f)), 0);
+				}
+				if (display.isKeyPressed(GLFW.GLFW_KEY_Q)) {
+					viewDirection.rotate(0, 0, rotationSpeed* (deltaTime*(1e-7f)));
+				}
+				if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
+					viewDirection.rotate(0, 0, -rotationSpeed* (deltaTime*(1e-7f)));
+				}
+			}
+			//wenn Leertaste gedrückt dann stop
+			if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
+				// Setzt den BewegungsVektor zurück
+				Vector3f movement = new Vector3f(0,0,movementSpeed);
+				// Bestimmt Geschwindigkeit pro Frame
+				movement.scale(deltaTime*(1e-7f));
+				// dreht den BewegungsVektor durch die SichtMatrix
+				movement.apply(viewDirection);
+				// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
+				cameraPosition.add(movement);
+			}
 			food.update(deltaTime);
-			checkFoodCollision();
-			checkDeathCollision();
+			if (hasSnake) {
+				snake.update(cameraPosition);
+				checkFoodCollision();
+				checkDeathCollision();
+			}
 		}
 	}
 	/**
@@ -76,11 +116,11 @@ public class World {
 	 */
 	private void checkDeathCollision() {
 		if(gridDistance(snake.snakePositions[0])-0.8f*snake.sphereRadius<0) {
-			deathEvent();
+			killSnake();
 		}
 		for(int i=2;i<snake.snakePositions.length;i++) {
 			if(sphereDistance(snake.snakePositions[0],snake.snakePositions[i])<1.9*snake.sphereRadius) {
-				deathEvent();			
+				killSnake();			
 				break;
 			}
 		}		
@@ -99,10 +139,12 @@ public class World {
 			if(gridDistance(food.position)<2*Food.BASE_RADIUS) {
 				goodPosition = false;
 			}
-			//Kontrolle ob Korn in der Schlange landet
-			for(int i=0;i<snake.snakePositions.length;i++) {
-				if(sphereDistance(snake.snakePositions[i], food.position)<snake.sphereRadius) {
-					goodPosition = false;
+			if(hasSnake) {
+				//Kontrolle ob Korn in der Schlange landet
+				for(int i=0;i<snake.snakePositions.length;i++) {
+					if(sphereDistance(snake.snakePositions[i], food.position)<snake.sphereRadius) {
+						goodPosition = false;
+					}
 				}
 			}
 		}
@@ -120,19 +162,31 @@ public class World {
 		return (float)Math.min(Math.sqrt(x*x+y*y),Math.min(Math.sqrt(y*y+z*z),Math.sqrt(z*z+x*x)));
 	}
 	
-	/*
-	 * respawnt die Schlange (setzt Werte der Schlange zurück)  
+	/**
+	 * Setzt alles zurück, erstellt eine leere Welt ohne Schlange
 	 */
-	public void respawnSnake(){
-		snake = new Snake();
+	public void reset() {
 		score = 0;
-		food = new Food();
+		placeFood();
+	    viewDirection = new Matrix3f();
+	    cameraPosition = new Vector3f(0,0,0.5f); 
+		
+		snake = null;
+		hasSnake = false;
+	}
+	
+	/**
+	 * Spawnt die Schlange
+	 */
+	public void spawnSnake(){
+		snake = new Snake();
+		hasSnake = true;
 	}
 	
 	/**
 	 * Speichert den Score und setzt den Status der Schlange auf tot
 	 */
-	public void deathEvent() {
+	public void killSnake() {
 		if(settings.snakeScore<score) {
 			settings.snakeScore = score;
 		}
@@ -170,5 +224,4 @@ public class World {
 		isPaused = false;
 		lastFrame = System.nanoTime();
 	}
-	
 }

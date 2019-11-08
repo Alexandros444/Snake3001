@@ -8,6 +8,7 @@ import gamelogic.World;
 import graphics.core.Texture;
 import graphics.core.Vao;
 import graphics.raymarcher.RayMarcherShader;
+import util.math.Vector3f;
 
 /**
  * Der 3D-Renderer unseres Programms, basierend auf RayMarching.<br>
@@ -67,9 +68,13 @@ public class RayMarcher {
 		
 		// lädt alle Infos in den Shader
 		shader.start();
-		shader.loadViewMatrix(world.snake.viewDirection);
-		shader.loadPosition(world.snake.cameraPosition);
-		shader.loadSnake(world.snake.snakePositions);
+		shader.loadViewMatrix(world.viewDirection);
+		shader.loadPosition(world.cameraPosition);
+		if(world.hasSnake) {
+			shader.loadSnake(world.snake.snakePositions);
+		}else {
+			shader.loadSnake(new Vector3f[0]);
+		}
 		shader.loadFoodPosition(world.food.position);
 		shader.loadFoodRadius(world.food.radius);
 		shader.loadFoodRotation(world.food.rotation);

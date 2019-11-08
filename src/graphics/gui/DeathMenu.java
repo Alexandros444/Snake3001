@@ -15,7 +15,7 @@ import graphics.gui.engine.fonts.Font;
 
 public class DeathMenu extends BoxComponent {
 	
-	private ButtonComponent quitButton;
+	private ButtonComponent exitButton;
 	private TextComponent testText;	
 	
 	private boolean isCloseRequested;
@@ -35,23 +35,22 @@ public class DeathMenu extends BoxComponent {
 		testText.setPosition(POSITION_FULL);
 		container.addComponent(testText);
 		
-		quitButton = new ButtonComponent(200, 50, "Quit", font);
-		quitButton.setOffset(4,4);
-		container.addComponent(quitButton);
+		exitButton = new ButtonComponent(200, 50, "Exit", font);
+		exitButton.setOffset(4,4);
+		container.addComponent(exitButton);
 	}
 	
 	/**
 	 * Methode zum Updaten des Start-Menüs
 	 */
 	public void update() {
-		if(quitButton.wasClicked()) {
+		if(exitButton.wasClicked()) {
 			// Programm beenden
 			isCloseRequested = true;
 		}
 	}
 	
-	
-	public boolean isCloseRequested() {
+	public boolean isExitRequested() {
 		return isCloseRequested;
 	}
 

@@ -20,7 +20,7 @@ public class SettingsGui extends BoxComponent {
 	private Settings settings;
 	
 	public boolean hasSettingsChanged;
-	public int crosshairFrame, crosshairCount;
+	public int crosshairFrame;
 	/**
 	 * Konstruktor
 	 * 
@@ -37,7 +37,6 @@ public class SettingsGui extends BoxComponent {
 		
 		this.settings = settings;
 		crosshairFrame = settings.crosshairFrame;
-		crosshairCount = settings.crosshairCount;
 		
 		TextComponent testText = new TextComponent("Settings kommen dann hier rein",font);
 		testText.setScale(2);
@@ -79,7 +78,7 @@ public class SettingsGui extends BoxComponent {
 		if(crosshairButton.wasClicked()) {
 			// Fadenkreuz wechseln
 			crosshairFrame++;
-			crosshairFrame %= crosshairCount;
+			crosshairFrame %= settings.crosshairCount;
 			crosshairImage.reloadImage("res/crosshairs"+crosshairFrame+".png");
 			saveButton.setBackgroundColor(0xFF222255);
 		}

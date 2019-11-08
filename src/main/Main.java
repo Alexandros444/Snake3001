@@ -58,7 +58,7 @@ public class Main {
 			}
 			
 			// Überprüfen ob Schlange gestorben ist, wenn ja Spiel neu-Starten 
-			if (world.snake.isAlive==false) {
+			if (world.hasSnake&&world.snake.isAlive==false) {
 				guiRenderer.isSnakeDead = true;
 			}
 			

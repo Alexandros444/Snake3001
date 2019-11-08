@@ -3,8 +3,6 @@ package graphics;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
-import com.sun.xml.internal.fastinfoset.util.ContiguousCharArrayArray;
-
 import gamelogic.World;
 import graphics.gui.DeathMenu;
 import graphics.gui.GameGui;
@@ -89,6 +87,7 @@ public class GuiRenderer {
 				container.removeComponent(startMenu);
 				startMenu.destroy();
 				startMenu = null;
+				world.spawnSnake();
 			}else if(startMenu.hasSettingsChanged) {
 				// Einstellungen im Start-Menü wurden geändert
 				gameGui.crosshairs.reloadImage(settings.crosshairPath);
@@ -97,7 +96,7 @@ public class GuiRenderer {
 			// Spiel hat begonnen
 			if(isDeathMenuOpen) {
 				// Death-Menü ist offen
-				if(deathMenu.isCloseRequested()) {
+				if(deathMenu.isExitRequested()) {
 					// zum Hauptmenü zurückkehren
 					// DeathMenü beenden
 					isDeathMenuOpen = false;
@@ -109,7 +108,7 @@ public class GuiRenderer {
 					hasGameStarted = false;
 					container.addComponent(startMenu);
 					// Welt neu starten
-					world.respawnSnake();
+					world.reset();
 					isSnakeDead = false;
 				}
 			}else {
@@ -142,8 +141,8 @@ public class GuiRenderer {
 						hasGameStarted = false;
 						container.addComponent(startMenu);
 						// Welt Speichern und neu starten
-						world.deathEvent();
-						world.respawnSnake();
+						world.killSnake();
+						world.reset();
 						world.unpause();
 					}else if(pauseMenu.hasSettingsChanged) {
 						// Einstellungen wurden geändert
