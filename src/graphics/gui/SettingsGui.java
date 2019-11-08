@@ -77,11 +77,15 @@ public class SettingsGui extends BoxComponent {
 	 */
 	public void update() {
 		if(crosshairButton.wasClicked()) {
+			// Fadenkreuz wechseln
 			crosshairFrame++;
 			crosshairFrame %= crosshairCount;
 			crosshairImage.reloadImage("res/crosshairs"+crosshairFrame+".png");
+			saveButton.setBackgroundColor(0xFF222255);
 		}
 		if(saveButton.wasClicked()) {
+			// Einstellungen Speichern
+			saveButton.setBackgroundColor(0x80000000);
 			saveSettings();
 		}
 	}

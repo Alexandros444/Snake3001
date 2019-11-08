@@ -3,7 +3,10 @@ package graphics;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
+import com.sun.xml.internal.fastinfoset.util.ContiguousCharArrayArray;
+
 import gamelogic.World;
+import graphics.gui.DeathMenu;
 import graphics.gui.GameGui;
 import graphics.gui.PauseMenu;
 import graphics.gui.StartMenu;
@@ -34,7 +37,11 @@ public class GuiRenderer {
 	private boolean isPauseMenuOpen;
 	
 	private StartMenu startMenu;
-	private boolean hasGameStarted;   
+	private boolean hasGameStarted;
+	
+	private DeathMenu deathMenu;
+	private boolean isDeathMenuOpen;
+	public boolean isSnakeDead;
 	
 	/**
 	 * Erstellt einen neuen Gui-Renderer.
@@ -88,41 +95,67 @@ public class GuiRenderer {
 			}
 		}else {
 			// Spiel hat begonnen
-			if(isPauseMenuOpen) {
-				// Pausenmenü IST offen
-				if (pauseMenu.isContinueRequested()||pauseKey.wasKeyPressed()){
-					// Pausenmenü soll geschlossen werden
-					isPauseMenuOpen = false;
-					container.removeComponent(pauseMenu);
-					pauseMenu.destroy();
-					pauseMenu = null;
-					world.unpause();
-					System.out.println("clos");
-				}else if(pauseMenu.isExitRequested()) {
+			if(isDeathMenuOpen) {
+				// Death-Menü ist offen
+				if(deathMenu.isCloseRequested()) {
 					// zum Hauptmenü zurückkehren
-					// Pausenmenü beenden
-					isPauseMenuOpen = false;
-					container.removeComponent(pauseMenu);
-					pauseMenu.destroy();
-					pauseMenu = null;
+					// DeathMenü beenden
+					isDeathMenuOpen = false;
+					container.removeComponent(deathMenu);
+					deathMenu.destroy();
+					deathMenu = null;
 					// Hauptmenü "Starten"
 					startMenu = new StartMenu(font,settings);
 					hasGameStarted = false;
 					container.addComponent(startMenu);
-					// Welt Speichern und Neu starten
-					world.deathEvent();
+					// Welt neu starten
 					world.respawnSnake();
-					world.unpause();
-				}else if(pauseMenu.hasSettingsChanged) {
-					// Einstellungen wurden geändert
-					gameGui.crosshairs.reloadImage(settings.crosshairPath);
+					isSnakeDead = false;
 				}
-			} else if(pauseKey.wasKeyPressed()) {
-				// Pausenmenü soll geöffnet werden
-				isPauseMenuOpen = true;
-				pauseMenu = new PauseMenu(font,settings);
-				container.addComponent(pauseMenu);
-				world.pause();
+			}else {
+				// Death-Menü ist nich offen
+				if(isSnakeDead) {
+					// Schlange ist gestorben
+					isDeathMenuOpen = true;
+					deathMenu = new DeathMenu(font,world);
+					container.addComponent(deathMenu);
+				}
+				// Pausenmenü kann nur geöffnet werden wenn DeathMenü geschlossen ist
+				if(isPauseMenuOpen) {
+					// Pausenmenü IST offen
+					if (pauseMenu.isContinueRequested()||pauseKey.wasKeyPressed()){
+						// Pausenmenü soll geschlossen werden
+						isPauseMenuOpen = false;
+						container.removeComponent(pauseMenu);
+						pauseMenu.destroy();
+						pauseMenu = null;
+						world.unpause();
+					}else if(pauseMenu.isExitRequested()) {
+						// zum Hauptmenü zurückkehren
+						// Pausenmenü beenden
+						isPauseMenuOpen = false;
+						container.removeComponent(pauseMenu);
+						pauseMenu.destroy();
+						pauseMenu = null;
+						// Hauptmenü "Starten"
+						startMenu = new StartMenu(font,settings);
+						hasGameStarted = false;
+						container.addComponent(startMenu);
+						// Welt Speichern und neu starten
+						world.deathEvent();
+						world.respawnSnake();
+						world.unpause();
+					}else if(pauseMenu.hasSettingsChanged) {
+						// Einstellungen wurden geändert
+						gameGui.crosshairs.reloadImage(settings.crosshairPath);
+					}
+				} else if(pauseKey.wasKeyPressed()) {
+					// Pausenmenü soll geöffnet werden
+					isPauseMenuOpen = true;
+					pauseMenu = new PauseMenu(font,settings);
+					container.addComponent(pauseMenu);
+					world.pause();
+				}
 			}
 		}
 		//ENDE GUI-MANAGEMENT

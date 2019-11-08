@@ -6,7 +6,6 @@ import gamelogic.World;
 import graphics.GuiRenderer;
 import graphics.RayMarcher;
 import graphics.core.Display;
-import graphics.gui.StartMenu;
 import graphics.gui.engine.InputHandler;
 import graphics.gui.engine.KeyInput;
 import util.Settings;
@@ -59,8 +58,8 @@ public class Main {
 			}
 			
 			// Überprüfen ob Schlange gestorben ist, wenn ja Spiel neu-Starten 
-			if ((world.snake.isAlive==false)&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER)){
-			    world.respawnSnake();
+			if (world.snake.isAlive==false) {
+				guiRenderer.isSnakeDead = true;
 			}
 			
 			
