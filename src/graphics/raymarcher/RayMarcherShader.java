@@ -21,6 +21,7 @@ public class RayMarcherShader extends Shader{
 	private int screenRatioUniformID;
 	private int snakePositionsUniformID;
 	private int snakeLengthUniformID;
+	private int snakeRadiusUniformID;
 	private int foodPositionUniformID;
 	private int foodRadiusUniformID;
 	private int foodRotationUniformID;
@@ -50,6 +51,7 @@ public class RayMarcherShader extends Shader{
 		screenRatioUniformID = super.getUniformLocation("screenRatio");
 		snakePositionsUniformID = super.getUniformLocation("snakePositions");
 		snakeLengthUniformID = super.getUniformLocation("snakeLength");
+		snakeRadiusUniformID = super.getUniformLocation("snakeSphereRadius");
 		foodPositionUniformID = super.getUniformLocation("foodPosition");
 		foodRadiusUniformID = super.getUniformLocation("foodRadius");
 		foodRotationUniformID = super.getUniformLocation("foodRotation");
@@ -90,6 +92,15 @@ public class RayMarcherShader extends Shader{
 	public void loadSnake(Vector3f[] positions) {
 		super.loadVector3fArray(snakePositionsUniformID,positions);
 		super.loadInt(snakeLengthUniformID,positions.length);
+	}
+	
+	/**
+	 * Lädt die Dicke der Schlange.
+	 * 
+	 * @param radius Radius der Kugeln der Schlange
+	 */
+	public void loadSnakeSphereRadius(float radius) {
+		super.loadFloat(snakeRadiusUniformID,radius);
 	}
 	
 	/**

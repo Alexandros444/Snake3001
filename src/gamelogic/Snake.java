@@ -14,7 +14,7 @@ public class Snake {
 	public boolean isAlive;
 	public Vector3f[] snakePositions;
 
-	public float sphereRadius = 0.05f;
+	public float sphereRadius = -0.1f;
 	
 	/**
 	 * Erstellt eine neue Schlange
@@ -37,7 +37,8 @@ public class Snake {
 	 * @param display Das Display, von dem aus Tastendrücke eingelesen werden sollen
 	 */
 	
-	public void update(Vector3f cameraPosition) {
+	public void update(Vector3f cameraPosition, float deltaTime) {
+		sphereRadius += (0.05f-sphereRadius)*(1-Math.pow(0.999f,deltaTime*(1e-6f)));
 		// bewegt die Schlange
 		updateSnakePositions(cameraPosition); 
 	}
@@ -60,14 +61,15 @@ public class Snake {
 	 * Updated die Positionen des Körpers der Schlange
 	 */
 	private void updateSnakePositions(Vector3f cameraPosition) {
+		float minDistance = 2*Math.max(sphereRadius,0.01f);
 		snakePositions[0] = cameraPosition.copy();
 		for (int i=1;i< snakePositions.length;i++){
 		    Vector3f delta =  snakePositions[i-1].copy();
 			Vector3f temp =  snakePositions[i].copy();
 			temp.scale(-1f);
 		    delta.add(temp);
-		    if (delta.getLength()>2*sphereRadius){
-			    delta.setLength(delta.getLength()-2*sphereRadius);
+		    if (delta.getLength()>minDistance){
+			    delta.setLength(delta.getLength()-minDistance);
 			    snakePositions[i].add(delta);
 		    }
 		}

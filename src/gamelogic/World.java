@@ -91,7 +91,7 @@ public class World {
 			}
 			food.update(deltaTime);
 			if (hasSnake) {
-				snake.update(cameraPosition);
+				snake.update(cameraPosition,deltaTime);
 				checkFoodCollision();
 				checkDeathCollision();
 			}
