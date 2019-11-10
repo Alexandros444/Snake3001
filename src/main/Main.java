@@ -2,10 +2,8 @@ package main;
 
 import org.lwjgl.glfw.GLFW;
 
-import gamelogic.World;
-import graphics.GuiRenderer;
-import graphics.RayMarcher;
 import graphics.core.Display;
+import graphics.gui.MainGuiContainer;
 import graphics.gui.engine.InputHandler;
 import graphics.gui.engine.KeyInput;
 import util.Settings;
@@ -37,20 +35,11 @@ public class Main {
 		InputHandler inputHandler = new InputHandler(display);
 		KeyInput keyInputF = inputHandler.getKeyInput(GLFW.GLFW_KEY_F);
 		
-		// Erstellt den RayMarcher-Renderer
-		RayMarcher gameRenderer = new RayMarcher();
-		// Reduziert die Auflösung, um die FPS zu erhöhen
-		gameRenderer.setPixelSize(3);
-		
-		// Erstellt den Gui-Renderer
-		GuiRenderer guiRenderer = new GuiRenderer(settings,inputHandler.getKeyInput(GLFW.GLFW_KEY_ESCAPE));
-		
-		World world = new World(settings);
+		// Erstellt das Spiel und Gui
+		MainGuiContainer guiContainer = new MainGuiContainer(settings,inputHandler.getKeyInput(GLFW.GLFW_KEY_ESCAPE));
 		
 		// GAME LOOP läuft solange das Fenster nicht geschlossen ist
-		while(!display.isCloseRequested()&&!guiRenderer.isCloseRequested()) {	
-			// updated die Schlange
-			world.update(display);
+		while(!display.isCloseRequested()&&!guiContainer.isCloseRequested()) {
 			
 			// Fullscreen an/aus-schalten
 			if(keyInputF.wasKeyPressed()) {
@@ -58,17 +47,15 @@ public class Main {
 			}
 			
 			// Überprüfen ob Schlange gestorben ist, wenn ja Spiel neu-Starten 
-			if (world.hasSnake&&world.snake.isAlive==false) {
-				guiRenderer.isSnakeDead = true;
-			}
 			
-			
-			// Spiel wird gerendert
-			gameRenderer.render(world,display.getWidth(),display.getHeight());
-			// Punktzahl wird geupdated
-			guiRenderer.displayScore(world.score);
 			// Gui wird gerendert
-			guiRenderer.render(display.getWidth(),display.getHeight(),world,inputHandler.getCurrentMouseEvent());
+			int width = display.getWidth();
+			int height = display.getHeight();
+			guiContainer.setSize(width,height);
+			guiContainer.receiveMouseEvent(true,inputHandler.getCurrentMouseEvent());
+			guiContainer.update(display);
+			guiContainer.render(width,height);
+			
 			// Display und Inputs werden aktualisiert
 			display.update();
 			inputHandler.update();
@@ -76,8 +63,7 @@ public class Main {
 	
 		// Beendet den Renderer und schließt das Fenster
 		settings.save();
-		gameRenderer.destroy();
-		guiRenderer.destroy();
+		guiContainer.destroy();
 		display.close();	
 	}
 	
