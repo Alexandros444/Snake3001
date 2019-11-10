@@ -30,6 +30,7 @@ public class ButtonComponent extends BoxComponent {
 		this.text.setScale(2);
 		super.addComponent(this.text);
 		
+		backgroundColor =0x80000000;
 		hoverColor = 0xa0505050;
 	}
 	
