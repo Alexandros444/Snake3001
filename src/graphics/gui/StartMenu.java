@@ -3,6 +3,7 @@ package graphics.gui;
 import graphics.gui.engine.ContainerComponent;
 import graphics.gui.engine.components.BoxComponent;
 import graphics.gui.engine.components.ButtonComponent;
+import graphics.gui.engine.components.ImageComponent;
 import graphics.gui.engine.fonts.Font;
 import util.Settings;
 
@@ -12,6 +13,7 @@ public class StartMenu extends BoxComponent {
 	private ButtonComponent startButton;
 	private ButtonComponent settingsButton;
 	private ButtonComponent quitButton;
+	private ImageComponent title;
 	
 	private SettingsGui settingsGui;
 	
@@ -36,6 +38,12 @@ public class StartMenu extends BoxComponent {
 		this.font = font;
 		this.settings = settings;
 
+		
+		title = new ImageComponent("res/Schriftzug.png" , 1.25f);
+		title.setPosition(POSITION_CENTER_TOP);
+		title.setOffset(4,40);
+		this.addComponent(title);
+		
 		startButton = new ButtonComponent(200, 50, "Start", font);
 		startButton.setOffset(4,4);
 		container.addComponent(startButton);

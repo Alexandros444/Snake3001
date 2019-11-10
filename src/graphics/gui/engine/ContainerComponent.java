@@ -85,6 +85,9 @@ public class ContainerComponent extends GuiComponent {
 			}else if (childPosition==POSITION_CORNER_BOTTOMLEFT){
 				positionOffset.x = childComponent.getOffsetX();
 				positionOffset.y = innerHeight-childComponent.getHeight()-childComponent.getOffsetY();
+			}else if (childPosition==POSITION_CENTER_TOP){
+				positionOffset.x = (innerWidth-childComponent.getWidth())/2;
+				positionOffset.y = childComponent.getOffsetY();
 			}else if (childPosition==POSITION_FLOW){
 				positionOffset.x = flowX;
 				positionOffset.y = flowY;

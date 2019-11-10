@@ -25,18 +25,22 @@ public class ImageComponent extends GuiComponent {
 	 */
 	public ImageComponent(String path) {
 		// ruft den GuiComponent-Konstruktor auf
+		this(path,2);
+	}
+	public ImageComponent(String path,float scale) {
+		// ruft den GuiComponent-Konstruktor auf
 		super(0,0);
 		
 		// lädt das Bild und passt eigene Größe an
 		texture = new Texture(path);
-		int width = 2*texture.getWidth();
-		int height = 2*texture.getHeight();
+		int width = (int)(scale*texture.getWidth());
+		int height = (int)(scale*texture.getHeight());
 		super.setSize(width,height);
 		System.out.println("Width: "+width+", height: "+height);
 		
 		// erstellt Rechteck-Vao
 		vao = new Vao(new float[]{0,0,0,height,width,0,0,height,width,height,width,0},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
-	}
+	}	
 	
 	/**
 	 * Rendert das Bild
