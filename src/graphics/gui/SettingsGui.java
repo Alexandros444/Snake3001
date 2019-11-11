@@ -14,13 +14,15 @@ import util.Settings;
  */
 public class SettingsGui extends BoxComponent {
 	// Variablen
-	private ButtonComponent closeButton, saveButton, crosshairButton;
-	private ImageComponent crosshairImage;
-	private TextComponent crosshairText;
+	private ButtonComponent closeButton, saveButton, crosshairButton, difficultyButton, pixelSizeButton;
+	private ImageComponent crosshairImage, difficultyImage;
+	private TextComponent crosshairText, difficultyText, pixelSizeText;
 	private Settings settings;
+	private TextComponent headlineText;
+	
 	
 	public boolean hasSettingsChanged;
-	public int crosshairFrame;
+	public int crosshairFrame, difficultyFrame, pixelSize, maxPixelSize = 11, maxDifficulty = 3;
 	/**
 	 * Konstruktor
 	 * 
@@ -29,21 +31,24 @@ public class SettingsGui extends BoxComponent {
 	 */
 	public SettingsGui(Font font, Settings settings) {
 		// SuperKonstruktor
-		super(0,0,0xf0000000,0xbf808080,4);
+		super(600,500,0xf0000000,0xbf808080,4);
 		super.setPosition(POSITION_CENTER);
-		super.setWidthMode(WIDTH_AUTO);
-		super.setHeightMode(HEIGHT_AUTO);
+		super.setWidthMode(WIDTH_STATIC);
+		super.setHeightMode(HEIGHT_STATIC);
 		super.setInnerOffset(160,240);
 		
 		this.settings = settings;
 		crosshairFrame = settings.crosshairFrame;
-		
-		TextComponent testText = new TextComponent("Settings kommen dann hier rein",font);
-		testText.setScale(2);
-		testText.setOffset(0,8);
-		super.addComponent(testText);
-		
+		difficultyFrame = settings.difficulty;
+		pixelSize = settings.pixelSize;
+
 		// Komponenten
+		headlineText= new TextComponent("Settings",font);
+		headlineText.setScale(2);
+		headlineText.setPosition(POSITION_CORNER_TOPLEFT);
+		headlineText.setOffset(250,20);
+		super.addComponent(headlineText);
+		
 		closeButton = new ButtonComponent(125,40,"Close",font);
 		closeButton.setPosition(POSITION_CORNER_BOTTOMRIGHT);
 		closeButton.setOffset(12,10);
@@ -54,7 +59,7 @@ public class SettingsGui extends BoxComponent {
 		saveButton.setOffset(12,10);
 		super.addComponent(saveButton); 
 		
-		crosshairImage = new ImageComponent(settings.crosshairPath);
+		crosshairImage = new ImageComponent(settings.crosshairImagePath);
 		crosshairImage.setPosition(POSITION_CORNER_TOPLEFT);
 		crosshairImage.setOffset(26,32);
 		super.addComponent(crosshairImage);
@@ -69,6 +74,36 @@ public class SettingsGui extends BoxComponent {
 		crosshairText.setOffset(84,39);
 		crosshairText.setScale(2);
 		super.addComponent(crosshairText);
+		
+		difficultyImage = new ImageComponent("res/difficulty"+difficultyFrame+".png");
+		difficultyImage.setPosition(POSITION_CORNER_TOPLEFT);
+		difficultyImage.setOffset(26,132);
+		super.addComponent(difficultyImage);
+		
+		difficultyButton = new ButtonComponent(60,60,"",font);
+		difficultyButton.setPosition(POSITION_CORNER_TOPLEFT);
+		difficultyButton.setOffset(12,118);
+		super.addComponent(difficultyButton);
+		
+		difficultyText = new TextComponent("Difficulty",font);
+		difficultyText.setPosition(POSITION_CORNER_TOPLEFT);
+		difficultyText.setOffset(84,139);
+		difficultyText.setScale(2);
+		super.addComponent(difficultyText);
+		
+		//Intelligentes Bild hier einfügen
+		
+		pixelSizeButton = new ButtonComponent(60,60,""+pixelSize,font);
+		pixelSizeButton.setPosition(POSITION_CORNER_TOPLEFT);
+		pixelSizeButton.setOffset(12,218);
+		super.addComponent(pixelSizeButton);
+		
+		pixelSizeText = new TextComponent("Pixel Size",font);
+		pixelSizeText.setPosition(POSITION_CORNER_TOPLEFT);
+		pixelSizeText.setOffset(84,239);
+		pixelSizeText.setScale(2);
+		super.addComponent(pixelSizeText);
+		
 	}
 	
 	/**
@@ -80,6 +115,22 @@ public class SettingsGui extends BoxComponent {
 			crosshairFrame++;
 			crosshairFrame %= settings.crosshairCount;
 			crosshairImage.reloadImage("res/crosshairs"+crosshairFrame+".png");
+			saveButton.setBackgroundColor(0xFF222255);
+		}
+		
+		if(difficultyButton.wasClicked()) {
+			// Fadenkreuz wechseln
+			difficultyFrame++;
+			difficultyFrame %= maxDifficulty;
+			difficultyImage.reloadImage("res/difficulty"+difficultyFrame+".png");
+			saveButton.setBackgroundColor(0xFF222255);
+		}
+		
+		if(pixelSizeButton.wasClicked()) {
+			pixelSize++;
+			pixelSize %= maxPixelSize;
+			pixelSize++;
+			pixelSizeButton.setText(""+pixelSize);
 			saveButton.setBackgroundColor(0xFF222255);
 		}
 		if(saveButton.wasClicked()) {
@@ -95,7 +146,9 @@ public class SettingsGui extends BoxComponent {
 	private void saveSettings() {
 		hasSettingsChanged = true;
 		settings.crosshairFrame = crosshairFrame;
-		settings.crosshairPathRenew();
+		settings.crosshairImagePathRenew();
+		settings.difficulty = difficultyFrame;
+		settings.pixelSize = pixelSize;
 		settings.save();
 	}
 	

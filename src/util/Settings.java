@@ -15,17 +15,19 @@ public class Settings {
 	public int displayWidth;
 	public int displayHeight;
 	public int snakeScore;
-	public int crosshairFrame, crosshairCount = 4;
+	public int crosshairFrame, crosshairCount = 5;
 	public boolean displayFullscreen;
-	public String crosshairPath;
+	public int difficulty;
+	public int pixelSize;
+	public String crosshairImagePath; //, difficultyImagePath;
 
 	/**
 	 * Instanz der Klasse erstellt Standard-Werte und lädt Einstellungen
 	 */
 	public Settings() {
 		// Initailisiert Standard-Werte 
-		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","SNAKE_SCORE","CROSSHAIR_FRAME","DISPLAY_FULLSCREEN"};
-		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+false};
+		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","SNAKE_SCORE","CROSSHAIR_FRAME","DISPLAY_FULLSCREEN","DIFFICULTY","PIXELSIZE"};
+		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+false, ""+0,""+3};
 
 		// Erstellt neue Instanz der Einstellungen--> Einstellungen werden geladen
 		config = new SettingsLoader(STANDARD_NAMES,STANDARD_VALUES);
@@ -36,12 +38,25 @@ public class Settings {
 		snakeScore = config.getInt("SNAKE_SCORE");
 		crosshairFrame = config.getInt("CROSSHAIR_FRAME");
 		displayFullscreen = config.getBoolean("DISPLAY_FULLSCREEN");
-		crosshairPathRenew();
+		difficulty = config.getInt("DIFFICULTY");
+		pixelSize = config.getInt("PIXELSIZE");
+		crosshairImagePathRenew();
+		//difficultyImagePathRenew();
 	}
-
-	public void crosshairPathRenew() {
-		crosshairPath = "res/crosshairs"+crosshairFrame+".png";
+	
+	/**
+	 * lädt den Pfad des Crosshairs neu falls er geändert wurde
+	 */
+	public void crosshairImagePathRenew() {
+		crosshairImagePath = "res/crosshairs"+crosshairFrame+".png";
 	}
+	/** AUSKOMMENTIERT WEIL IM MOMENT NICHT GEBRAUCHT
+	 * lädt den Pfad des Difficulty Images neu falls er geändert wurde
+	 */
+	//public void difficultyImagePathRenew() {
+	//	difficultyImagePath = "res/difficulty"+difficulty+".png";
+	//}
+	
 	
 	/**
 	 * Speichert die Werte von Values in Einstellungen(Settings)
@@ -53,6 +68,8 @@ public class Settings {
 		config.setValue("DISPLAY_WIDTH",""+displayWidth);
 		config.setValue("DISPLAY_HEIGHT",""+displayHeight);
 		config.setValue("DISPLAY_FULLSCREEN",""+displayFullscreen);
+		config.setValue("DIFFICULTY",""+difficulty);
+		config.setValue("PIXELSIZE",""+pixelSize);
 		// speichert die gesetzten Werte
 		config.saveToFile();
 	}

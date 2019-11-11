@@ -49,7 +49,7 @@ public class MainGuiContainer extends ContainerComponent {
 		font = new MonospaceFont("res/font/ascii.png");
 		
 		gameRenderer = new RayMarcher();
-		gameRenderer.setPixelSize(3);
+		gameRenderer.setPixelSize(settings.pixelSize);
 		guiRenderer = new GuiRenderer();
 		world = new World(settings);
 		
@@ -180,7 +180,9 @@ public class MainGuiContainer extends ContainerComponent {
 	 * Wendet Änderungen der Settings auf alles an
 	 */
 	private void applyChangedSettings() {
-		gameGui.crosshairs.reloadImage(settings.crosshairPath);
+		gameGui.crosshairs.reloadImage(settings.crosshairImagePath);
+		gameRenderer.setPixelSize(settings.pixelSize);
+		world.updateMovementSpeed();
 	}
 	
 	/**

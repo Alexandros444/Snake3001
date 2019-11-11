@@ -29,7 +29,7 @@ public class GameGui extends ContainerComponent {
 		super.setPosition(POSITION_FULL);
 		
 		// Erstellt das Fadenkreuz
-		crosshairs = new ImageComponent(settings.crosshairPath);
+		crosshairs = new ImageComponent(settings.crosshairImagePath);
 		crosshairs.setPosition(GuiComponent.POSITION_CENTER);
 		
 		// Erstellt den Text für die Punktzahl

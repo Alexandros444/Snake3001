@@ -102,5 +102,9 @@ public class ButtonComponent extends BoxComponent {
 	public void setHoverColor(int color) {
 		hoverColor = color;
 	}
+
+	public void setText(String text) {
+		this.text.setText(text);
+	}
 	
 }

@@ -26,7 +26,8 @@ public class World {
 	public Matrix3f viewDirection;
 
 	private float rotationSpeed = 0.75f;
-	private float movementSpeed = 0.0045f;
+	private float BASE_MOVEMENT_SPEED = 0.003f;
+	private float movementSpeed;
 	
 	private long lastFrame;
 	
@@ -44,7 +45,10 @@ public class World {
 		isPaused = false;
 		
 	    lastFrame = System.nanoTime();
+	    
+	    movementSpeed = BASE_MOVEMENT_SPEED*(settings.difficulty+1);
 	}
+	
 	
 	/**
 	 * Updatet die Welt und ihre Koponenten
@@ -173,6 +177,12 @@ public class World {
 		
 		snake = null;
 		hasSnake = false;
+		
+		updateMovementSpeed();
+	}
+	
+	public void updateMovementSpeed() {
+	    movementSpeed = BASE_MOVEMENT_SPEED*(settings.difficulty+1);
 	}
 	
 	/**
