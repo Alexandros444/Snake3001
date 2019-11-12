@@ -9,6 +9,8 @@ import graphics.gui.engine.KeyInput;
 import graphics.gui.engine.fonts.Font;
 import graphics.gui.engine.fonts.MonospaceFont;
 import util.Settings;
+import util.math.Matrix3f;
+
 
 /**
  * Klasse für den Haupt-Gui-Container unseres Spiels. Verwaltet sowohl das Spiel und den Renderer dazu, als auch das gesamte Gui.
@@ -35,7 +37,9 @@ public class MainGuiContainer extends ContainerComponent {
 	
 	private DeathMenu deathScreen;
 	private boolean isDeathMenuOpen;
-
+	
+	private float scaleX = 1; 
+	private float scaleY = 1;
 	/**
 	 * Erstellt den Container
 	 * 
@@ -214,5 +218,18 @@ public class MainGuiContainer extends ContainerComponent {
 		gameRenderer.destroy();
 		guiRenderer.destroy();
 	}
-
+	
+	public void setScale(float scaleX, float scaleY) {
+		this.scaleX = scaleX;
+		this.scaleY = scaleY;
+		Matrix3f scaleMatrix = new Matrix3f(); 
+		 
+		scaleMatrix.m00 *= scaleX;
+		scaleMatrix.m11 *= scaleY;
+		super.setInnerTransform(scaleMatrix);
+	}
+	
+	public void setSize(int width, int height) {
+		super.setSize((int)(width/scaleX),(int)(height/scaleY));
+	}
 }
