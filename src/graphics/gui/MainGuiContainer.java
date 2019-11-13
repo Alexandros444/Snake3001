@@ -92,7 +92,7 @@ public class MainGuiContainer extends ContainerComponent {
 					openStartMenu();
 					world.reset();
 					}
-				if(deathScreen.isRestartRequested()){ 
+				else if(deathScreen.isRestartRequested()){ 
 					restartGame();
 				}
 			}else {
