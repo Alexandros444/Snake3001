@@ -15,9 +15,11 @@ import graphics.gui.engine.fonts.Font;
 public class DeathMenu extends BoxComponent {
 	
 	private ButtonComponent exitButton;
+	private ButtonComponent retryButton;
 	private TextComponent testText;	
 	
 	private boolean isCloseRequested;
+	private boolean isRestartRequested;
 	
 	public DeathMenu(Font font, int score) { 
 		super(0,0,0x80000000,0,0);
@@ -37,6 +39,10 @@ public class DeathMenu extends BoxComponent {
 		exitButton = new ButtonComponent(200, 50, "Exit", font);
 		exitButton.setOffset(4,4);
 		container.addComponent(exitButton);
+		
+		retryButton = new ButtonComponent(200, 50, "Retry", font);
+		retryButton.setOffset(4,4);
+		container.addComponent(retryButton);
 	}
 	
 	/**
@@ -47,10 +53,17 @@ public class DeathMenu extends BoxComponent {
 			// Programm beenden
 			isCloseRequested = true;
 		}
+		if(retryButton.wasClicked()) {
+			// Programm neustarten
+			isRestartRequested = true;
+		}
 	}
 	
 	public boolean isExitRequested() {
 		return isCloseRequested;
+	}
+	public boolean isRestartRequested() {
+		return isRestartRequested; 
 	}
 
 } 

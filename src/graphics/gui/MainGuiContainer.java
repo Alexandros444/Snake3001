@@ -91,6 +91,9 @@ public class MainGuiContainer extends ContainerComponent {
 					closeDeathScreen();
 					openStartMenu();
 					world.reset();
+					}
+				if(deathScreen.isRestartRequested()){ 
+					restartGame();
 				}
 			}else {
 				// Death-Menü ist nicht offen
@@ -138,6 +141,15 @@ public class MainGuiContainer extends ContainerComponent {
 		startMenu.destroy();
 		startMenu = null;
 		world.spawnSnake();
+	}
+	/**
+	 * Schließt das deathMenu und startet das Spiel neu
+	 */
+	private void restartGame() {
+		hasGameStarted = true; 
+		closeDeathScreen();
+		world.reset();
+		world.spawnSnake();		 
 	}
 	
 	/**
