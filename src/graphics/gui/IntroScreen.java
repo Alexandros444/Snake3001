@@ -4,6 +4,11 @@ import graphics.gui.engine.components.BoxComponent;
 import graphics.gui.engine.components.ImageComponent;
 import util.Timer;
 
+/**
+ * Klasse für den Introscreen bei Start des Programms
+ * 
+ * @author Max
+ */
 public class IntroScreen extends BoxComponent{
 
 	private Timer timer;
