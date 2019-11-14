@@ -14,6 +14,17 @@ import util.math.Vector3f;
  */
 public class World {
 	
+	public static final int MODE_NORMAL = 0;
+	public static final int MODE_FAST = 1;
+	public static final int MODE_TUNNEL = 2;
+	
+	private static final float SPEED_NORMAL = 0.005f;
+	private static final float SPEED_FAST = 0.008f;
+	
+	private static final float GRID_WIDTH_NORMAL = 0.04f;
+	private static final float GRID_WIDTH_TUNNEL = 0.6f;
+	
+	private int gameMode = MODE_NORMAL;
 	
 	public Snake snake;
 	public Food food;
@@ -26,8 +37,8 @@ public class World {
 	public Matrix3f viewDirection;
 
 	private float rotationSpeed = 0.75f;
-	private float BASE_MOVEMENT_SPEED = 0.003f;
-	private float movementSpeed;
+	private float movementSpeed = SPEED_NORMAL;
+	public float gridWidth = GRID_WIDTH_NORMAL;
 	
 	private long lastFrame;
 	
@@ -39,16 +50,38 @@ public class World {
 	 * @param settings zu ladende Einstellungen
 	 */
 	public World(Settings settings) {
-		this.settings = settings; 
+		this.settings = settings;
+	    
+	    if (settings.difficulty==0) {
+	    	setGameMode(MODE_NORMAL);
+	    }else if(settings.difficulty==1) {
+	    	setGameMode(MODE_FAST);
+	    }else if(settings.difficulty==2) {
+	    	setGameMode(MODE_TUNNEL);
+	    }
 
 		reset();
 		isPaused = false;
 		
 	    lastFrame = System.nanoTime();
-	    
-	    movementSpeed = BASE_MOVEMENT_SPEED*(settings.difficulty+1);
 	}
 	
+	public void setGameMode(int gameMode) {
+		if (this.gameMode!=gameMode) {
+			this.gameMode = gameMode;
+			
+			if (gameMode==MODE_FAST) {
+				movementSpeed = SPEED_FAST;
+			}else {
+				movementSpeed = SPEED_NORMAL;
+			}
+			if (gameMode==MODE_TUNNEL) {
+				gridWidth = GRID_WIDTH_TUNNEL;
+			}else {
+				gridWidth = GRID_WIDTH_NORMAL;
+			}
+		}
+	}
 	
 	/**
 	 * Updatet die Welt und ihre Koponenten
@@ -159,10 +192,10 @@ public class World {
 	 * @param p Ortsvektor
 	 * @return Distanz zum Gitter
 	 */
-	private static float gridDistance(Vector3f p) {
-		float x = Math.max(0,Math.abs(Math.abs(p.x)%1-0.5f)-0.02f);
-		float y = Math.max(0,Math.abs(Math.abs(p.y)%1-0.5f)-0.02f);
-		float z = Math.max(0,Math.abs(Math.abs(p.z)%1-0.5f)-0.02f);
+	private float gridDistance(Vector3f p) {
+		float x = Math.max(0,Math.abs(Math.abs(p.x)%1-0.5f)-gridWidth/2);
+		float y = Math.max(0,Math.abs(Math.abs(p.y)%1-0.5f)-gridWidth/2);
+		float z = Math.max(0,Math.abs(Math.abs(p.z)%1-0.5f)-gridWidth/2);
 		return (float)Math.min(Math.sqrt(x*x+y*y),Math.min(Math.sqrt(y*y+z*z),Math.sqrt(z*z+x*x)));
 	}
 	
@@ -170,19 +203,14 @@ public class World {
 	 * Setzt alles zurück, erstellt eine leere Welt ohne Schlange
 	 */
 	public void reset() {
-		score = 0;
-		placeFood();
 	    viewDirection = new Matrix3f();
-	    cameraPosition = new Vector3f(0,0,0.5f); 
-		
+	    cameraPosition = new Vector3f(0,0,0.5f);
+	    
+		score = 0;
 		snake = null;
 		hasSnake = false;
 		
-		updateMovementSpeed();
-	}
-	
-	public void updateMovementSpeed() {
-	    movementSpeed = BASE_MOVEMENT_SPEED*(settings.difficulty+1);
+		placeFood();
 	}
 	
 	/**

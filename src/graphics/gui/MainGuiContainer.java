@@ -212,7 +212,13 @@ public class MainGuiContainer extends ContainerComponent {
 	private void applyChangedSettings() {
 		gameGui.crosshairs.reloadImage(settings.crosshairImagePath);
 		gameRenderer.setPixelSize(settings.pixelSize);
-		world.updateMovementSpeed();
+	    if (settings.difficulty==0) {
+	    	world.setGameMode(World.MODE_NORMAL);
+	    }else if(settings.difficulty==1) {
+	    	world.setGameMode(World.MODE_FAST);
+	    }else if(settings.difficulty==2) {
+	    	world.setGameMode(World.MODE_TUNNEL);
+	    }
 	}
 	
 	/**

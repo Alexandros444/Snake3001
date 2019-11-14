@@ -25,6 +25,7 @@ public class RayMarcherShader extends Shader{
 	private int foodPositionUniformID;
 	private int foodRadiusUniformID;
 	private int foodRotationUniformID;
+	private int gridWidthUniformID;
 	
 	/**
 	 * Lädt den Shader.
@@ -55,6 +56,7 @@ public class RayMarcherShader extends Shader{
 		foodPositionUniformID = super.getUniformLocation("foodPosition");
 		foodRadiusUniformID = super.getUniformLocation("foodRadius");
 		foodRotationUniformID = super.getUniformLocation("foodRotation");
+		gridWidthUniformID = super.getUniformLocation("gridWidth");
 	}
 	
 	/**
@@ -128,6 +130,15 @@ public class RayMarcherShader extends Shader{
 	 */
 	public void loadFoodRotation(Matrix3f matrix) {
 		super.loadMatrix3f(foodRotationUniformID, matrix);
+	}
+	
+	/**
+	 * Lädt die Dicke des Gitters
+	 * 
+	 * @param gridWidth Dicke der Gitterstäbe
+	 */
+	public void loadGridWidth(float gridWidth) {
+		super.loadFloat(gridWidthUniformID,gridWidth);
 	}
 	
 }

@@ -80,6 +80,7 @@ public class RayMarcher {
 		shader.loadFoodPosition(world.food.position);
 		shader.loadFoodRadius(world.food.radius);
 		shader.loadFoodRotation(world.food.rotation);
+		shader.loadGridWidth(world.gridWidth);
 		
 		// lädt das aktuelle Seitenverhältnis des Fensters in den Shader
 		float ratio = (float)width/height;
