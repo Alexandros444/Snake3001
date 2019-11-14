@@ -36,13 +36,14 @@ public class DeathMenu extends BoxComponent {
 		testText.setPosition(POSITION_FULL);
 		container.addComponent(testText);
 		
+		retryButton = new ButtonComponent(200, 50, "Retry", font);
+		retryButton.setOffset(4,4);
+		container.addComponent(retryButton);
+		
 		exitButton = new ButtonComponent(200, 50, "Exit", font);
 		exitButton.setOffset(4,4);
 		container.addComponent(exitButton);
 		
-		retryButton = new ButtonComponent(200, 50, "Retry", font);
-		retryButton.setOffset(4,4);
-		container.addComponent(retryButton);
 	}
 	
 	/**

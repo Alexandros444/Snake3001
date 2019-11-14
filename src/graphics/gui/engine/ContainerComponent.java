@@ -43,6 +43,7 @@ public class ContainerComponent extends GuiComponent {
 	 */
 	public void addComponent(GuiComponent component) {
 		childComponents.add(component);
+		component.setParentTransparency(super.getTotalTransparency());
 		refreshChildPositions();
 	}
 
@@ -203,6 +204,12 @@ public class ContainerComponent extends GuiComponent {
 	public void setHeightMode(int mode) {
 		heightMode = mode;
 		refreshChildPositions();
+	}
+	
+	protected void onTransparencyChange() {
+		for (GuiComponent childComponent:childComponents) {
+			childComponent.setParentTransparency(super.getTotalTransparency());
+		}
 	}
 	
 	/**

@@ -38,6 +38,9 @@ public class MainGuiContainer extends ContainerComponent {
 	private DeathMenu deathScreen;
 	private boolean isDeathMenuOpen;
 	
+	private IntroScreen introScreen;
+	private boolean isIntroScreenOpen;
+	
 	private float scaleX = 1; 
 	private float scaleY = 1;
 	/**
@@ -61,6 +64,11 @@ public class MainGuiContainer extends ContainerComponent {
 		super.addComponent(gameGui);
 		
 		openStartMenu();
+		
+		introScreen = new IntroScreen();
+		super.addComponent(introScreen);
+		isIntroScreenOpen = true;
+		
 	}
 	
 	/**
@@ -120,6 +128,12 @@ public class MainGuiContainer extends ContainerComponent {
 					openPauseMenu();
 				}
 			}
+		}
+		if(isIntroScreenOpen && introScreen.isFinished()) {
+			isIntroScreenOpen = false;
+			super.removeComponent(introScreen);
+			introScreen.destroy();
+			introScreen = null;
 		}
 	}
 	

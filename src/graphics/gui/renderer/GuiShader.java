@@ -11,6 +11,7 @@ public class GuiShader extends Shader {
 	
 	private int screenSizeUniformID;
 	private int transformationMatrixUniformID;
+	private int transparencyUniformID;
 	
 	/**
 	 * Lädt den Shader.
@@ -35,6 +36,7 @@ public class GuiShader extends Shader {
 	protected void getUniformLocations() {
 		screenSizeUniformID = super.getUniformLocation("screenSize");
 		transformationMatrixUniformID = super.getUniformLocation("transformationMatrix");
+		transparencyUniformID = super.getUniformLocation("transparency");
 	}
 	
 	/**
@@ -57,6 +59,10 @@ public class GuiShader extends Shader {
 	 */
 	public void loadTransformationMatrix(Matrix3f matrix) {
 		super.loadMatrix3f(transformationMatrixUniformID,matrix);
+	}
+	
+	public void loadTransparency(float transparency) {
+		super.loadFloat(transparencyUniformID, transparency);
 	}
 	
 }

@@ -49,6 +49,9 @@ public abstract class GuiComponent {
 	
 	private boolean touchesMouse;
 	
+	private float parentTransparency = 1;
+	private float ownTransparency = 1;
+	
 	/**
 	 * Erstellt eine neuen Gui-Komponente.
 	 * 
@@ -303,6 +306,22 @@ public abstract class GuiComponent {
 	 */
 	public int getOffsetY() {
 		return offsetY;
+	}
+	
+	public void setParentTransparency(float transparency) {
+		parentTransparency = transparency;
+		onTransparencyChange();
+	}
+	
+	public void setTransparency(float transparency) {
+		ownTransparency = transparency;
+		onTransparencyChange();
+	}
+	
+	protected void onTransparencyChange() {}
+	
+	public float getTotalTransparency() {
+		return ownTransparency*parentTransparency;
 	}
 	
 }

@@ -47,6 +47,7 @@ public class ImageComponent extends GuiComponent {
 	 */
 	public void render(GuiShader shader) {
 		shader.loadTransformationMatrix(super.getTotalTransform());
+		shader.loadTransparency(super.getTotalTransparency());
 		texture.bind();
 		vao.bind();
 		vao.render();

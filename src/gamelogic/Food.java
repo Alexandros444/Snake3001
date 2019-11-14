@@ -21,7 +21,7 @@ public class Food {
 	 * Erstellt eine neues Essen
 	 */
 	public Food() {
-		this.radius = 0;
+		this.radius = -BASE_RADIUS;
 		//setzt das Essen auf eine zufällige Position
 		float a = (float) (Math.random()-0.5);
 		float b = (float) (Math.random()-0.5);
@@ -56,7 +56,7 @@ public class Food {
 	 * @param deltaTime Zeit seit letztem Frame
 	 */ 
 	public void update(float deltaTime) {
-		radius += (BASE_RADIUS-radius)/10;
+		radius += (BASE_RADIUS-radius)*(1-Math.pow(0.998f,deltaTime*(1e-6f)));
 		rotation.rotate(1.5f * ((deltaTime)*(1e-7f)), 1.5f * ((deltaTime)*(1e-7f)), 0);
 	}
 }

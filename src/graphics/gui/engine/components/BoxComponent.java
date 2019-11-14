@@ -67,6 +67,7 @@ public class BoxComponent extends ContainerComponent {
 	 */
 	public void render(GuiShader shader) {
 		shader.loadTransformationMatrix(super.getTotalTransform());
+		shader.loadTransparency(super.getTotalTransparency());
 		texture.bind();
 		vao.bind();
 		vao.render();

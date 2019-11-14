@@ -15,6 +15,10 @@ public class Timer {
 		reset();
 	}
 	
+	public float getTime() {
+		return (System.nanoTime()-startTime)*1e-9f;
+	}
+	
 	/*
 	 * Gibt die Zeit in Sekunden aus
 	 */

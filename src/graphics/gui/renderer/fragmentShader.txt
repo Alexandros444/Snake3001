@@ -8,10 +8,11 @@ out vec4 color;
 
 // kriegt eine Textur als uniform übergeben
 uniform sampler2D textureSampler;
+uniform float transparency;
 
 void main(void){
 	
 	// gibt die Farbe der Textur an den gegeben Koordinaten zurück
 	color = texture(textureSampler,pass_textureCoords);
-	
+	color.a *= transparency;
 }
