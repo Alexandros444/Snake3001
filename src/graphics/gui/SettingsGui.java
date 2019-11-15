@@ -22,7 +22,7 @@ public class SettingsGui extends BoxComponent {
 	
 	
 	public boolean hasSettingsChanged;
-	public int crosshairFrame, difficultyFrame, pixelSize, maxPixelSize = 11, maxDifficulty = 3;
+	public int crosshairFrame, difficultyFrame, pixelSize, maxPixelSize = 10, maxDifficulty = 3;
 	/**
 	 * Konstruktor
 	 * 
@@ -127,7 +127,6 @@ public class SettingsGui extends BoxComponent {
 		}
 		
 		if(pixelSizeButton.wasClicked()) {
-			pixelSize++;
 			pixelSize %= maxPixelSize;
 			pixelSize++;
 			pixelSizeButton.setText(""+pixelSize);
