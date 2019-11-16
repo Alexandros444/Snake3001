@@ -35,6 +35,9 @@ public class MainGuiContainer extends ContainerComponent {
 	private StartMenu startMenu;
 	private boolean hasGameStarted;
 	
+	private GameModeMenu gameModeMenu;
+	private boolean isGameModeMenuOpen;
+	
 	private DeathMenu deathScreen;
 	private boolean isDeathMenuOpen;
 	
@@ -84,11 +87,21 @@ public class MainGuiContainer extends ContainerComponent {
 		gameGui.displayScore(world.score);
 		
 		if(!hasGameStarted) {
-			// Hauptmenü ist offen
-			if(startMenu.isStartRequested()) {
-				startGame();
-			}else if(startMenu.hasSettingsChanged) {
-				applyChangedSettings();
+			if (isGameModeMenuOpen) {
+				// GameModeMenu ist offen
+				if (gameModeMenu.isStartRequested()) {
+					world.setGameMode(gameModeMenu.getSelectedMode());
+					closeGameModeMenu();
+					startGame();
+				}
+			}else {
+				// Hauptmenü ist offen
+				if(startMenu.isStartRequested()) {
+					closeStartMenu();
+					openGameModeMenu();
+				}else if(startMenu.hasSettingsChanged) {
+					applyChangedSettings();
+				}
 			}
 		}else {
 			// Spiel hat begonnen
@@ -147,13 +160,38 @@ public class MainGuiContainer extends ContainerComponent {
 	}
 	
 	/**
-	 * Schließt das Hauptmenü und startet das Spiel
+	 * Schließt das Hauptmenü
 	 */
-	private void startGame() {
-		hasGameStarted = true;
+	private void closeStartMenu() {
 		super.removeComponent(startMenu);
 		startMenu.destroy();
 		startMenu = null;
+	}
+	
+	/**
+	 * Öffnet das GameModeMenu
+	 */
+	private void openGameModeMenu() {
+		gameModeMenu = new GameModeMenu(font);
+		isGameModeMenuOpen = true;
+		super.addComponent(gameModeMenu);
+	}
+	
+	/**
+	 * Schließt das GameModeMenu
+	 */
+	private void closeGameModeMenu() {
+		isGameModeMenuOpen = false;
+		super.removeComponent(gameModeMenu);
+		gameModeMenu.destroy();
+		gameModeMenu = null;
+	}
+	
+	/**
+	 * Startet das Spiel
+	 */
+	private void startGame() {
+		hasGameStarted = true;
 		world.spawnSnake();
 	}
 	/**
@@ -212,13 +250,6 @@ public class MainGuiContainer extends ContainerComponent {
 	private void applyChangedSettings() {
 		gameGui.crosshairs.reloadImage(settings.crosshairImagePath);
 		gameRenderer.setPixelSize(settings.pixelSize);
-	    if (settings.difficulty==0) {
-	    	world.setGameMode(World.MODE_NORMAL);
-	    }else if(settings.difficulty==1) {
-	    	world.setGameMode(World.MODE_FAST);
-	    }else if(settings.difficulty==2) {
-	    	world.setGameMode(World.MODE_TUNNEL);
-	    }
 	}
 	
 	/**
@@ -238,7 +269,7 @@ public class MainGuiContainer extends ContainerComponent {
 	 * @return ob das Spiel geschlossen werden soll
 	 */
 	public boolean isCloseRequested() {
-		return !hasGameStarted&&startMenu.isCloseRequested(); 
+		return !hasGameStarted&&!isGameModeMenuOpen&&startMenu.isCloseRequested(); 
 	}
 	
 	/**

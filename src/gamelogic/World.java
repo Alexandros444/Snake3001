@@ -51,14 +51,6 @@ public class World {
 	 */
 	public World(Settings settings) {
 		this.settings = settings;
-	    
-	    if (settings.difficulty==0) {
-	    	setGameMode(MODE_NORMAL);
-	    }else if(settings.difficulty==1) {
-	    	setGameMode(MODE_FAST);
-	    }else if(settings.difficulty==2) {
-	    	setGameMode(MODE_TUNNEL);
-	    }
 
 		reset();
 		isPaused = false;
