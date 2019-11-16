@@ -49,11 +49,10 @@ public class Main {
 			// Gui wird gerendert
 			int width = display.getWidth();
 			int height = display.getHeight();
-			guiContainer.setSize(width,height);
-			guiContainer.receiveMouseEvent(true,inputHandler.getCurrentMouseEvent());
-			
 			float scale = 0.001f*Math.min(width,height*2);
 			guiContainer.setScale(scale,scale);
+			guiContainer.setSize(width,height);
+			guiContainer.receiveMouseEvent(true,inputHandler.getCurrentMouseEvent());
 			
 			guiContainer.update(display);
 			guiContainer.render(width,height);
