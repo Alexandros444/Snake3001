@@ -46,7 +46,23 @@ public class ContainerComponent extends GuiComponent {
 		component.setParentTransparency(super.getTotalTransparency());
 		refreshChildPositions();
 	}
-
+	
+	/**
+	 * Fügt eine Komponente vor einer anderen als Kindelement ein
+	 * 
+	 * @param component1 Element, das eingefügt werden soll
+	 * @param component2 Element, vor dem es eingefügt werden soll
+	 */
+	public void insertBefore(GuiComponent component1, GuiComponent component2) {
+		childComponents.add(childComponents.indexOf(component2),component1);
+		component1.setParentTransparency(super.getTotalTransparency());
+		refreshChildPositions();
+	}
+	
+	/**
+	 * Entfernt eine Komponente als Kindelement
+	 * @param component die Komponente
+	 */
 	public void removeComponent(GuiComponent component) {
 		childComponents.remove(component);
 		refreshChildPositions();

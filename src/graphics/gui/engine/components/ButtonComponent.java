@@ -1,19 +1,13 @@
 package graphics.gui.engine.components;
 
+import graphics.gui.engine.GuiComponent;
 import graphics.gui.engine.MouseEvent;
-import graphics.gui.engine.fonts.Font;
 
-/**
- * Klasse für einfache Buttons
- * 
- * @author Ben
- */
 public class ButtonComponent extends BoxComponent {
 	
-	private TextComponent text;
-	
-	private int backgroundColor, hoverColor;
 	private boolean wasClicked;
+	
+	private BoxComponent overlay;
 	
 	/**
 	 * Erstellt einen neuen Button
@@ -23,35 +17,41 @@ public class ButtonComponent extends BoxComponent {
 	 * @param text Beschriftung
 	 * @param font Schriftart
 	 */
-	public ButtonComponent(int width, int height, String text, Font font) {
-		super(width,height,0x80000000,0xa0808080,4);
-		this.text = new TextComponent(text,font);
-		this.text.setPosition(POSITION_CENTER);
-		this.text.setScale(2);
-		super.addComponent(this.text);
-		
-		backgroundColor =0x80000000;
-		hoverColor = 0xa0505050;
+	public ButtonComponent(int width, int height, int backgroundColor, int hoverColor, int borderColor, int borderWidth) {
+		super(width,height,backgroundColor,borderColor,borderWidth);
+		overlay = new BoxComponent(0,0,hoverColor,0,0);
+		overlay.setTransparency(0);
+		overlay.setPosition(POSITION_FULL);
+		super.addComponent(overlay);
 	}
 	
 	/**
-	 * Ändert die Hintergrundfarbe, wenn der Mauszeiger den Button berührt
+	 * Fügt eine Komponente als Kindelemente ein
+	 * 
+	 * @param component die Komponente
+	 */
+	public void addComponent(GuiComponent component) {
+		super.insertBefore(component,overlay);
+	}
+	
+	/**
+	 * Macht das Overlay sichtbar, wenn der Mauszeiger den Button berührt
 	 * 
 	 * @param event Event mit Informationen zur Maus
 	 */
 	protected void onMouseOn(MouseEvent event) {
 		super.onMouseOn(event);
-		super.setBackgroundColor(hoverColor);
+		overlay.setTransparency(1);
 	}
 	
 	/**
-	 * Ändert die Hintergrundfarbe wieder zurück, wenn der Mauszeiger den Button nicht mehr berührt
+	 * Versteckt das Overlay wieder, wenn der Mauszeiger den Button nicht mehr berührt
 	 * 
 	 * @param event Event mit Informationen zur Maus
 	 */
 	protected void onMouseOff(MouseEvent event) {
 		super.onMouseOff(event);
-		super.setBackgroundColor(backgroundColor);
+		overlay.setTransparency(0);
 	}
 	
 	/**
@@ -82,29 +82,4 @@ public class ButtonComponent extends BoxComponent {
 		super.onLeftClick(event);
 		wasClicked = true;
 	}
-	
-	
-	/**
-	 * Setzt die Hintergrundfarbe
-	 * 
-	 * @param color Hintergrundfarbe im Format 0xaabbggrr (Hexadezimal)
-	 */
-	public void setBackgroundColor(int color) {
-		backgroundColor = color;
-		super.setBackgroundColor(color);
-	}
-	
-	/**
-	 * Setzt die Maus-Überflug-Farbe
-	 * 
-	 * @param color Hoverfarbe im Format 0xaabbggrr (Hexadezimal)
-	 */
-	public void setHoverColor(int color) {
-		hoverColor = color;
-	}
-
-	public void setText(String text) {
-		this.text.setText(text);
-	}
-	
 }

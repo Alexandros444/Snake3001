@@ -3,7 +3,7 @@ package graphics.gui;
 import gamelogic.World;
 import graphics.gui.engine.ContainerComponent;
 import graphics.gui.engine.components.BoxComponent;
-import graphics.gui.engine.components.ButtonComponent;
+import graphics.gui.engine.components.TextButtonComponent;
 import graphics.gui.engine.fonts.Font;
 
 /**
@@ -13,9 +13,9 @@ import graphics.gui.engine.fonts.Font;
  */
 public class GameModeMenu extends BoxComponent {
 	
-	private ButtonComponent normalButton;
-	private ButtonComponent fastButton;
-	private ButtonComponent tunnelButton;
+	private TextButtonComponent normalButton;
+	private TextButtonComponent fastButton;
+	private TextButtonComponent tunnelButton;
 	
 	private boolean isStartRequested;
 	private int selectedMode;
@@ -34,13 +34,13 @@ public class GameModeMenu extends BoxComponent {
 		container.setPosition(POSITION_CENTER);
 		super.addComponent(container);
 		
-		normalButton = new ButtonComponent(200, 50, "Normal Mode", font);
+		normalButton = new TextButtonComponent(200, 50, "Normal Mode", font);
 		normalButton.setOffset(4,4);
 		container.addComponent(normalButton);
-		fastButton = new ButtonComponent(200, 50, "Fast Mode", font);
+		fastButton = new TextButtonComponent(200, 50, "Fast Mode", font);
 		fastButton.setOffset(4,4);
 		container.addComponent(fastButton);
-		tunnelButton = new ButtonComponent(200, 50, "Tunnel Mode", font);
+		tunnelButton = new TextButtonComponent(200, 50, "Tunnel Mode", font);
 		tunnelButton.setOffset(4,4);
 		container.addComponent(tunnelButton);
 	}

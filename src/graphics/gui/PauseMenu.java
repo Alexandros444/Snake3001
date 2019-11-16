@@ -2,15 +2,15 @@ package graphics.gui;
 
 import graphics.gui.engine.ContainerComponent;
 import graphics.gui.engine.components.BoxComponent;
-import graphics.gui.engine.components.ButtonComponent;
+import graphics.gui.engine.components.TextButtonComponent;
 import graphics.gui.engine.fonts.Font;
 import util.Settings;
 
 public class PauseMenu extends BoxComponent {
 	
-	private ButtonComponent continueButton;
-	private ButtonComponent settingsButton;
-	private ButtonComponent exitButton;
+	private TextButtonComponent continueButton;
+	private TextButtonComponent settingsButton;
+	private TextButtonComponent exitButton;
 	private boolean isContinueRequested, isExitRequested;
 	
 	private Font font;
@@ -39,13 +39,13 @@ public class PauseMenu extends BoxComponent {
 		settingsGui = null;
 		areSettingsOpen = false;
 		
-		continueButton = new ButtonComponent(200, 50, "Continue", font);
+		continueButton = new TextButtonComponent(200, 50, "Continue", font);
 		continueButton.setOffset(4,4);
 		container.addComponent(continueButton);
-		settingsButton = new ButtonComponent(200, 50, "Settings", font);
+		settingsButton = new TextButtonComponent(200, 50, "Settings", font);
 		settingsButton.setOffset(4,4);
 		container.addComponent(settingsButton);
-		exitButton = new ButtonComponent(200, 50, "Exit", font);
+		exitButton = new TextButtonComponent(200, 50, "Exit", font);
 		exitButton.setOffset(4,4);
 		container.addComponent(exitButton);
 	}

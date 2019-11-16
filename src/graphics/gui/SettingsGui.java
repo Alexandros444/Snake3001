@@ -1,7 +1,7 @@
 package graphics.gui;
 
 import graphics.gui.engine.components.BoxComponent;
-import graphics.gui.engine.components.ButtonComponent;
+import graphics.gui.engine.components.TextButtonComponent;
 import graphics.gui.engine.components.ImageComponent;
 import graphics.gui.engine.components.TextComponent;
 import graphics.gui.engine.fonts.Font;
@@ -14,7 +14,7 @@ import util.Settings;
  */
 public class SettingsGui extends BoxComponent {
 	// Variablen
-	private ButtonComponent closeButton, saveButton, crosshairButton, difficultyButton, pixelSizeButton;
+	private TextButtonComponent closeButton, saveButton, crosshairButton, difficultyButton, pixelSizeButton;
 	private ImageComponent crosshairImage, difficultyImage;
 	private TextComponent crosshairText, difficultyText, pixelSizeText;
 	private Settings settings;
@@ -49,12 +49,12 @@ public class SettingsGui extends BoxComponent {
 		headlineText.setOffset(250,20);
 		super.addComponent(headlineText);
 		
-		closeButton = new ButtonComponent(125,40,"Close",font);
+		closeButton = new TextButtonComponent(125,40,"Close",font);
 		closeButton.setPosition(POSITION_CORNER_BOTTOMRIGHT);
 		closeButton.setOffset(12,10);
 		super.addComponent(closeButton);
 		
-		saveButton = new ButtonComponent(125,40,"Save",font);
+		saveButton = new TextButtonComponent(125,40,"Save",font);
 		saveButton.setPosition(POSITION_CORNER_BOTTOMLEFT);
 		saveButton.setOffset(12,10);
 		super.addComponent(saveButton); 
@@ -64,7 +64,7 @@ public class SettingsGui extends BoxComponent {
 		crosshairImage.setOffset(26,32);
 		super.addComponent(crosshairImage);
 		
-		crosshairButton = new ButtonComponent(60,60,"",font);
+		crosshairButton = new TextButtonComponent(60,60,"",font);
 		crosshairButton.setPosition(POSITION_CORNER_TOPLEFT);
 		crosshairButton.setOffset(12,18);
 		super.addComponent(crosshairButton);
@@ -80,7 +80,7 @@ public class SettingsGui extends BoxComponent {
 		difficultyImage.setOffset(26,132);
 		super.addComponent(difficultyImage);
 		
-		difficultyButton = new ButtonComponent(60,60,"",font);
+		difficultyButton = new TextButtonComponent(60,60,"",font);
 		difficultyButton.setPosition(POSITION_CORNER_TOPLEFT);
 		difficultyButton.setOffset(12,118);
 		super.addComponent(difficultyButton);
@@ -93,7 +93,7 @@ public class SettingsGui extends BoxComponent {
 		
 		//Intelligentes Bild hier einfügen
 		
-		pixelSizeButton = new ButtonComponent(60,60,""+pixelSize,font);
+		pixelSizeButton = new TextButtonComponent(60,60,""+pixelSize,font);
 		pixelSizeButton.setPosition(POSITION_CORNER_TOPLEFT);
 		pixelSizeButton.setOffset(12,218);
 		super.addComponent(pixelSizeButton);

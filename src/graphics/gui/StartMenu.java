@@ -2,7 +2,7 @@ package graphics.gui;
 
 import graphics.gui.engine.ContainerComponent;
 import graphics.gui.engine.components.BoxComponent;
-import graphics.gui.engine.components.ButtonComponent;
+import graphics.gui.engine.components.TextButtonComponent;
 import graphics.gui.engine.components.ImageComponent;
 import graphics.gui.engine.fonts.Font;
 import util.Settings;
@@ -10,9 +10,9 @@ import util.Settings;
 public class StartMenu extends BoxComponent {
 	
 
-	private ButtonComponent startButton;
-	private ButtonComponent settingsButton;
-	private ButtonComponent quitButton;
+	private TextButtonComponent startButton;
+	private TextButtonComponent settingsButton;
+	private TextButtonComponent quitButton;
 	private ImageComponent title;
 	
 	private SettingsGui settingsGui;
@@ -44,13 +44,13 @@ public class StartMenu extends BoxComponent {
 		title.setOffset(4,40);
 		this.addComponent(title);
 		
-		startButton = new ButtonComponent(200, 50, "Start", font);
+		startButton = new TextButtonComponent(200, 50, "Start", font);
 		startButton.setOffset(4,4);
 		container.addComponent(startButton);
-		settingsButton = new ButtonComponent(200, 50, "Settings", font);
+		settingsButton = new TextButtonComponent(200, 50, "Settings", font);
 		settingsButton.setOffset(4,4);
 		container.addComponent(settingsButton);
-		quitButton = new ButtonComponent(200, 50, "Quit", font);
+		quitButton = new TextButtonComponent(200, 50, "Quit", font);
 		quitButton.setOffset(4,4);
 		container.addComponent(quitButton);
 	}

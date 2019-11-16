@@ -2,7 +2,7 @@ package graphics.gui;
 
 import graphics.gui.engine.ContainerComponent;
 import graphics.gui.engine.components.BoxComponent;
-import graphics.gui.engine.components.ButtonComponent;
+import graphics.gui.engine.components.TextButtonComponent;
 import graphics.gui.engine.components.TextComponent;
 import graphics.gui.engine.fonts.Font;
 
@@ -14,8 +14,8 @@ import graphics.gui.engine.fonts.Font;
 
 public class DeathMenu extends BoxComponent {
 	
-	private ButtonComponent exitButton;
-	private ButtonComponent retryButton;
+	private TextButtonComponent exitButton;
+	private TextButtonComponent retryButton;
 	private TextComponent testText;	
 	
 	private boolean isCloseRequested;
@@ -36,11 +36,11 @@ public class DeathMenu extends BoxComponent {
 		testText.setPosition(POSITION_FULL);
 		container.addComponent(testText);
 		
-		retryButton = new ButtonComponent(200, 50, "Retry", font);
+		retryButton = new TextButtonComponent(200, 50, "Retry", font);
 		retryButton.setOffset(4,4);
 		container.addComponent(retryButton);
 		
-		exitButton = new ButtonComponent(200, 50, "Exit", font);
+		exitButton = new TextButtonComponent(200, 50, "Exit", font);
 		exitButton.setOffset(4,4);
 		container.addComponent(exitButton);
 		
