@@ -114,7 +114,7 @@ public class SettingsGui extends BoxComponent {
 			// Fadenkreuz wechseln
 			crosshairFrame++;
 			crosshairFrame %= settings.crosshairCount;
-			crosshairImage.reloadImage("res/crosshairs"+crosshairFrame+".png");
+			crosshairImage.loadImage("res/crosshairs"+crosshairFrame+".png");
 			saveButton.setBackgroundColor(0xFF222255);
 		}
 		
@@ -122,7 +122,7 @@ public class SettingsGui extends BoxComponent {
 			// Fadenkreuz wechseln
 			difficultyFrame++;
 			difficultyFrame %= maxDifficulty;
-			difficultyImage.reloadImage("res/difficulty"+difficultyFrame+".png");
+			difficultyImage.loadImage("res/difficulty"+difficultyFrame+".png");
 			saveButton.setBackgroundColor(0xFF222255);
 		}
 		

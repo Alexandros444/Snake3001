@@ -12,7 +12,7 @@ import graphics.gui.renderer.GuiShader;
  */
 public class ImageComponent extends GuiComponent {
 	
-	private final Vao vao;
+	private Vao vao;
 	private Texture texture;
 	
 	/**
@@ -40,7 +40,30 @@ public class ImageComponent extends GuiComponent {
 		
 		// erstellt Rechteck-Vao
 		vao = new Vao(new float[]{0,0,0,height,width,0,0,height,width,height,width,0},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
-	}	
+	}
+	
+	/**
+	 * Ersetzt das Bild durch ein anderes, behält aber die Größe des alten Bildes bei
+	 * 
+	 * @param path Pfad relativ
+	 */
+	public void loadImage(String path) {
+		texture.destroy();
+		texture = new Texture(path);
+	}
+	
+	/**
+	 * Ändert die Größe der Komponente. Das Bild wird auf die neue Größe gestreckt.
+	 * 
+	 * @param width Breite in Pixeln
+	 * @param height Höhe in Pixeln
+	 */
+	public void setSize(int width, int height) {
+		// löscht das alte Vao und erstellt ein neues mit der neuen Größe
+		vao.destroy();
+		vao = new Vao(new float[]{0,0,0,height,width,0,0,height,width,height,width,0},new float[]{0,0,0,1,1,0,0,1,1,1,1,0});
+		super.setSize(width,height);
+	}
 	
 	/**
 	 * Rendert das Bild
@@ -59,16 +82,6 @@ public class ImageComponent extends GuiComponent {
 	public void destroy() {
 		vao.destroy();
 		texture.destroy();
-	}
-	
-	/**
-	 * lädt das Bild neu
-	 * 
-	 * @param path Pfad relativ
-	 */
-	public void reloadImage(String path) {
-		texture.destroy();
-		texture = new Texture(path);
 	}
 	
 }

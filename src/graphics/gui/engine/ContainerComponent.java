@@ -25,6 +25,7 @@ public class ContainerComponent extends GuiComponent {
 	
 	private int widthMode = WIDTH_STATIC;
 	private int heightMode = HEIGHT_STATIC;
+	private int flowDirection = FLOW_TOP_TO_BOTTOM;
 	
 	/**
 	 * Erstellt einen neuen, leeren ContainerComponent
@@ -110,7 +111,11 @@ public class ContainerComponent extends GuiComponent {
 				positionOffset.y = flowY;
 				contentWidth = Math.max(contentWidth,flowX+childComponent.getWidth()+innerOffsetX);
 				contentHeight = Math.max(contentHeight,flowY+childComponent.getHeight()+innerOffsetY);
-				flowY += childComponent.getHeight()+childComponent.getOffsetY();
+				if (flowDirection==FLOW_TOP_TO_BOTTOM) {
+					flowY += childComponent.getHeight()+childComponent.getOffsetY();
+				}else if(flowDirection==FLOW_LEFT_TO_RIGHT) {
+					flowX += childComponent.getWidth()+childComponent.getOffsetX();
+				}
 			}
 			// wendet die Transformation des Elternelements darauf an, um die absolute Position zu ermitteln
 			positionOffset.apply(baseTransformation);
@@ -222,6 +227,19 @@ public class ContainerComponent extends GuiComponent {
 		refreshChildPositions();
 	}
 	
+	/**
+	 * Setzt die Richtung, in die sich Flow-Elemente anordnen sollen
+	 * 
+	 * @param direction eine der Konstanten <code>FLOW_TOP_TO_BOTTOM</code> oder <code>FLOW_LEFT_TO_RIGHT</code>
+	 */
+	public void setFlowDirection(int direction) {
+		flowDirection = direction;
+		refreshChildPositions();
+	}
+	
+	/**
+	 * Updated die Transparenz der Kindelemente, wenn die Transparenz des Containers geändert wird
+	 */
 	protected void onTransparencyChange() {
 		for (GuiComponent childComponent:childComponents) {
 			childComponent.setParentTransparency(super.getTotalTransparency());

@@ -33,6 +33,9 @@ public abstract class GuiComponent {
 	public static final int HEIGHT_STATIC = 2;
 	public static final int HEIGHT_AUTO = 3;
 	
+	public static final int FLOW_TOP_TO_BOTTOM = 0;
+	public static final int FLOW_LEFT_TO_RIGHT = 1;
+	
 	private int width;
 	private int height;
 	

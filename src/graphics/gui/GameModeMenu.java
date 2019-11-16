@@ -3,7 +3,9 @@ package graphics.gui;
 import gamelogic.World;
 import graphics.gui.engine.ContainerComponent;
 import graphics.gui.engine.components.BoxComponent;
-import graphics.gui.engine.components.TextButtonComponent;
+import graphics.gui.engine.components.ButtonComponent;
+import graphics.gui.engine.components.ImageComponent;
+import graphics.gui.engine.components.TextComponent;
 import graphics.gui.engine.fonts.Font;
 
 /**
@@ -13,9 +15,9 @@ import graphics.gui.engine.fonts.Font;
  */
 public class GameModeMenu extends BoxComponent {
 	
-	private TextButtonComponent normalButton;
-	private TextButtonComponent fastButton;
-	private TextButtonComponent tunnelButton;
+	private ButtonComponent normalButton;
+	private ButtonComponent fastButton;
+	private ButtonComponent tunnelButton;
 	
 	private boolean isStartRequested;
 	private int selectedMode;
@@ -32,16 +34,14 @@ public class GameModeMenu extends BoxComponent {
 		container.setWidthMode(WIDTH_AUTO);
 		container.setHeightMode(HEIGHT_AUTO);
 		container.setPosition(POSITION_CENTER);
+		container.setFlowDirection(FLOW_LEFT_TO_RIGHT);
 		super.addComponent(container);
 		
-		normalButton = new TextButtonComponent(200, 50, "Normal Mode", font);
-		normalButton.setOffset(4,4);
+		normalButton = createButton("Normal Mode",font,"res/difficulty0.png");
+		fastButton = createButton("Fast Mode",font,"res/difficulty1.png");
+		tunnelButton = createButton("Tunnel Mode",font,"res/difficulty2.png");
 		container.addComponent(normalButton);
-		fastButton = new TextButtonComponent(200, 50, "Fast Mode", font);
-		fastButton.setOffset(4,4);
 		container.addComponent(fastButton);
-		tunnelButton = new TextButtonComponent(200, 50, "Tunnel Mode", font);
-		tunnelButton.setOffset(4,4);
 		container.addComponent(tunnelButton);
 	}
 	
@@ -77,6 +77,29 @@ public class GameModeMenu extends BoxComponent {
 	 */
 	public int getSelectedMode() {
 		return selectedMode;
+	}
+	
+	/**
+	 * Erstellt einen neuen GameMode-Button
+	 * 
+	 * @param text Beschriftung des Buttons
+	 * @param font Schriftart
+	 * @param imagePath Dateipfad des Hintergrundbilds relativ zu <code>res/</code>, also z.B. <code>res/icon.png</code>
+	 * @return den neuen Button
+	 */
+	private static ButtonComponent createButton(String text, Font font, String imagePath) {
+		ButtonComponent button = new ButtonComponent(176,176,0xff000000,0x4040bfff,0xffa0a0a0,4);
+		button.setOffset(16,16);
+		ImageComponent image = new ImageComponent(imagePath);
+		image.setPosition(POSITION_FULL);
+		image.setOffset(4,4);
+		image.setTransparency(0.25f);
+		button.addComponent(image);
+		TextComponent textComponent = new TextComponent(text,font);
+		textComponent.setPosition(POSITION_CENTER);
+		textComponent.setScale(2);
+		button.addComponent(textComponent);
+		return button;
 	}
 	
 }

@@ -248,7 +248,7 @@ public class MainGuiContainer extends ContainerComponent {
 	 * Wendet Änderungen der Settings auf alles an
 	 */
 	private void applyChangedSettings() {
-		gameGui.crosshairs.reloadImage(settings.crosshairImagePath);
+		gameGui.crosshairs.loadImage(settings.crosshairImagePath);
 		gameRenderer.setPixelSize(settings.pixelSize);
 	}
 	
