@@ -72,6 +72,9 @@ public class World {
 			}else {
 				gridWidth = GRID_WIDTH_NORMAL;
 			}
+			if (gridDistance(food.position)<2*Food.BASE_RADIUS) {
+				placeFood();
+			}
 		}
 	}
 	
