@@ -29,6 +29,7 @@ public class Main {
 		// Erstellt ein neues Fenster
 		Display display = new Display(settings,"SNAKE 3001");
 		display.setWindowIcon("res/icon.png");
+		display.setCursor("res/cursor.png");
 		// erstellt InputHandler zum verarbeiten der Inputs auf das Fenster
 		InputHandler inputHandler = new InputHandler(display);
 		
