@@ -135,6 +135,7 @@ public class MainGuiContainer extends ContainerComponent {
 					if (pauseMenu.isContinueRequested()||pauseKey.wasKeyPressed()){
 						// schließt das Pausenmenü wieder
 						closePauseMenu();
+						display.toggleCursor();
 					}else if(pauseMenu.isExitRequested()) {
 						// öffnet das Hauptmenü und setzt die Welt zurück
 						saveScore();
