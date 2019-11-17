@@ -31,6 +31,7 @@ public class Main {
 		// Erstellt ein neues Fenster
 		Display display = new Display(settings,"SNAKE 3001");
 		display.setWindowIcon("res/icon.png");
+		display.cursor();
 		// erstellt InputHandler zum verarbeiten der Inputs auf das Fenster
 		InputHandler inputHandler = new InputHandler(display);
 		KeyInput keyInputF = inputHandler.getKeyInput(GLFW.GLFW_KEY_F);
