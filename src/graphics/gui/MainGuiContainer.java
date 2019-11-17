@@ -1,5 +1,6 @@
 package graphics.gui;
 
+
 import gamelogic.World;
 import graphics.GuiRenderer;
 import graphics.RayMarcher;
@@ -92,6 +93,7 @@ public class MainGuiContainer extends ContainerComponent {
 				if (gameModeMenu.isStartRequested()) {
 					world.setGameMode(gameModeMenu.getSelectedMode());
 					closeGameModeMenu();
+					display.toggleCursor();
 					startGame();
 				}
 			}else {
@@ -115,18 +117,21 @@ public class MainGuiContainer extends ContainerComponent {
 					}
 				else if(deathScreen.isRestartRequested()){ 
 					restartGame();
+					display.toggleCursor();
 				}
 			}else {
 				// Death-Menü ist nicht offen
 				if(world.hasSnake&&world.snake.isAlive==false) {
 					// Schlange ist gestorben
 					openDeathScreen();
+					display.toggleCursor();
 				}
 				// Pausenmenü kann nur geöffnet werden wenn DeathMenü geschlossen ist
 				if(isPauseMenuOpen) {
 					if (pauseMenu.isContinueRequested()||pauseKey.wasKeyPressed()){
 						// schließt das Pausenmenü wieder
 						closePauseMenu();
+						display.toggleCursor();
 					}else if(pauseMenu.isExitRequested()) {
 						// öffnet das Hauptmenü und setzt die Welt zurück
 						closePauseMenu();
@@ -139,6 +144,7 @@ public class MainGuiContainer extends ContainerComponent {
 				} else if(pauseKey.wasKeyPressed()) {
 					// öffnet das Pausenmenü
 					openPauseMenu();
+					display.toggleCursor();
 				}
 			}
 		}
@@ -149,7 +155,7 @@ public class MainGuiContainer extends ContainerComponent {
 			introScreen = null;
 		}
 	}
-	
+
 	/**
 	 * Öffnet das Hauptmenü
 	 */

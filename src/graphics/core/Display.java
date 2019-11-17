@@ -28,6 +28,7 @@ public class Display {
 	private long windowID;
 	private boolean isFullscreenMode;
 	private int[] beforeFullscreenBounds = new int[4];
+	private boolean cursorVisibility = true;
 	
 	
 	/**
@@ -217,6 +218,22 @@ public class Display {
 		beforeFullscreenBounds[2] = tempX.get(0);
 		beforeFullscreenBounds[3] = tempY.get(0);
 	}
+	/**
+	 * Macht den Cursor sichtbr bzw. unsichtbar.
+	 * 
+	 */
+	public void toggleCursor() {
+		if (cursorVisibility) {
+			cursorVisibility = false;
+			GLFW.glfwSetInputMode(windowID, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
+		}
+		else {
+			cursorVisibility = true;
+			GLFW.glfwSetInputMode(windowID, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+		}
+	}
+	
+
 	
 
 }
