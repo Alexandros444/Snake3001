@@ -71,9 +71,9 @@ public class MainGuiContainer extends ContainerComponent {
 		
 		openStartMenu();
 		
-		//introScreen = new IntroScreen();
-		//super.addComponent(introScreen);
-		//isIntroScreenOpen = true;
+		introScreen = new IntroScreen();
+		super.addComponent(introScreen);
+		isIntroScreenOpen = true;
 		
 		isFullscreen = settings.isFullscreen;
 	}
