@@ -14,10 +14,9 @@ public class Settings {
 
 	public int displayWidth;
 	public int displayHeight;
-	public int snakeScore;
+	public int normalScore,fastScore,tunnelScore;
 	public int crosshairFrame, crosshairCount = 5;
-	public boolean displayFullscreen;
-	public int difficulty;
+	public boolean isFullscreen;
 	public int pixelSize;
 	public String crosshairImagePath; //, difficultyImagePath;
 
@@ -26,8 +25,8 @@ public class Settings {
 	 */
 	public Settings() {
 		// Initailisiert Standard-Werte 
-		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","SNAKE_SCORE","CROSSHAIR_FRAME","DISPLAY_FULLSCREEN","DIFFICULTY","PIXELSIZE"};
-		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+false, ""+0,""+3};
+		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","NORMAL_SCORE","FAST_SCORE","TUNNEL_SCORE","CROSSHAIR_FRAME","IS_FULLSCREEN","PIXELSIZE"};
+		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+0,""+0,""+false,""+3};
 
 		// Erstellt neue Instanz der Einstellungen--> Einstellungen werden geladen
 		config = new SettingsLoader(STANDARD_NAMES,STANDARD_VALUES);
@@ -35,10 +34,11 @@ public class Settings {
 		// Variablen werden aus Einstellungen geladen 
 		displayWidth = config.getInt("DISPLAY_WIDTH");
 		displayHeight = config.getInt("DISPLAY_HEIGHT");
-		snakeScore = config.getInt("SNAKE_SCORE");
+		normalScore = config.getInt("NORMAL_SCORE");
+		fastScore = config.getInt("FAST_SCORE");
+		tunnelScore = config.getInt("TUNNEL_SCORE");
 		crosshairFrame = config.getInt("CROSSHAIR_FRAME");
-		displayFullscreen = config.getBoolean("DISPLAY_FULLSCREEN");
-		difficulty = config.getInt("DIFFICULTY");
+		isFullscreen = config.getBoolean("IS_FULLSCREEN");
 		pixelSize = config.getInt("PIXELSIZE");
 		crosshairImagePathRenew();
 		//difficultyImagePathRenew();
@@ -64,11 +64,12 @@ public class Settings {
 	public void save() {
 		// setzt die Werte
 		config.setValue("CROSSHAIR_FRAME",""+crosshairFrame);
-		config.setValue("SNAKE_SCORE",""+snakeScore);
+		config.setValue("NORMAL_SCORE",""+normalScore);
+		config.setValue("FAST_SCORE",""+fastScore);
+		config.setValue("TUNNEL_SCORE",""+tunnelScore);
 		config.setValue("DISPLAY_WIDTH",""+displayWidth);
 		config.setValue("DISPLAY_HEIGHT",""+displayHeight);
-		config.setValue("DISPLAY_FULLSCREEN",""+displayFullscreen);
-		config.setValue("DIFFICULTY",""+difficulty);
+		config.setValue("IS_FULLSCREEN",""+isFullscreen);
 		config.setValue("PIXELSIZE",""+pixelSize);
 		// speichert die gesetzten Werte
 		config.saveToFile();

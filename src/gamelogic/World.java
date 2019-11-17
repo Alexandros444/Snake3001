@@ -3,6 +3,7 @@ package gamelogic;
 import org.lwjgl.glfw.GLFW;
 
 import graphics.core.Display;
+import sun.net.www.protocol.http.HttpURLConnection.TunnelState;
 import util.Settings;
 import util.math.Matrix3f;
 import util.math.Vector3f;
@@ -24,7 +25,7 @@ public class World {
 	private static final float GRID_WIDTH_NORMAL = 0.04f;
 	private static final float GRID_WIDTH_TUNNEL = 0.6f;
 	
-	private int gameMode = MODE_NORMAL;
+	public int gameMode = MODE_NORMAL;
 	
 	public Snake snake;
 	public Food food;
@@ -220,9 +221,6 @@ public class World {
 	 * Speichert den Score und setzt den Status der Schlange auf tot
 	 */
 	public void killSnake() {
-		if(settings.snakeScore<score) {
-			settings.snakeScore = score;
-		}
 		snake.isAlive=false;
 		System.out.println("Du bist gestorben");
 	}

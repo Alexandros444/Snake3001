@@ -1,8 +1,8 @@
 package graphics.gui;
 
 import graphics.gui.engine.components.BoxComponent;
-import graphics.gui.engine.components.TextButtonComponent;
 import graphics.gui.engine.components.ImageComponent;
+import graphics.gui.engine.components.TextButtonComponent;
 import graphics.gui.engine.components.TextComponent;
 import graphics.gui.engine.fonts.Font;
 import util.Settings;
@@ -14,15 +14,16 @@ import util.Settings;
  */
 public class SettingsGui extends BoxComponent {
 	// Variablen
-	private TextButtonComponent closeButton, saveButton, crosshairButton, difficultyButton, pixelSizeButton;
-	private ImageComponent crosshairImage, difficultyImage;
-	private TextComponent crosshairText, difficultyText, pixelSizeText;
+	private TextButtonComponent closeButton, saveButton, crosshairButton, fullscreenButton, pixelSizeButton;
+	private ImageComponent crosshairImage, fullscreenImage;
+	private TextComponent crosshairText, fullscreenText, pixelSizeText;
 	private Settings settings;
 	private TextComponent headlineText;
 	
 	
 	public boolean hasSettingsChanged;
-	public int crosshairFrame, difficultyFrame, pixelSize, maxPixelSize = 10, maxDifficulty = 3;
+	public int crosshairFrame, pixelSize, maxPixelSize = 10;
+	public boolean isFullscreen;
 	/**
 	 * Konstruktor
 	 * 
@@ -39,8 +40,8 @@ public class SettingsGui extends BoxComponent {
 		
 		this.settings = settings;
 		crosshairFrame = settings.crosshairFrame;
-		difficultyFrame = settings.difficulty;
 		pixelSize = settings.pixelSize;
+		isFullscreen = settings.isFullscreen;
 
 		// Komponenten
 		headlineText= new TextComponent("Settings",font);
@@ -54,7 +55,7 @@ public class SettingsGui extends BoxComponent {
 		closeButton.setOffset(12,10);
 		super.addComponent(closeButton);
 		
-		saveButton = new TextButtonComponent(125,40,"Save",font);
+		saveButton = new TextButtonComponent(125,40,"Apply",font);
 		saveButton.setPosition(POSITION_CORNER_BOTTOMLEFT);
 		saveButton.setOffset(12,10);
 		super.addComponent(saveButton); 
@@ -74,22 +75,22 @@ public class SettingsGui extends BoxComponent {
 		crosshairText.setOffset(84,39);
 		crosshairText.setScale(2);
 		super.addComponent(crosshairText);
+
+		fullscreenImage = new ImageComponent("res/fullscreen"+isFullscreen+".png");
+		fullscreenImage.setPosition(POSITION_CORNER_TOPLEFT);
+		fullscreenImage.setOffset(26,132);
+		super.addComponent(fullscreenImage);
 		
-		difficultyImage = new ImageComponent("res/difficulty"+difficultyFrame+".png");
-		difficultyImage.setPosition(POSITION_CORNER_TOPLEFT);
-		difficultyImage.setOffset(26,132);
-		super.addComponent(difficultyImage);
+		fullscreenButton = new TextButtonComponent(60,60,"",font);
+		fullscreenButton.setPosition(POSITION_CORNER_TOPLEFT);
+		fullscreenButton.setOffset(12,118);
+		super.addComponent(fullscreenButton);
 		
-		difficultyButton = new TextButtonComponent(60,60,"",font);
-		difficultyButton.setPosition(POSITION_CORNER_TOPLEFT);
-		difficultyButton.setOffset(12,118);
-		super.addComponent(difficultyButton);
-		
-		difficultyText = new TextComponent("Difficulty",font);
-		difficultyText.setPosition(POSITION_CORNER_TOPLEFT);
-		difficultyText.setOffset(84,139);
-		difficultyText.setScale(2);
-		super.addComponent(difficultyText);
+		fullscreenText = new TextComponent("Fullscreen",font);
+		fullscreenText.setPosition(POSITION_CORNER_TOPLEFT);
+		fullscreenText.setOffset(84,139);
+		fullscreenText.setScale(2);
+		super.addComponent(fullscreenText);
 		
 		//Intelligentes Bild hier einfügen
 		
@@ -118,11 +119,14 @@ public class SettingsGui extends BoxComponent {
 			saveButton.setBackgroundColor(0xFF222255);
 		}
 		
-		if(difficultyButton.wasClicked()) {
+		if(fullscreenButton.wasClicked()) {
 			// Fadenkreuz wechseln
-			difficultyFrame++;
-			difficultyFrame %= maxDifficulty;
-			difficultyImage.loadImage("res/difficulty"+difficultyFrame+".png");
+			if(isFullscreen) {
+				isFullscreen = false;
+			}else {
+				isFullscreen = true;
+			}
+			fullscreenImage.loadImage("res/fullscreen"+isFullscreen+".png");
 			saveButton.setBackgroundColor(0xFF222255);
 		}
 		
@@ -146,8 +150,8 @@ public class SettingsGui extends BoxComponent {
 		hasSettingsChanged = true;
 		settings.crosshairFrame = crosshairFrame;
 		settings.crosshairImagePathRenew();
-		settings.difficulty = difficultyFrame;
 		settings.pixelSize = pixelSize;
+		settings.isFullscreen = isFullscreen;
 		settings.save();
 	}
 	

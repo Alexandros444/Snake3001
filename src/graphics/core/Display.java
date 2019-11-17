@@ -51,7 +51,7 @@ public class Display {
 		}
 		GLFW.glfwMakeContextCurrent(windowID);
 		GL.createCapabilities();
-		if(settings.displayFullscreen) {
+		if(settings.isFullscreen) {
 			toggleFullscreenMode();
 		}		
 	}
@@ -84,7 +84,7 @@ public class Display {
 	 * Übergibt Einstellungen des Displays an die Einstellungen wo sie gespeichert werden
 	 */
 	private void saveSettings(){
-		settings.displayFullscreen = isFullscreenMode;
+		settings.isFullscreen = isFullscreenMode;
 		if(!isFullscreenMode) {
 			settings.displayWidth = getWidth();
 			settings.displayHeight = getHeight();

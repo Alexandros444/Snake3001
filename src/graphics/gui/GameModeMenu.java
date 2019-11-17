@@ -7,6 +7,7 @@ import graphics.gui.engine.components.ButtonComponent;
 import graphics.gui.engine.components.ImageComponent;
 import graphics.gui.engine.components.TextComponent;
 import graphics.gui.engine.fonts.Font;
+import util.Settings;
 
 /**
  * Die Klasse für das Menü, von dem aus beim Spielstart der Spielmodus ausgewählt werden kann
@@ -19,6 +20,8 @@ public class GameModeMenu extends BoxComponent {
 	private ButtonComponent fastButton;
 	private ButtonComponent tunnelButton;
 	
+	private TextComponent normalScoreText, fastScoreText, tunnelScoreText;
+	
 	private boolean isStartRequested;
 	private int selectedMode;
 	
@@ -27,7 +30,7 @@ public class GameModeMenu extends BoxComponent {
 	 * 
 	 * @param font die Schriftart für die Buttons
 	 */
-	public GameModeMenu(Font font) {
+	public GameModeMenu(Font font, Settings settings) {
 		super(0,0,0x80000000,0,0);
 		super.setPosition(POSITION_FULL);
 		ContainerComponent container = new ContainerComponent(0,0);
@@ -43,6 +46,30 @@ public class GameModeMenu extends BoxComponent {
 		container.addComponent(normalButton);
 		container.addComponent(fastButton);
 		container.addComponent(tunnelButton);
+		
+		
+		ContainerComponent scoreComponent = new ContainerComponent(0,0);
+		scoreComponent.setWidthMode(WIDTH_AUTO);
+		scoreComponent.setHeightMode(HEIGHT_AUTO);
+		scoreComponent.setPosition(POSITION_CENTER_TOP);
+		scoreComponent.setOffset(0,150);
+		scoreComponent.setFlowDirection(FLOW_LEFT_TO_RIGHT);
+		super.addComponent(scoreComponent);
+		
+		normalScoreText = new TextComponent("Score: "+settings.normalScore,font);
+		normalScoreText.setOffset(90,0);
+		normalScoreText.setScale(2);
+		scoreComponent.addComponent(normalScoreText);
+
+		fastScoreText = new TextComponent("Score: "+settings.fastScore,font);
+		fastScoreText.setOffset(90,0);
+		fastScoreText.setScale(2);
+		scoreComponent.addComponent(fastScoreText);
+		
+		tunnelScoreText = new TextComponent("Score: "+settings.tunnelScore,font);
+		tunnelScoreText.setOffset(90,0);
+		tunnelScoreText.setScale(2);
+		scoreComponent.addComponent(tunnelScoreText);
 	}
 	
 	/**

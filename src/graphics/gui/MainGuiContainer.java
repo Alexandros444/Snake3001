@@ -1,6 +1,5 @@
 package graphics.gui;
 
-
 import gamelogic.World;
 import graphics.GuiRenderer;
 import graphics.RayMarcher;
@@ -45,6 +44,9 @@ public class MainGuiContainer extends ContainerComponent {
 	private IntroScreen introScreen;
 	private boolean isIntroScreenOpen;
 	
+	private boolean isFullscreen;
+	public boolean hasFullscreenChanged;
+	
 	private float scaleX = 1; 
 	private float scaleY = 1;
 	/**
@@ -69,10 +71,11 @@ public class MainGuiContainer extends ContainerComponent {
 		
 		openStartMenu();
 		
-		introScreen = new IntroScreen();
-		super.addComponent(introScreen);
-		isIntroScreenOpen = true;
+		//introScreen = new IntroScreen();
+		//super.addComponent(introScreen);
+		//isIntroScreenOpen = true;
 		
+		isFullscreen = settings.isFullscreen;
 	}
 	
 	/**
@@ -124,6 +127,7 @@ public class MainGuiContainer extends ContainerComponent {
 				if(world.hasSnake&&world.snake.isAlive==false) {
 					// Schlange ist gestorben
 					openDeathScreen();
+					saveScore();
 					display.toggleCursor();
 				}
 				// Pausenmenü kann nur geöffnet werden wenn DeathMenü geschlossen ist
@@ -131,12 +135,11 @@ public class MainGuiContainer extends ContainerComponent {
 					if (pauseMenu.isContinueRequested()||pauseKey.wasKeyPressed()){
 						// schließt das Pausenmenü wieder
 						closePauseMenu();
-						display.toggleCursor();
 					}else if(pauseMenu.isExitRequested()) {
 						// öffnet das Hauptmenü und setzt die Welt zurück
+						saveScore();
 						closePauseMenu();
 						openStartMenu();
-						world.killSnake();
 						world.reset();
 					}else if(pauseMenu.hasSettingsChanged) {
 						applyChangedSettings();
@@ -155,7 +158,23 @@ public class MainGuiContainer extends ContainerComponent {
 			introScreen = null;
 		}
 	}
-
+	
+	private void saveScore() {
+		if(world.gameMode == World.MODE_NORMAL) {
+			if(settings.normalScore<world.score) {
+				settings.normalScore = world.score;			
+			}
+		}else if(world.gameMode == World.MODE_FAST) {
+			if(settings.fastScore<world.score) {
+				settings.fastScore = world.score;			
+			}
+		}else {
+			if(settings.tunnelScore<world.score) {
+				settings.tunnelScore = world.score;			
+			}
+		}
+	}
+	
 	/**
 	 * Öffnet das Hauptmenü
 	 */
@@ -178,7 +197,7 @@ public class MainGuiContainer extends ContainerComponent {
 	 * Öffnet das GameModeMenu
 	 */
 	private void openGameModeMenu() {
-		gameModeMenu = new GameModeMenu(font);
+		gameModeMenu = new GameModeMenu(font,settings);
 		isGameModeMenuOpen = true;
 		super.addComponent(gameModeMenu);
 	}
@@ -236,7 +255,7 @@ public class MainGuiContainer extends ContainerComponent {
 	 */
 	private void openDeathScreen() {
 		isDeathMenuOpen = true;
-		deathScreen = new DeathMenu(font,world.score);
+		deathScreen = new DeathMenu(font,world.score, world.gameMode,settings);
 		super.addComponent(deathScreen);
 	}
 	
@@ -256,6 +275,10 @@ public class MainGuiContainer extends ContainerComponent {
 	private void applyChangedSettings() {
 		gameGui.crosshairs.loadImage(settings.crosshairImagePath);
 		gameRenderer.setPixelSize(settings.pixelSize);
+		if(isFullscreen != settings.isFullscreen) {
+			hasFullscreenChanged = true;
+		}
+		isFullscreen = settings.isFullscreen;
 	}
 	
 	/**
