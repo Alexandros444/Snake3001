@@ -1,11 +1,5 @@
 package graphics.gui;
 
-<<<<<<< HEAD
-=======
-
-import org.lwjgl.system.MemoryUtil;
-
->>>>>>> 1b774a0d760d682c9eadfdc9ee4852ca5bef7147
 import gamelogic.World;
 import graphics.GuiRenderer;
 import graphics.RayMarcher;
