@@ -255,8 +255,8 @@ public class Display {
 		GLFW.glfwSetCursor(windowID, cursor);
 	}
 	
-	public boolean isDisplayFocused() {
-		return GLFW.glfwGetWindowAttrib(windowID,GLFW.GLFW_FOCUSED) == 1;
+	public boolean isDisplay() {
+		return GLFW.glfwGetWindowAttrib(windowID,GLFW.GLFW_FOCUSED)==1;
 	}
 	
 	

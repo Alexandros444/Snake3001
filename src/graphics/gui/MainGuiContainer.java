@@ -46,7 +46,6 @@ public class MainGuiContainer extends ContainerComponent {
 	
 	private boolean isFullscreen;
 	public boolean hasFullscreenChanged;
-	public boolean pauseRequested;
 	
 	private float scaleX = 1; 
 	private float scaleY = 1;
@@ -149,7 +148,7 @@ public class MainGuiContainer extends ContainerComponent {
 					}else if(pauseMenu.hasSettingsChanged) {
 						applyChangedSettings();
 					}
-				} else if(pauseKey.wasKeyPressed() || pauseRequested) {
+				} else if(pauseKey.wasKeyPressed() || !display.isDisplay()) {
 					// öffnet das Pausenmenü
 					openPauseMenu();
 					display.toggleCursor();

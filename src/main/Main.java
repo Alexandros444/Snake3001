@@ -38,12 +38,6 @@ public class Main {
 				
 		// GAME LOOP läuft solange das Fenster nicht geschlossen ist
 		while(!display.isCloseRequested()&&!guiContainer.isCloseRequested()) {
-
-			if(!display.isDisplayFocused()) {
-				guiContainer.pauseRequested = true;
-			}else {
-				guiContainer.pauseRequested = false;
-			}
 			
 			// Fullscreen an/aus-schalten
 			if(guiContainer.hasFullscreenChanged) {
