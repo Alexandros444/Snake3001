@@ -32,43 +32,42 @@ public class DeathMenu extends BoxComponent {
 		super.addComponent(container);
 		
 		scoreText = new TextComponent("Score: "+score,font);
+		scoreText.setPosition(POSITION_CENTER_FLOW);
+		scoreText.setOffset(0,15);
 		scoreText.setScale(4);
-		scoreText.setOffset(0,-100);
-		scoreText.setPosition(POSITION_FULL);
 		container.addComponent(scoreText);		
 		
-		String gameModeName = "Normal";
 		int gameModeScore = settings.normalScore;	
 		if(gameMode==1) {
-			gameModeName = "Fast";
 			gameModeScore = settings.fastScore;
 		}
 		if(gameMode==2){
-			gameModeName = "Tunnel";
 			gameModeScore = settings.tunnelScore;
 		}
 		
-		highscoreText = new TextComponent(gameModeName+" Mode Score: "+gameModeScore,font);
-		highscoreText.setScale(2);
-		highscoreText.setOffset(0,-40);
-		highscoreText.setPosition(POSITION_FULL);
+		highscoreText = new TextComponent("Highscore: "+gameModeScore,font);
+		highscoreText.setPosition(POSITION_CENTER_FLOW);
+		highscoreText.setOffset(0,40);
+		highscoreText.setScale(3);
 		container.addComponent(highscoreText);		
 		
 		//Highscore erreicht
 		if(gameModeScore<score) {
-			scoreText.setText("New Highscore in "+gameModeName+" Mode");
-			scoreText.setOffset(-250,-180);
-			scoreText.setScale(5);
+			scoreText.setText("New Highscore:");
+			scoreText.setOffset(20,20);
+			scoreText.setScale(4);
 			highscoreText.setText(""+score);
-			highscoreText.setOffset(75,-80);
-			highscoreText.setScale(6);
+			highscoreText.setOffset(20,50);
+			highscoreText.setScale(5);
 		}
 		
 		retryButton = new TextButtonComponent(200, 50, "Retry", font);
+		retryButton.setPosition(POSITION_CENTER_FLOW);
 		retryButton.setOffset(4,4);
 		container.addComponent(retryButton);
 		
 		exitButton = new TextButtonComponent(200, 50, "Exit", font);
+		exitButton.setPosition(POSITION_CENTER_FLOW);
 		exitButton.setOffset(4,4);
 		container.addComponent(exitButton);
 		

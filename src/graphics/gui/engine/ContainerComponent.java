@@ -116,6 +116,18 @@ public class ContainerComponent extends GuiComponent {
 				}else if(flowDirection==FLOW_LEFT_TO_RIGHT) {
 					flowX += childComponent.getWidth()+childComponent.getOffsetX();
 				}
+			}else if (childPosition==POSITION_CENTER_FLOW) {
+				contentWidth = Math.max(contentWidth,flowX+childComponent.getWidth()+innerOffsetX);
+				contentHeight = Math.max(contentHeight,flowY+childComponent.getHeight()+innerOffsetY);
+				if (flowDirection==FLOW_TOP_TO_BOTTOM) {
+					positionOffset.x = (innerWidth-childComponent.getWidth())/2;
+					positionOffset.y = flowY;
+					flowY += childComponent.getHeight()+childComponent.getOffsetY();
+				}else if(flowDirection==FLOW_LEFT_TO_RIGHT) {
+					positionOffset.x = flowX;
+					positionOffset.y = (innerHeight-childComponent.getHeight())/2;
+					flowX += childComponent.getWidth()+childComponent.getOffsetX();
+				}
 			}
 			// wendet die Transformation des Elternelements darauf an, um die absolute Position zu ermitteln
 			positionOffset.apply(baseTransformation);

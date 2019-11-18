@@ -98,6 +98,9 @@ public class MainGuiContainer extends ContainerComponent {
 					closeGameModeMenu();
 					display.toggleCursor();
 					startGame();
+				}else if(pauseKey.wasKeyPressed()) {
+					closeGameModeMenu();
+					openStartMenu();
 				}
 			}else {
 				// Hauptmenü ist offen
