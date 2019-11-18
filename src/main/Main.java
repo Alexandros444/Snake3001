@@ -35,15 +35,22 @@ public class Main {
 		
 		// Erstellt das Spiel und Gui
 		MainGuiContainer guiContainer = new MainGuiContainer(settings,inputHandler.getKeyInput(GLFW.GLFW_KEY_ESCAPE));
-		
+				
 		// GAME LOOP läuft solange das Fenster nicht geschlossen ist
 		while(!display.isCloseRequested()&&!guiContainer.isCloseRequested()) {
+
+			if(!display.isDisplayFocused()) {
+				guiContainer.pauseRequested = true;
+			}else {
+				guiContainer.pauseRequested = false;
+			}
 			
 			// Fullscreen an/aus-schalten
 			if(guiContainer.hasFullscreenChanged) {
 				guiContainer.hasFullscreenChanged = false;
 				display.toggleFullscreenMode();
 			}
+			
 			
 			// Gui wird gerendert
 			int width = display.getWidth();
