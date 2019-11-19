@@ -38,10 +38,11 @@ public abstract class Shader {
 	 * Ruft intern <code>bindAttributes</code> der Kind-Klasse auf, um die Vertex-Buffer der zu rendernden Modelle den richtigen Vertex-Shader-Inputs zuzuweisen.
 	 * @param vertexFile Dateipfad des Vertex-Shaders
 	 * @param fragmentFile Dateipfad des Fragment-Shaders
+	 * @param definitions String, der an beide Shader vorne angefügt wird. Kann verwendet werden, um mit <code>#define</code> Konstanten für den Compiler einzufügen.
 	 */
-	public Shader(String vertexFile, String fragmentFile) {
-		vertexShaderID = loadShader(vertexFile,GL20.GL_VERTEX_SHADER);
-		fragmentShaderID = loadShader(fragmentFile,GL20.GL_FRAGMENT_SHADER);
+	public Shader(String vertexFile, String fragmentFile, String definitions) {
+		vertexShaderID = loadShader(vertexFile,GL20.GL_VERTEX_SHADER,definitions);
+		fragmentShaderID = loadShader(fragmentFile,GL20.GL_FRAGMENT_SHADER,definitions);
 		programID = GL20.glCreateProgram();
 		GL20.glAttachShader(programID,vertexShaderID);
 		GL20.glAttachShader(programID,fragmentShaderID);
@@ -49,6 +50,17 @@ public abstract class Shader {
 		GL20.glLinkProgram(programID);
 		GL20.glValidateProgram(programID);
 		getUniformLocations();
+	}
+
+	/**
+	 * Erstellt einen neuen Shader aus den übergebenen Vertex- und Fragment-Shader-Dateien.
+	 * <br>
+	 * Ruft intern <code>bindAttributes</code> der Kind-Klasse auf, um die Vertex-Buffer der zu rendernden Modelle den richtigen Vertex-Shader-Inputs zuzuweisen.
+	 * @param vertexFile Dateipfad des Vertex-Shaders
+	 * @param fragmentFile Dateipfad des Fragment-Shaders
+	 */
+	public Shader(String vertexFile, String fragmentFile) {
+		this(vertexFile,fragmentFile,"");
 	}
 	
 	/**
@@ -189,10 +201,12 @@ public abstract class Shader {
 	 * 
 	 * @param fileName Dateifad des Shaders relativ zum src-Ordner.
 	 * @param type Der Typ des Shaders. Entweder <code>GL20.GL_VERTEX_SHADER</code> oder <code>GL20.GL_FRAGMENT_SHADER</code>.
+	 * @param definitions String, der an beide Shader vorne angefügt wird. Kann verwendet werden, um mit <code>#define</code> Konstanten für den Compiler einzufügen.
 	 * @return Die Id des geladenen Shaders.
 	 */
-	private static int loadShader(String fileName, int type) {
+	private static int loadShader(String fileName, int type, String definitions) {
 		StringBuilder shaderSource = new StringBuilder();
+		shaderSource.append(definitions).append("\n");
 		try {
 			InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));

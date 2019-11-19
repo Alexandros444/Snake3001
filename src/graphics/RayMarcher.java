@@ -26,12 +26,14 @@ public class RayMarcher {
 
 	private int pixelSize = 1;
 	
+	private boolean useCaveEffect = false;
+	
 	/**
 	 * Erstellt einen neuen RayMarcher-Renderer.
 	 */
 	public RayMarcher() {
 		// erstellt den entsprechenden Shader
-		shader = new RayMarcherShader();
+		shader = new RayMarcherShader(useCaveEffect);
 		shader.start();
 
 		// Erstellt ein neues VAO mit den Eckpunkten eines Rechtecks
@@ -104,6 +106,30 @@ public class RayMarcher {
 	 */
 	public void setPixelSize(int size) {
 		pixelSize = size;
+	}
+	
+	/**
+	 * Aktiviert den "Cave Effect"
+	 */
+	public void enableCaveEffect() {
+		useCaveEffect = true;
+		reloadShader();
+	}
+	
+	/**
+	 * Aktiviert den "Cave Effect"
+	 */
+	public void disableCaveEffect() {
+		useCaveEffect = false;
+		reloadShader();
+	}
+	
+	/**
+	 * Lädt und kompiliert den Shader neu, um Grafikeffekte anzuwenden
+	 */
+	private void reloadShader() {
+		shader.destroy();
+		shader = new RayMarcherShader(useCaveEffect);
 	}
 	
 	/**

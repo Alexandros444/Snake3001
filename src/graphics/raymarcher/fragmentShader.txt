@@ -1,9 +1,5 @@
 #version 400 core
 
-// aktiviert den "Cave Effect"
-// gerade auskommentiert, weil deaktiviert
-//#define EFFECT_CAVE
-
 // kriegt einen 3D-Vektor für die Blickrichtung des Pixels als Input übergeben
 // dieses Input wurde aus den Outputs des Vertex-Shaders interpoliert und ist für jeden Pixel verschieden
 in vec3 pass_direction;
