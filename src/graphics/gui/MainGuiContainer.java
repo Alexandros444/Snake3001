@@ -64,7 +64,7 @@ public class MainGuiContainer extends ContainerComponent {
 		gameRenderer = new RayMarcher();
 		gameRenderer.setPixelSize(settings.pixelSize);
 		guiRenderer = new GuiRenderer();
-		world = new World(settings);
+		world = new World();
 		
 		gameGui = new GameGui(font,settings);
 		super.addComponent(gameGui);
@@ -148,7 +148,7 @@ public class MainGuiContainer extends ContainerComponent {
 					}else if(pauseMenu.hasSettingsChanged) {
 						applyChangedSettings();
 					}
-				} else if(pauseKey.wasKeyPressed() || !display.isDisplay()) {
+				} else if(pauseKey.wasKeyPressed() || !display.isFocused()) {
 					// öffnet das Pausenmenü
 					openPauseMenu();
 					display.toggleCursor();

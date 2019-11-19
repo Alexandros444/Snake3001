@@ -255,7 +255,11 @@ public class Display {
 		GLFW.glfwSetCursor(windowID, cursor);
 	}
 	
-	public boolean isDisplay() {
+	/**
+	 * Gibt zurück, ob das Fenster gerade im Vorderrgrund ist bzw. ob es fokussiert ist
+	 * @return ob das Fenster fokussiert ist
+	 */
+	public boolean isFocused() {
 		return GLFW.glfwGetWindowAttrib(windowID,GLFW.GLFW_FOCUSED)==1;
 	}
 	

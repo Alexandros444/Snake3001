@@ -3,8 +3,6 @@ package gamelogic;
 import org.lwjgl.glfw.GLFW;
 
 import graphics.core.Display;
-import sun.net.www.protocol.http.HttpURLConnection.TunnelState;
-import util.Settings;
 import util.math.Matrix3f;
 import util.math.Vector3f;
 
@@ -43,15 +41,12 @@ public class World {
 	
 	private long lastFrame;
 	
-	private Settings settings;
-	
 	/**
 	 * Initialisiert die Welt, mit ihren Koponenten
 	 * 
 	 * @param settings zu ladende Einstellungen
 	 */
-	public World(Settings settings) {
-		this.settings = settings;
+	public World() {
 
 		reset();
 		isPaused = false;
