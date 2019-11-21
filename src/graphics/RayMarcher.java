@@ -26,12 +26,13 @@ public class RayMarcher {
 
 	private int pixelSize = 1;
 	
-	private boolean useCaveEffect = false;
+	private boolean useCaveEffect;
 	
 	/**
 	 * Erstellt einen neuen RayMarcher-Renderer.
 	 */
-	public RayMarcher() {
+	public RayMarcher(boolean useCaveEffect) {
+		this.useCaveEffect = useCaveEffect;
 		// erstellt den entsprechenden Shader
 		shader = new RayMarcherShader(useCaveEffect);
 		shader.start();

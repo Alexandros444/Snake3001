@@ -51,8 +51,7 @@ public class MainGuiContainer extends ContainerComponent {
 	private float scaleY = 1;
 	
 	private int playerCount;
-	
-	private boolean isFirstStart = true; 
+	private boolean useCaveEffect;
 	
 	/**
 	 * Erstellt den Container
@@ -66,7 +65,9 @@ public class MainGuiContainer extends ContainerComponent {
 		this.pauseKey = pauseKey;
 		font = new MonospaceFont("res/font/ascii.png");
 		
-		gameRenderer = new RayMarcher();
+		useCaveEffect = settings.isCaveEffect;
+		
+		gameRenderer = new RayMarcher(useCaveEffect);
 		gameRenderer.setPixelSize(settings.pixelSize);
 		guiRenderer = new GuiRenderer();
 		world = new World();
@@ -94,12 +95,6 @@ public class MainGuiContainer extends ContainerComponent {
 		world.update(display);
 		
 		gameGui.displayScore(world.score);
-		
-		// Erster Start des Spiels,Lädt Einstellungen
-		if(isFirstStart) {
-			isFirstStart = false;
-			applyChangedSettings(display);
-		}
 		
 		if(!hasGameStarted) {
 			if (isGameModeMenuOpen) {

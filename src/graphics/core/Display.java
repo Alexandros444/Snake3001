@@ -39,13 +39,13 @@ public class Display {
 	 * @param title Titel
 	 *
 	 */
-	public Display(Settings values, String title) {		
-		this.settings = values;
+	public Display(Settings settings, String title, int CursorFrame) {		
+		this.settings = settings;
 		GLFWErrorCallback.createPrint(System.err).set();
 		if (!GLFW.glfwInit()) {
 			throw new IllegalStateException("GLFW kaputt");
 		}
-		windowID = GLFW.glfwCreateWindow(values.displayWidth, values.displayHeight, title, 0, 0);
+		windowID = GLFW.glfwCreateWindow(settings.displayWidth, settings.displayHeight, title, 0, 0);
 		if (windowID == 0) {
 			throw new IllegalStateException("Fenster kaputt");
 		}
@@ -54,6 +54,9 @@ public class Display {
 		if(settings.isFullscreen) {
 			toggleFullscreenMode();
 		}		
+		if(CursorFrame!=0) {
+			setCursor(settings.cursorImagePath);
+		}
 	}
 
 	/**
