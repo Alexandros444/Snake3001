@@ -49,6 +49,8 @@ public class MainGuiContainer extends ContainerComponent {
 	
 	private float scaleX = 1; 
 	private float scaleY = 1;
+	
+	private int playerCount;
 	/**
 	 * Erstellt den Container
 	 * 
@@ -105,6 +107,7 @@ public class MainGuiContainer extends ContainerComponent {
 			}else {
 				// Hauptmenü ist offen
 				if(startMenu.isStartRequested()) {
+					playerCount = startMenu.getPlayerCount();
 					closeStartMenu();
 					openGameModeMenu();
 				}else if(startMenu.hasSettingsChanged) {
@@ -222,6 +225,9 @@ public class MainGuiContainer extends ContainerComponent {
 	private void startGame() {
 		hasGameStarted = true;
 		world.spawnSnake();
+		if(playerCount == 2){ 
+			world.spawnSecondSnake(); 
+		}
 	}
 	/**
 	 * Schließt das deathMenu und startet das Spiel neu

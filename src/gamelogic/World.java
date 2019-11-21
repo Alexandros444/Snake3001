@@ -28,11 +28,13 @@ public class World {
 	public int gameMode = MODE_NORMAL;
 	
 	public Snake snake;
+	public Snake secondSnake;
 	public Food food;
 	public int score;
 	
 	public boolean isPaused;
 	public boolean hasSnake;
+	public boolean hasSecondSnake;
 	
 	public Vector3f cameraPosition;
 	public Matrix3f viewDirection;
@@ -70,6 +72,7 @@ public class World {
 				rotationSpeed = ROTATION_FAST;
 			}else {
 				gridWidth = GRID_WIDTH_NORMAL;
+				rotationSpeed = ROTATION_NORMAL;
 			}
 			if (gridDistance(food.position)<2*Food.BASE_RADIUS) {
 				placeFood();
@@ -214,7 +217,14 @@ public class World {
 		snake = new Snake();
 		hasSnake = true;
 	}
-	
+	/**
+	 * Spawnt eine zweite Schlange
+	 */
+	public void spawnSecondSnake(){
+		secondSnake = new Snake();
+		hasSecondSnake = true;
+		System.out.println("Multiplayer!");
+	}
 	/**
 	 * Speichert den Score und setzt den Status der Schlange auf tot
 	 */

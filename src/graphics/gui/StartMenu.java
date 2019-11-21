@@ -13,6 +13,7 @@ public class StartMenu extends BoxComponent {
 	private TextButtonComponent startButton;
 	private TextButtonComponent settingsButton;
 	private TextButtonComponent quitButton;
+	private TextButtonComponent multiplayerButton;
 	private ImageComponent title;
 	
 	private SettingsGui settingsGui;
@@ -20,6 +21,7 @@ public class StartMenu extends BoxComponent {
 	private boolean isStartRequested;
 	private boolean isCloseRequested;
 	private boolean areSettingsOpen;
+	private int playerCount = 1;
 	
 	private Font font;
 	private Settings settings;
@@ -47,12 +49,16 @@ public class StartMenu extends BoxComponent {
 		startButton = new TextButtonComponent(200, 50, "Start", font);
 		startButton.setOffset(4,4);
 		container.addComponent(startButton);
+		multiplayerButton = new TextButtonComponent(200, 50, "Multiplayer", font);
+		multiplayerButton.setOffset(4,4);
+		container.addComponent(multiplayerButton);
 		settingsButton = new TextButtonComponent(200, 50, "Settings", font);
 		settingsButton.setOffset(4,4);
 		container.addComponent(settingsButton);
 		quitButton = new TextButtonComponent(200, 50, "Quit", font);
 		quitButton.setOffset(4,4);
 		container.addComponent(quitButton);
+
 	}
 	
 	/**
@@ -60,6 +66,11 @@ public class StartMenu extends BoxComponent {
 	 */
 	public void update() {
 		if(startButton.wasClicked()) {
+			// Spielstart
+			isStartRequested = true;
+		}
+		if(multiplayerButton.wasClicked()) {
+			playerCount = 2;
 			// Spielstart
 			isStartRequested = true;
 		}
@@ -99,6 +110,9 @@ public class StartMenu extends BoxComponent {
 	}
 	public boolean isCloseRequested() {
 		return isCloseRequested;
+	}
+	public int getPlayerCount() {
+		return playerCount;
 	}
 
 } 
