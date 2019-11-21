@@ -207,6 +207,9 @@ public class World {
 		snake = null;
 		hasSnake = false;
 		
+		secondSnake = null;
+		hasSecondSnake = false;
+		
 		placeFood();
 	}
 	
