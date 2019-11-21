@@ -17,7 +17,7 @@ public class Settings {
 	public int normalScore,fastScore,tunnelScore;
 	public int crosshairFrame, crosshairCount = 5;
 	public boolean isFullscreen;
-	public boolean isCaveEffect;
+	public boolean isCaveEffectEnabled;
 	public int pixelSize;
 	public int cursorFrame;
 	public String cursorImagePath;
@@ -44,7 +44,7 @@ public class Settings {
 		isFullscreen = config.getBoolean("IS_FULLSCREEN");
 		pixelSize = config.getInt("PIXELSIZE");
 		cursorFrame = config.getInt("CURSOR");
-		isCaveEffect = config.getBoolean("CAVE_EFFECT");
+		isCaveEffectEnabled = config.getBoolean("CAVE_EFFECT");
 		crosshairImagePathRenew();
 		curserImagePathRenew();
 	}
@@ -77,7 +77,7 @@ public class Settings {
 		config.setValue("IS_FULLSCREEN",""+isFullscreen);
 		config.setValue("PIXELSIZE",""+pixelSize);
 		config.setValue("CURSOR",""+cursorFrame);
-		config.setValue("CAVE_EFFECT",""+isCaveEffect);
+		config.setValue("CAVE_EFFECT",""+isCaveEffectEnabled);
 		// speichert die gesetzten Werte
 		config.saveToFile();
 	}

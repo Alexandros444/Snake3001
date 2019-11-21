@@ -39,7 +39,7 @@ public class Display {
 	 * @param title Titel
 	 *
 	 */
-	public Display(Settings settings, String title, int CursorFrame) {		
+	public Display(Settings settings, String title) {		
 		this.settings = settings;
 		GLFWErrorCallback.createPrint(System.err).set();
 		if (!GLFW.glfwInit()) {
@@ -54,7 +54,7 @@ public class Display {
 		if(settings.isFullscreen) {
 			toggleFullscreenMode();
 		}		
-		if(CursorFrame!=0) {
+		if(settings.cursorFrame!=0) {
 			setCursor(settings.cursorImagePath);
 		}
 	}

@@ -43,7 +43,7 @@ public class SettingsGui extends BoxComponent {
 		pixelSize = settings.pixelSize;
 		isFullscreen = settings.isFullscreen;
 		cursorFrame = settings.cursorFrame;
-		isCaveEffect = settings.isCaveEffect;
+		isCaveEffect = settings.isCaveEffectEnabled;
 		
 		// Komponenten
 		headlineText= new TextComponent("Settings",font);
@@ -211,7 +211,7 @@ public class SettingsGui extends BoxComponent {
 		settings.isFullscreen = isFullscreen;
 		settings.cursorFrame = cursorFrame;
 		settings.curserImagePathRenew();
-		settings.isCaveEffect = isCaveEffect;
+		settings.isCaveEffectEnabled = isCaveEffect;
 		settings.save();
 	}
 	

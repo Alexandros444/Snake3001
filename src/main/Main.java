@@ -27,7 +27,7 @@ public class Main {
 		// Erstellt Config-Datei, Spielstände werden geladen
 		Settings settings = new Settings();
 		// Erstellt ein neues Fenster
-		Display display = new Display(settings,"SNAKE 3001", settings.cursorFrame);
+		Display display = new Display(settings,"SNAKE 3001");
 		display.setWindowIcon("res/icon.png");
 		//display.setCursor("res/cursor.png");
 		// erstellt InputHandler zum verarbeiten der Inputs auf das Fenster
