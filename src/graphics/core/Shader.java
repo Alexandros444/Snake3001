@@ -206,11 +206,17 @@ public abstract class Shader {
 	 */
 	private static int loadShader(String fileName, int type, String definitions) {
 		StringBuilder shaderSource = new StringBuilder();
-		shaderSource.append(definitions).append("\n");
 		try {
 			InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-			String line;
+			String line = reader.readLine();
+			if (line!=null&&line.startsWith("#version")) {
+				shaderSource.append(line).append("\n").append(definitions).append("\n");
+			}else if(line!=null) {
+				shaderSource.append(definitions).append("\n").append(line).append("\n");
+			}else if(line==null) {
+				shaderSource.append(definitions).append("\n");
+			}
 			while ((line = reader.readLine())!=null) {
 				shaderSource.append(line).append("\n");
 			}
