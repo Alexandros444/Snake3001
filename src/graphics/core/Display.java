@@ -234,7 +234,8 @@ public class Display {
 		}
 	}
 	
-	public void setCursor(String path) {
+	/**
+	 * public void setCursor(String path) {
 		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
 		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
 		IntBuffer comp = BufferUtils.createIntBuffer(1);
@@ -254,6 +255,8 @@ public class Display {
 		}
 		GLFW.glfwSetCursor(windowID, cursor);
 	}
+	 */
+	
 	
 	/**
 	 * Gibt zurück, ob das Fenster gerade im Vorderrgrund ist bzw. ob es fokussiert ist
