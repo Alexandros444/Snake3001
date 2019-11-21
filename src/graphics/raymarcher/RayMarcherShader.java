@@ -26,6 +26,9 @@ public class RayMarcherShader extends Shader{
 	private int foodRadiusUniformID;
 	private int foodRotationUniformID;
 	private int gridWidthUniformID;
+	private int secondSnakePositionsUniformID;
+	private int secondSnakeLengthUniformID;
+	private int secondSnakeRadiusUniformID;
 	
 	/**
 	 * Lädt den Shader.
@@ -57,6 +60,9 @@ public class RayMarcherShader extends Shader{
 		foodRadiusUniformID = super.getUniformLocation("foodRadius");
 		foodRotationUniformID = super.getUniformLocation("foodRotation");
 		gridWidthUniformID = super.getUniformLocation("gridWidth");
+		secondSnakePositionsUniformID = super.getUniformLocation("secondSnakePositions");
+		secondSnakeLengthUniformID = super.getUniformLocation("secondSnakeLength");
+		secondSnakeRadiusUniformID = super.getUniformLocation("secondSnakeSphereRadius");
 	}
 	
 	/**
@@ -140,5 +146,23 @@ public class RayMarcherShader extends Shader{
 	public void loadGridWidth(float gridWidth) {
 		super.loadFloat(gridWidthUniformID,gridWidth);
 	}
+	/**
+	 * Lädt die Position der zweiten Schlange.
+	 * 
+	 * @param positions die Ortsvektoren der einzelnen Teile der Schlange, so sortiert, dass der Kopf an erster Stelle steht
+	 */
+	public void loadSecondSnake(Vector3f[] positions) {
+		super.loadVector3fArray(secondSnakePositionsUniformID,positions);
+		super.loadInt(secondSnakeLengthUniformID,positions.length);
+	}
 	
+	/**
+	 * Lädt die Dicke der zweiten Schlange.
+	 * 
+	 * @param radius Radius der Kugeln der Schlange
+	 */
+	public void loadSecondSnakeSphereRadius(float radius) {
+		super.loadFloat(secondSnakeRadiusUniformID,radius);
+	}
 }
+

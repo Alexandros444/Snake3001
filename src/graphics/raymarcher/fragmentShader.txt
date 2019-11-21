@@ -23,6 +23,11 @@ uniform vec3[64] snakePositions;
 uniform int snakeLength;
 uniform float snakeSphereRadius;
 
+// Positionen der Schlange
+uniform vec3[64] secondSnakePositions;
+uniform int secondSnakeLength;
+uniform float secondSnakeSphereRadius;
+
 // Position des Essens
 uniform vec3 foodPosition;
 uniform float foodRadius;
@@ -129,8 +134,12 @@ float snakeDE(vec3 p){
 	for (int i=0;i<snakeLength;i++){
 		d = min(d,length(mod(p-snakePositions[i]+vec3(0.5),1)-vec3(0.5)));
 	}
+	for (int i=0;i<secondSnakeLength;i++){
+		d = min(d,length(mod(p-secondSnakePositions[i]+vec3(0.5),1)-vec3(0.5)));
+	}
 	return max(d-snakeSphereRadius,2*snakeSphereRadius+0.01-length(p-cameraPosition));
 }
+
 
 // berrechnet die Distanz des gegebenen Punktes zum Futter
 float foodDE(vec3 p){
