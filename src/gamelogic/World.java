@@ -20,7 +20,7 @@ public class World {
 	private static final float SPEED_NORMAL = 0.005f;
 	private static final float SPEED_FAST = 0.008f;
 	private static final float ROTATION_NORMAL = 0.75f;
-	private static final float ROTATION_FAST = 1f;
+	private static final float ROTATION_FAST = 0.9f;
 	
 	private static final float GRID_WIDTH_NORMAL = 0.04f;
 	private static final float GRID_WIDTH_TUNNEL = 0.6f;
