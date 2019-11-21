@@ -17,7 +17,10 @@ public class Settings {
 	public int normalScore,fastScore,tunnelScore;
 	public int crosshairFrame, crosshairCount = 5;
 	public boolean isFullscreen;
+	public boolean isCaveEffect;
 	public int pixelSize;
+	public int cursorFrame;
+	public String cursorImagePath;
 	public String crosshairImagePath; //, difficultyImagePath;
 
 	/**
@@ -25,8 +28,8 @@ public class Settings {
 	 */
 	public Settings() {
 		// Initailisiert Standard-Werte 
-		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","NORMAL_SCORE","FAST_SCORE","TUNNEL_SCORE","CROSSHAIR_FRAME","IS_FULLSCREEN","PIXELSIZE"};
-		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+0,""+0,""+false,""+3};
+		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","NORMAL_SCORE","FAST_SCORE","TUNNEL_SCORE","CROSSHAIR_FRAME","IS_FULLSCREEN","PIXELSIZE","CURSOR","CAVE_EFFECT"};
+		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+0,""+0,""+false,""+3,""+0,""+false};
 
 		// Erstellt neue Instanz der Einstellungen--> Einstellungen werden geladen
 		config = new SettingsLoader(STANDARD_NAMES,STANDARD_VALUES);
@@ -40,8 +43,10 @@ public class Settings {
 		crosshairFrame = config.getInt("CROSSHAIR_FRAME");
 		isFullscreen = config.getBoolean("IS_FULLSCREEN");
 		pixelSize = config.getInt("PIXELSIZE");
+		cursorFrame = config.getInt("CURSOR");
+		isCaveEffect = config.getBoolean("CAVE_EFFECT");
 		crosshairImagePathRenew();
-		//difficultyImagePathRenew();
+		curserImagePathRenew();
 	}
 	
 	/**
@@ -50,13 +55,13 @@ public class Settings {
 	public void crosshairImagePathRenew() {
 		crosshairImagePath = "res/crosshairs"+crosshairFrame+".png";
 	}
-	/** AUSKOMMENTIERT WEIL IM MOMENT NICHT GEBRAUCHT
-	 * lädt den Pfad des Difficulty Images neu falls er geändert wurde
-	 */
-	//public void difficultyImagePathRenew() {
-	//	difficultyImagePath = "res/difficulty"+difficulty+".png";
-	//}
 	
+	/**
+	 * lädt den Pfad des Cursers neu falls er geändert wurde
+	 */
+	public void curserImagePathRenew() {
+		cursorImagePath = "res/cursor"+cursorFrame+".png";
+	}
 	
 	/**
 	 * Speichert die Werte von Values in Einstellungen(Settings)
@@ -71,6 +76,8 @@ public class Settings {
 		config.setValue("DISPLAY_HEIGHT",""+displayHeight);
 		config.setValue("IS_FULLSCREEN",""+isFullscreen);
 		config.setValue("PIXELSIZE",""+pixelSize);
+		config.setValue("CURSOR",""+cursorFrame);
+		config.setValue("CAVE_EFFECT",""+isCaveEffect);
 		// speichert die gesetzten Werte
 		config.saveToFile();
 	}

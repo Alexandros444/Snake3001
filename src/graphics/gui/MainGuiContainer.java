@@ -51,6 +51,9 @@ public class MainGuiContainer extends ContainerComponent {
 	private float scaleY = 1;
 	
 	private int playerCount;
+	
+	private boolean isFirstStart = true; 
+	
 	/**
 	 * Erstellt den Container
 	 * 
@@ -73,9 +76,9 @@ public class MainGuiContainer extends ContainerComponent {
 		
 		openStartMenu();
 		
-		introScreen = new IntroScreen();
-		super.addComponent(introScreen);
-		isIntroScreenOpen = true;
+		//introScreen = new IntroScreen();
+		//super.addComponent(introScreen);
+		//isIntroScreenOpen = true;
 		
 		isFullscreen = settings.isFullscreen;
 	}
@@ -91,6 +94,12 @@ public class MainGuiContainer extends ContainerComponent {
 		world.update(display);
 		
 		gameGui.displayScore(world.score);
+		
+		// Erster Start des Spiels,Lädt Einstellungen
+		if(isFirstStart) {
+			isFirstStart = false;
+			applyChangedSettings(display);
+		}
 		
 		if(!hasGameStarted) {
 			if (isGameModeMenuOpen) {
@@ -111,10 +120,10 @@ public class MainGuiContainer extends ContainerComponent {
 					closeStartMenu();
 					openGameModeMenu();
 				}else if(startMenu.hasSettingsChanged) {
-					applyChangedSettings();
+					applyChangedSettings(display);
 				}
 			}
-		}else {
+		}else {	
 			// Spiel hat begonnen
 			if(isDeathMenuOpen) {
 				// Death-Menü ist offen
@@ -149,7 +158,7 @@ public class MainGuiContainer extends ContainerComponent {
 						openStartMenu();
 						world.reset();
 					}else if(pauseMenu.hasSettingsChanged) {
-						applyChangedSettings();
+						applyChangedSettings(display);
 					}
 				} else if(pauseKey.wasKeyPressed() || !display.isFocused()) {
 					// öffnet das Pausenmenü
@@ -282,13 +291,23 @@ public class MainGuiContainer extends ContainerComponent {
 	/**
 	 * Wendet Änderungen der Settings auf alles an
 	 */
-	private void applyChangedSettings() {
+	private void applyChangedSettings(Display display) {
 		gameGui.crosshairs.loadImage(settings.crosshairImagePath);
 		gameRenderer.setPixelSize(settings.pixelSize);
 		if(isFullscreen != settings.isFullscreen) {
 			hasFullscreenChanged = true;
 		}
 		isFullscreen = settings.isFullscreen;
+		if(settings.cursorFrame!=0) {
+			display.setCursor(settings.cursorImagePath);
+		}else {
+			display.setStandardCursor();
+		}
+		if(settings.isCaveEffect) {
+			gameRenderer.enableCaveEffect();
+		}else {
+			gameRenderer.disableCaveEffect();
+		}
 	}
 	
 	/**

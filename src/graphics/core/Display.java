@@ -13,7 +13,6 @@ import org.lwjgl.glfw.GLFWImage.Buffer;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.stb.STBImage;
-import org.lwjgl.system.MemoryUtil;
 
 import util.Settings;
 import util.StaticUtils;
@@ -234,29 +233,29 @@ public class Display {
 		}
 	}
 	
-	/**
-	 * public void setCursor(String path) {
+	
+	 public void setCursor(String path) {
 		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
 		IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
 		IntBuffer comp = BufferUtils.createIntBuffer(1);
 		ByteBuffer fileContents = null;
 		try {
 			fileContents = StaticUtils.ioResourceToByteBuffer(path);
+			ByteBuffer pixels = STBImage.stbi_load_from_memory(fileContents,widthBuffer,heightBuffer,comp,4);
+			GLFWImage image = GLFWImage.malloc();
+			image.set(widthBuffer.get(0),heightBuffer.get(0),pixels);
+			long cursor = GLFW.glfwCreateCursor(image, 6, 6);
+			GLFW.glfwSetCursor(windowID, cursor);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			setStandardCursor();
+			System.err.println("Error creating cursor");
 			e.printStackTrace();
 		}
-		ByteBuffer pixels = STBImage.stbi_load_from_memory(fileContents,widthBuffer,heightBuffer,comp,4);
-		GLFWImage image = GLFWImage.malloc();
-		image.set(widthBuffer.get(0),heightBuffer.get(0),pixels);
-		long cursor = GLFW.glfwCreateCursor(image, 6, 6);
-		if (cursor == MemoryUtil.NULL) {
-			throw new RuntimeException("Error creating cursor");
-		}
-		GLFW.glfwSetCursor(windowID, cursor);
 	}
-	 */
 	
+	 public void setStandardCursor() {
+		 GLFW.glfwSetCursor(windowID,GLFW.glfwCreateStandardCursor(GLFW.GLFW_ARROW_CURSOR));		 
+	 }
 	
 	/**
 	 * Gibt zurück, ob das Fenster gerade im Vorderrgrund ist bzw. ob es fokussiert ist
