@@ -14,6 +14,7 @@ float distanceEstimation(vec3 p, out vec3 glowColor);
 float gridDE(vec3 p);
 float snakeDE(vec3 p);
 float foodDE(vec3 p);
+vec3 colorAt(vec3 p);
 
 // Ortsvektor der Kamera
 uniform vec3 cameraPosition;
@@ -54,23 +55,13 @@ void main(void){
 	vec3 direction = normalize(pass_direction);
 	
 	// simuliert einen Lichtstrahl in die Richtung und bestimmt damit die Helligkeit des Pixels
-	vec4 shadeColor = trace(position,direction);
-	
-	// testet, welches Objekt getroffen wurde
-	float d1 = 1/(0.00001+gridDE(position));
-	float d2 = 1/(0.00001+snakeDE(position));
-	float d3 = 1/(0.00001+foodDE(position));
-	float sum = d1+d2+d3;
-	vec3 color = d1/sum*gridColor+d2/sum*vec3(0.25,1,0)+d3/sum*vec3(1,0.5,0);
-	color.rgb = sqrt(color.rgb);
-	
-	out_color = vec4(color.rgb*shadeColor.a+shadeColor.rgb*(1-shadeColor.a),1);
+	out_color = trace(position,direction);
 	
 }
 
 // simuliert einen Lichtstrahl von einen gegebenen Punkt aus in die gegebene Richtung
 // gibt Farbe und  Stärke der entsprechenden Schattierung zurück
-// setzt den übergeben ektor auf die Endposition des Strahls
+// setzt den übergeben Vektor auf die Endposition des Strahls
 vec4 trace(inout vec3 position, vec3 direction){
 	float totalDistance = 0;
 	int steps;
@@ -111,7 +102,10 @@ vec4 trace(inout vec3 position, vec3 direction){
 		// keine Schatten, falls der Acid Effect aktiviert ist
 		float shade = 1;
 	#endif
-	return vec4(shadeColor,shade);
+	
+	vec3 solidColor = colorAt(position);
+	
+	return vec4(solidColor*shade+shadeColor*(1-shade),1);
 }
 
 // berechnet die Distanz des gegebenen Punktes zu den zu rendernden Objekten, gibt die Farbe des Leuchtens naher Objekte zurück
@@ -128,6 +122,16 @@ float distanceEstimation(vec3 p, out vec3 glowColor){
 		// normaler Code
 		return min(distances.x,min(distances.y,distances.z));
 	#endif
+}
+
+// gibt die Farbe des Objektes zurück, das dem Punkt am nächsten ist
+vec3 colorAt(vec3 p){
+	float d1 = 1/(0.0001+gridDE(p));
+	float d2 = 1/(0.0001+snakeDE(p));
+	float d3 = 1/(0.0001+foodDE(p));
+	float sum = d1+d2+d3;
+	vec3 color = d1/sum*gridColor+d2/sum*vec3(0.25,1,0)+d3/sum*vec3(1,0.5,0);
+	return sqrt(color);
 }
 
 // berechnet die Distanz des gegebenen Punktes zu den Koordinatenachsen
