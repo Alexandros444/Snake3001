@@ -27,14 +27,16 @@ public class RayMarcher {
 	private int pixelSize = 1;
 	
 	private boolean useCaveEffect;
+	private boolean useAcidEffect;
 	
 	/**
 	 * Erstellt einen neuen RayMarcher-Renderer.
 	 */
-	public RayMarcher(boolean useCaveEffect) {
+	public RayMarcher(boolean useCaveEffect, boolean useAcidEffect) {
 		this.useCaveEffect = useCaveEffect;
+		this.useAcidEffect = useAcidEffect;
 		// erstellt den entsprechenden Shader
-		shader = new RayMarcherShader(useCaveEffect);
+		shader = new RayMarcherShader(useCaveEffect,useAcidEffect);
 		shader.start();
 
 		// Erstellt ein neues VAO mit den Eckpunkten eines Rechtecks
@@ -125,10 +127,26 @@ public class RayMarcher {
 	}
 	
 	/**
-	 * Aktiviert den "Cave Effect"
+	 * Deaktiviert den "Cave Effect"
 	 */
 	public void disableCaveEffect() {
 		useCaveEffect = false;
+		reloadShader();
+	}
+	
+	/**
+	 * Aktiviert den "Acid Effect"
+	 */
+	public void enableAcidEffect() {
+		useAcidEffect = true;
+		reloadShader();
+	}
+	
+	/**
+	 * Deaktiviert den "Acid Effect"
+	 */
+	public void disableAcidEffect() {
+		useAcidEffect = false;
 		reloadShader();
 	}
 	
@@ -137,7 +155,7 @@ public class RayMarcher {
 	 */
 	private void reloadShader() {
 		shader.destroy();
-		shader = new RayMarcherShader(useCaveEffect);
+		shader = new RayMarcherShader(useCaveEffect,useAcidEffect);
 	}
 	
 	/**

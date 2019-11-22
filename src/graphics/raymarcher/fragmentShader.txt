@@ -37,7 +37,14 @@ uniform mat3 foodRotation;
 uniform float gridWidth;
 
 // maximale beim RayMarching genutzte Schrittzahl
-const int maxSteps = 32;
+#ifndef EFFECT_ACID
+	const int maxSteps = 32;
+	const vec3 gridColor = vec3(0.25);
+#else
+	// reduziert, falls der Acid Effect aktiviert ist
+	const int maxSteps = 16;
+	const vec3 gridColor = vec3(0);
+#endif
 
 void main(void){
 	
@@ -54,7 +61,7 @@ void main(void){
 	float d2 = 1/(0.00001+snakeDE(position));
 	float d3 = 1/(0.00001+foodDE(position));
 	float sum = d1+d2+d3;
-	vec3 color = d1/sum*vec3(0.25,0.25,0.25)+d2/sum*vec3(0.25,1,0)+d3/sum*vec3(1,0.5,0);
+	vec3 color = d1/sum*gridColor+d2/sum*vec3(0.25,1,0)+d3/sum*vec3(1,0.5,0);
 	color.rgb = sqrt(color.rgb);
 	
 	out_color = vec4(color.rgb*shadeColor.a+shadeColor.rgb*(1-shadeColor.a),1);
@@ -91,14 +98,19 @@ vec4 trace(inout vec3 position, vec3 direction){
 	position += totalDistance*direction;
 	//berechnet die Farbe und Stärke der Schattierung
 	shadeColor /= steps;
-	float shade;
-	if (steps==maxSteps){
-		// gibt 0 als Helligkeit zurück, falls der Strahl die Objekte nicht erreicht hat
-		shade = 0;
-	}else{
-		// errechnet die Helligkeit aus der Anzahl der benötigten Schritte bis zum Erreichen des Objekts sowie der letzten Distanz zum Objekt
-		shade = 1.0-(float(steps)-(0.001-distance)/(prevDistance-distance))/float(maxSteps);
-	}
+	#ifndef EFFECT_ACID
+		float shade;
+		if (steps==maxSteps){
+			// gibt 0 als Helligkeit zurück, falls der Strahl die Objekte nicht erreicht hat
+			shade = 0;
+		}else{
+			// errechnet die Helligkeit aus der Anzahl der benötigten Schritte bis zum Erreichen des Objekts sowie der letzten Distanz zum Objekt
+			shade = 1.0-(float(steps)-(0.001-distance)/(prevDistance-distance))/float(maxSteps);
+		}
+	#else
+		// keine Schatten, falls der Acid Effect aktiviert ist
+		float shade = 1;
+	#endif
 	return vec4(shadeColor,shade);
 }
 

@@ -35,8 +35,8 @@ public class RayMarcherShader extends Shader{
 	 * <br><br>
 	 * Er muss anschlieﬂend noch mit <code>.start()</code> an den OpenGL-Kontext gebunden werden, damit er benutzt werden kann.
 	 */
-	public RayMarcherShader(boolean useCaveEffect) {
-		super(VERTEX_FILE,FRAGMENT_FILE,useCaveEffect?"#define EFFECT_CAVE":"");
+	public RayMarcherShader(boolean useCaveEffect, boolean useAcidEffect) {
+		super(VERTEX_FILE,FRAGMENT_FILE,(useCaveEffect?"#define EFFECT_CAVE\n":"")+(useAcidEffect?"#define EFFECT_ACID\n":""));
 	}
 	
 	/**
