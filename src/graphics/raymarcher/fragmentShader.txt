@@ -9,11 +9,16 @@ out vec4 out_color;
 
 // hier müssen alle selbst geschriebenen Methoden kurz beschrieben werden.
 // genauer definiert werden sie dann später im Programm.
-vec4 trace(inout vec3 position, vec3 direction);
+vec4 trace(inout vec3 position, inout vec3 direction);
 float distanceEstimation(vec3 p, out vec3 glowColor);
 float gridDE(vec3 p);
 float snakeDE(vec3 p);
 float foodDE(vec3 p);
+vec4 sceneNormal(vec3 p);
+vec4 gridNormal(vec3 p);
+vec4 snakeNormal(vec3 p);
+vec4 foodNormal(vec3 p);
+vec4 normalMin(vec4 n1, vec4 n2);
 vec3 colorAt(vec3 p);
 
 // Ortsvektor der Kamera
@@ -47,6 +52,8 @@ uniform float gridWidth;
 	const vec3 gridColor = vec3(0);
 #endif
 
+const int maxReflections = 2;
+
 void main(void){
 	
 	// setzt die Startposition des Strahls auf die Position der Kameradd
@@ -55,14 +62,27 @@ void main(void){
 	vec3 direction = normalize(pass_direction);
 	
 	// simuliert einen Lichtstrahl in die Richtung und bestimmt damit die Helligkeit des Pixels
-	out_color = trace(position,direction);
+	vec4 color = vec4(0,0,0,1);
+	for (int i=-1;i<maxReflections;i++){
+		vec4 shadeColor = trace(position,direction);
+		vec3 solidColor = colorAt(position);
+		solidColor *= max(0,dot(direction,normalize(sceneNormal(position).xyz)));
+		if (i+1==maxReflections){
+			shadeColor += vec4(solidColor,1)*(1-shadeColor.a);
+		}else{
+			shadeColor += vec4(solidColor,1)*(1-shadeColor.a)*0.5;
+		}
+		color = vec4(color.rgb+shadeColor.rgb*shadeColor.a*color.a,(1-shadeColor.a)*color.a);
+	}
+	color.a = 1;
+	out_color = color;
 	
 }
 
 // simuliert einen Lichtstrahl von einen gegebenen Punkt aus in die gegebene Richtung
 // gibt Farbe und  Stärke der entsprechenden Schattierung zurück
 // setzt den übergeben Vektor auf die Endposition des Strahls
-vec4 trace(inout vec3 position, vec3 direction){
+vec4 trace(inout vec3 position, inout vec3 direction){
 	float totalDistance = 0;
 	int steps;
 	vec3 p;
@@ -86,26 +106,26 @@ vec4 trace(inout vec3 position, vec3 direction){
 		}
 	}
 	// ändert die Startposition zur derzeitigen Position
-	position += totalDistance*direction;
+	position += (totalDistance-distance-prevDistance)*direction;
+	// ändert die Richtung durch Spiegelung an Normalenvektor
+	direction = reflect(direction,normalize(sceneNormal(position).xyz));
 	//berechnet die Farbe und Stärke der Schattierung
 	shadeColor /= steps;
 	#ifndef EFFECT_ACID
 		float shade;
 		if (steps==maxSteps){
-			// gibt 0 als Helligkeit zurück, falls der Strahl die Objekte nicht erreicht hat
-			shade = 0;
+			// gibt 1 als Schattenstärke zurück, falls der Strahl die Objekte nicht erreicht hat
+			shade = 1;
 		}else{
-			// errechnet die Helligkeit aus der Anzahl der benötigten Schritte bis zum Erreichen des Objekts sowie der letzten Distanz zum Objekt
-			shade = 1.0-(float(steps)-(0.001-distance)/(prevDistance-distance))/float(maxSteps);
+			// errechnet Schattenstärke aus der Anzahl der benötigten Schritte bis zum Erreichen des Objekts sowie der letzten Distanz zum Objekt
+			shade = (float(steps)-(0.001-distance)/(prevDistance-distance))/float(maxSteps);
 		}
 	#else
 		// keine Schatten, falls der Acid Effect aktiviert ist
-		float shade = 1;
+		float shade = 0;
 	#endif
 	
-	vec3 solidColor = colorAt(position);
-	
-	return vec4(solidColor*shade+shadeColor*(1-shade),1);
+	return vec4(shadeColor,shade);
 }
 
 // berechnet die Distanz des gegebenen Punktes zu den zu rendernden Objekten, gibt die Farbe des Leuchtens naher Objekte zurück
@@ -164,3 +184,50 @@ float foodDE(vec3 p){
 	return length(max(vec3(0),abs(p)-vec3(foodRadius)));
 }
 
+// gibt den Normalenvektor des nächsten Punktes zurück
+vec4 sceneNormal(vec3 p){
+	return normalMin(gridNormal(p),normalMin(snakeNormal(p),foodNormal(p)));
+}
+
+// berechnet den Normalenvektor und die Distanz des gegebenen Punktes zu den Koordinatenachsen
+vec4 gridNormal(vec3 p){
+	// projiziert alle Punkte in den Raum von -0.5 bis +0.5, sodass der sich immer wieder wiederholt
+	p = mod(p,1)-vec3(0.5);
+	// staucht den Raum, sodass alle Koordinaten um den gleichen Betrag Richtung null verschoben werden
+	p = sign(p)*max(abs(p)-vec3(gridWidth/2),vec3(0));
+	return normalMin(vec4(p.xy,0,length(p.xy)),normalMin(vec4(0,p.yz,length(p.yz)),vec4(p.x,0,p.z,length(p.xz))));
+}
+
+// berechnet die Distanz des gegebenen Punktes zur Schlange
+vec4 snakeNormal(vec3 p){
+	vec4 n = vec4(0,0,0,100);
+	for (int i=0;i<snakeLength;i++){
+		vec3 d = mod(p-snakePositions[i]+vec3(0.5),1)-vec3(0.5);
+		n = normalMin(n,vec4(d,length(d)));
+	}
+	for (int i=0;i<secondSnakeLength;i++){
+		vec3 d = mod(p-secondSnakePositions[i]+vec3(0.5),1)-vec3(0.5);
+		n = normalMin(n,vec4(d,length(d)));
+	}
+	n.a -= snakeSphereRadius;
+	return n;
+}
+
+
+// berrechnet die Distanz des gegebenen Punktes zum Futter
+vec4 foodNormal(vec3 p){
+	// errechnet Position relativ zum nächsten Futterkorn
+	p = mod(p-foodPosition+vec3(0.5),1)-vec3(0.5);
+	// sorgt für Drehung des Korns
+	p *= foodRotation;
+	// rückt alle Koordinaten um den gleichen Betrag in Richtung null
+	p = sign(p)*max(vec3(0),abs(p)-vec3(foodRadius));
+	p = p*inverse(foodRotation);
+	return vec4(p,length(p));
+}
+
+// Gibt den näheren von 2 3D-Vektoren zurück, wenn in der 4. Koordinate der Abstand gespeichert ist
+vec4 normalMin(vec4 n1, vec4 n2){
+	float temp = step(n1.a,n2.a);
+	return n1*temp+n2*(1-temp);
+}
