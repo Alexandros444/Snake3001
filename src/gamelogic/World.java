@@ -38,9 +38,13 @@ public class World {
 	
 	public Vector3f cameraPosition;
 	public Matrix3f viewDirection;
+	
+	public Vector3f secondCameraPosition;
+	public Matrix3f secondViewDirection;
 
 	private float rotationSpeed = ROTATION_NORMAL;
 	private float movementSpeed = SPEED_NORMAL;
+	private float secondMovementSpeed = SPEED_NORMAL;
 	public float gridWidth = GRID_WIDTH_NORMAL;
 	
 	private long lastFrame;
@@ -110,7 +114,7 @@ public class World {
 				}
 				if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
 					viewDirection.rotate(0, 0, -rotationSpeed* (deltaTime*(1e-7f)));
-				}
+				}	
 			}
 			//wenn Leertaste gedrückt dann stop
 			if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
@@ -122,10 +126,24 @@ public class World {
 				movement.apply(viewDirection);
 				// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
 				cameraPosition.add(movement);
+				if (hasSecondSnake) {
+					// Setzt den BewegungsVektor zurück
+					Vector3f secondMovement = new Vector3f(0,0,secondMovementSpeed);
+					// Bestimmt Geschwindigkeit pro Frame
+					secondMovement.scale(deltaTime*(1e-7f));
+					// dreht den BewegungsVektor durch die SichtMatrix
+					secondMovement.apply(secondViewDirection);
+					// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
+					secondCameraPosition.add(secondMovement);
+				}
 			}
+			
 			food.update(deltaTime);
 			if (hasSnake) {
 				snake.update(cameraPosition,deltaTime);
+				if (hasSecondSnake) {
+					secondSnake.update(secondCameraPosition,deltaTime);
+				}
 				checkFoodCollision();
 				checkDeathCollision();
 			}
@@ -202,6 +220,8 @@ public class World {
 	public void reset() {
 	    viewDirection = new Matrix3f();
 	    cameraPosition = new Vector3f(0,0,0.5f);
+	    secondViewDirection = new Matrix3f();
+	    secondCameraPosition = new Vector3f(0,0,0.5f);
 	    
 		score = 0;
 		snake = null;
@@ -266,4 +286,5 @@ public class World {
 		isPaused = false;
 		lastFrame = System.nanoTime();
 	}
+	
 }
