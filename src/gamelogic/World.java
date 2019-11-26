@@ -96,7 +96,7 @@ public class World {
 		
 		if(display.isKeyPressed(GLFW.GLFW_KEY_G))placeFood();
 		
-		if(!(hasSnake&&gameOver&&!isPaused)) {
+		if(!(hasSnake&&gameOver)&&!isPaused) {
 			if (hasSnake&&!gameOver) {
 				if (display.isKeyPressed(GLFW.GLFW_KEY_W) || (display.isKeyPressed(GLFW.GLFW_KEY_UP)&&!hasSecondSnake) ) {
 					viewDirection.rotate(-rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
@@ -260,6 +260,7 @@ public class World {
 		secondSnake = null;
 		hasSecondSnake = false;
 		
+		gameOver = false;
 		placeFood();
 	}
 	
