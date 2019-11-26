@@ -97,16 +97,16 @@ public class World {
 		
 		if(!(hasSnake&&!snake.isAlive)&&!isPaused) {
 			if (hasSnake&&snake.isAlive) {
-				if (display.isKeyPressed(GLFW.GLFW_KEY_W) || display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
+				if (display.isKeyPressed(GLFW.GLFW_KEY_W) || (display.isKeyPressed(GLFW.GLFW_KEY_UP)&&!hasSecondSnake) ) {
 					viewDirection.rotate(-rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
 				}
-				if (display.isKeyPressed(GLFW.GLFW_KEY_S) || display.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
+				if (display.isKeyPressed(GLFW.GLFW_KEY_S) || (display.isKeyPressed(GLFW.GLFW_KEY_DOWN)&&!hasSecondSnake)) {
 					viewDirection.rotate(rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
 				}
-				if (display.isKeyPressed(GLFW.GLFW_KEY_A) || display.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+				if (display.isKeyPressed(GLFW.GLFW_KEY_A) || (display.isKeyPressed(GLFW.GLFW_KEY_LEFT)&&!hasSecondSnake)) {
 					viewDirection.rotate(0, -rotationSpeed* (deltaTime*(1e-7f)), 0);
 				}
-				if (display.isKeyPressed(GLFW.GLFW_KEY_D) || display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
+				if (display.isKeyPressed(GLFW.GLFW_KEY_D) || (display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)&&!hasSecondSnake)) {
 					viewDirection.rotate(0, rotationSpeed* (deltaTime*(1e-7f)), 0);
 				}
 				if (display.isKeyPressed(GLFW.GLFW_KEY_Q)) {
@@ -115,6 +115,20 @@ public class World {
 				if (display.isKeyPressed(GLFW.GLFW_KEY_E)) {
 					viewDirection.rotate(0, 0, -rotationSpeed* (deltaTime*(1e-7f)));
 				}	
+			}
+			if (hasSecondSnake&&secondSnake.isAlive) {
+				if (display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
+					secondViewDirection.rotate(-rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
+				}
+				if (display.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
+					secondViewDirection.rotate(rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
+				}
+				if ( display.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+					secondViewDirection.rotate(0, -rotationSpeed* (deltaTime*(1e-7f)), 0);
+				}
+				if (display.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
+					secondViewDirection.rotate(0, rotationSpeed* (deltaTime*(1e-7f)), 0);
+				}
 			}
 			//wenn Leertaste gedrückt dann stop
 			if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
