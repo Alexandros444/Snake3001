@@ -131,7 +131,7 @@ public class MainGuiContainer extends ContainerComponent {
 				}
 			}else {
 				// Death-Menü ist nicht offen
-				if(world.hasSnake&&world.snake.isAlive==false) {
+				if(world.hasSnake&&world.gameOver) {
 					// Schlange ist gestorben
 					openDeathScreen();
 					saveScore();

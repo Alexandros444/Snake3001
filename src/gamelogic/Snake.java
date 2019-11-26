@@ -11,7 +11,7 @@ public class Snake {
 
 	private static final int MAX_LENGTH = 64;
 	
-	public boolean isAlive;
+	
 	public Vector3f[] snakePositions;
 
 	public float sphereRadius = -0.1f;
@@ -28,7 +28,7 @@ public class Snake {
 			 snakePositions[l] = new Vector3f(); 
 		}
 	     
-	     isAlive = true;
+	     
 	}
 
 	/**

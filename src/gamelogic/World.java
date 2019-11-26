@@ -35,6 +35,7 @@ public class World {
 	public boolean isPaused;
 	public boolean hasSnake;
 	public boolean hasSecondSnake;
+	public boolean gameOver = false;
 	
 	public Vector3f cameraPosition;
 	public Matrix3f viewDirection;
@@ -95,8 +96,8 @@ public class World {
 		
 		if(display.isKeyPressed(GLFW.GLFW_KEY_G))placeFood();
 		
-		if(!(hasSnake&&!snake.isAlive)&&!isPaused) {
-			if (hasSnake&&snake.isAlive) {
+		if(!(hasSnake&&gameOver&&!isPaused)) {
+			if (hasSnake&&!gameOver) {
 				if (display.isKeyPressed(GLFW.GLFW_KEY_W) || (display.isKeyPressed(GLFW.GLFW_KEY_UP)&&!hasSecondSnake) ) {
 					viewDirection.rotate(-rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
 				}
@@ -116,7 +117,7 @@ public class World {
 					viewDirection.rotate(0, 0, -rotationSpeed* (deltaTime*(1e-7f)));
 				}	
 			}
-			if (hasSecondSnake&&secondSnake.isAlive) {
+			if (hasSecondSnake&&!gameOver) {
 				if (display.isKeyPressed(GLFW.GLFW_KEY_UP) ) {
 					secondViewDirection.rotate(-rotationSpeed* (deltaTime*(1e-7f)), 0, 0);
 				}
@@ -181,15 +182,30 @@ public class World {
 	 * Überprüft ob die Schlange mit sich kollidiert
 	 */
 	private void checkDeathCollision() {
-		if(gridDistance(snake.snakePositions[0])-0.8f*snake.sphereRadius<0) {
+		if(doesSnakeCollide(snake, secondSnake)) {
 			killSnake();
 		}
-		for(int i=2;i<snake.snakePositions.length;i++) {
-			if(sphereDistance(snake.snakePositions[0],snake.snakePositions[i])<1.9*snake.sphereRadius) {
-				killSnake();			
-				break;
+		if(hasSecondSnake&&doesSnakeCollide(secondSnake, snake)) {
+			killSecondSnake();
+		}
+	}
+	private boolean doesSnakeCollide(Snake snake1, Snake snake2) {
+		if(gridDistance(snake1.snakePositions[0])-0.8f*snake1.sphereRadius<0) {
+			return true;
+		}
+		for(int i=2;i<snake1.snakePositions.length;i++) {
+			if(sphereDistance(snake1.snakePositions[0],snake1.snakePositions[i])<1.9*snake1.sphereRadius) {
+				return true;
 			}
-		}		
+		}
+		if(hasSecondSnake) {
+			for(int i=2;i<snake2.snakePositions.length;i++) {
+				if(sphereDistance(snake1.snakePositions[0],snake2.snakePositions[i])<1.9*snake1.sphereRadius) {
+					return true;
+				}
+			}
+		}
+		return false;	
 	}
 	/**
 	 * Platziert ein neues Futterkorn
@@ -266,7 +282,11 @@ public class World {
 	 * Speichert den Score und setzt den Status der Schlange auf tot
 	 */
 	public void killSnake() {
-		snake.isAlive=false;
+		gameOver = true;
+		System.out.println("Du bist gestorben");
+	}
+	public void killSecondSnake() {
+		gameOver = true;
 		System.out.println("Du bist gestorben");
 	}
 	
@@ -300,5 +320,6 @@ public class World {
 		isPaused = false;
 		lastFrame = System.nanoTime();
 	}
+	
 	
 }
