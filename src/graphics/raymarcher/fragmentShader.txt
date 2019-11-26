@@ -106,7 +106,7 @@ vec4 trace(inout vec3 position, inout vec3 direction){
 		}
 	}
 	// ändert die Startposition zur derzeitigen Position
-	position += (totalDistance-distance-prevDistance)*direction;
+	position += (totalDistance-0.005)*direction;
 	// ändert die Richtung durch Spiegelung an Normalenvektor
 	direction = reflect(direction,normalize(sceneNormal(position).xyz));
 	//berechnet die Farbe und Stärke der Schattierung
@@ -124,7 +124,6 @@ vec4 trace(inout vec3 position, inout vec3 direction){
 		// keine Schatten, falls der Acid Effect aktiviert ist
 		float shade = 0;
 	#endif
-	
 	return vec4(shadeColor,shade);
 }
 
@@ -210,6 +209,7 @@ vec4 snakeNormal(vec3 p){
 		n = normalMin(n,vec4(d,length(d)));
 	}
 	n.a -= snakeSphereRadius;
+	n.a = max(n.a,2*snakeSphereRadius+0.01-length(p-cameraPosition));
 	return n;
 }
 
