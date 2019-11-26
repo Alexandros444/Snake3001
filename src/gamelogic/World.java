@@ -169,19 +169,21 @@ public class World {
 	 * Überprüft ob die Schlange mit Food kollidiert
 	 */
 	private void checkFoodCollision() {
-		if(doesSnakeEat(snake, secondScore)) {
+		if(doesSnakeEat(snake)) {
+			score += 1;
+			System.out.println("Punktzahl: "+score+", Länge: "+snake.snakePositions.length);
 			placeFood();
 		}
-		if(hasSecondSnake&&doesSnakeEat(secondSnake, secondScore)) {
+		if(hasSecondSnake&&doesSnakeEat(secondSnake)) {
+			secondScore += 1;
+			System.out.println("Punktzahl 2. Schlange: "+secondScore+", Länge: "+secondSnake.snakePositions.length);
 			placeFood();
 		}
 	}
-	private boolean doesSnakeEat(Snake snake, int score) {
+	private boolean doesSnakeEat(Snake snake) {
 		if(sphereDistance(snake.snakePositions[0], food.position)<snake.sphereRadius) {   
 			// Erweitert Schlangenlänge um 1
 			snake.addSphere();
-			score += 1;
-			System.out.println("Punktzahl: "+score+", Länge: "+snake.snakePositions.length);
 			return true;
 		}
 		return false;
@@ -234,6 +236,14 @@ public class World {
 				//Kontrolle ob Korn in der Schlange landet
 				for(int i=0;i<snake.snakePositions.length;i++) {
 					if(sphereDistance(snake.snakePositions[i], food.position)<snake.sphereRadius) {
+						goodPosition = false;
+					}
+				}
+			}
+			if(hasSecondSnake) {
+				//Kontrolle ob Korn in der zweiten Schlange landet
+				for(int i=0;i<secondSnake.snakePositions.length;i++) {
+					if(sphereDistance(secondSnake.snakePositions[i], food.position)<secondSnake.sphereRadius) {
 						goodPosition = false;
 					}
 				}
