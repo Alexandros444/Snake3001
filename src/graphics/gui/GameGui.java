@@ -17,6 +17,7 @@ public class GameGui extends ContainerComponent {
 	public ImageComponent crosshairs;
 	private TextComponent scoreText;
 	private FpsCounter fpsCounter;
+	private TextComponent secondScoreText;
 	
 	/**
 	 * Erstellt alle Komponenten
@@ -38,9 +39,15 @@ public class GameGui extends ContainerComponent {
 		scoreText.setOffset(24,24);
 		scoreText.setScale(3);
 		
+		// Erstellt den Text für die zweite Punktzahl
+		secondScoreText = new TextComponent("", font);
+		secondScoreText.setPosition(GuiComponent.POSITION_CORNER_TOPRIGHT);
+		secondScoreText.setOffset(24,24);
+		secondScoreText.setScale(3);
+				
 		// Erstellt die FPS-Anzeige
 		fpsCounter = new FpsCounter(font);
-		fpsCounter.setPosition(GuiComponent.POSITION_CORNER_TOPRIGHT);
+		fpsCounter.setPosition(GuiComponent.POSITION_CORNER_BOTTOMRIGHT);
 		fpsCounter.setOffset(6,6);
 		fpsCounter.setScale(2);
 		
@@ -48,6 +55,7 @@ public class GameGui extends ContainerComponent {
 		super.addComponent(crosshairs);
 		super.addComponent(scoreText);
 		super.addComponent(fpsCounter);
+		super.addComponent(secondScoreText);
 	}
 	
 	/**
@@ -58,5 +66,18 @@ public class GameGui extends ContainerComponent {
 	public void displayScore(int score) {
 		scoreText.setText("Score: "+score);
 	}
-	
+	public void displaySecondScore(int score) {
+		secondScoreText.setText("SecondScore: "+ score);
+	}
+	public void hideSecondScore(int score) {
+		secondScoreText.setText(" ");
+	}
 }
+
+
+
+
+
+
+
+

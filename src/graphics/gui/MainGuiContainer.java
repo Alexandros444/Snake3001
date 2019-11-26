@@ -92,6 +92,9 @@ public class MainGuiContainer extends ContainerComponent {
 		world.update(display);
 		
 		gameGui.displayScore(world.score);
+		if(world.hasSecondSnake) {
+			gameGui.displaySecondScore(world.secondScore);
+		}
 		
 		if(!hasGameStarted) {
 			if (isGameModeMenuOpen) {
@@ -122,6 +125,7 @@ public class MainGuiContainer extends ContainerComponent {
 				if(deathScreen.isExitRequested()) {
 					// schließt den DeathScreen und öffnet wieder das Hauptmenü
 					closeDeathScreen();
+					gameGui.hideSecondScore(world.secondScore);
 					openStartMenu();
 					world.reset();
 					}
@@ -227,7 +231,7 @@ public class MainGuiContainer extends ContainerComponent {
 		hasGameStarted = true;
 		world.spawnSnake();
 		if(playerCount == 2){ 
-			world.spawnSecondSnake(); 
+			world.spawnSecondSnake();
 		}
 	}
 	/**

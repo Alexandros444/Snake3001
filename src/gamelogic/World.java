@@ -46,7 +46,6 @@ public class World {
 
 	private float rotationSpeed = ROTATION_NORMAL;
 	private float movementSpeed = SPEED_NORMAL;
-	private float secondMovementSpeed = SPEED_NORMAL;
 	public float gridWidth = GRID_WIDTH_NORMAL;
 	
 	private long lastFrame;
@@ -144,7 +143,7 @@ public class World {
 				cameraPosition.add(movement);
 				if (hasSecondSnake) {
 					// Setzt den BewegungsVektor zurück
-					Vector3f secondMovement = new Vector3f(0,0,secondMovementSpeed);
+					Vector3f secondMovement = new Vector3f(0,0,movementSpeed);
 					// Bestimmt Geschwindigkeit pro Frame
 					secondMovement.scale(deltaTime*(1e-7f));
 					// dreht den BewegungsVektor durch die SichtMatrix
@@ -210,7 +209,7 @@ public class World {
 			}
 		}
 		if(hasSecondSnake) {
-			for(int i=2;i<snake2.snakePositions.length;i++) {
+			for(int i=0;i<snake2.snakePositions.length;i++) {
 				if(sphereDistance(snake1.snakePositions[0],snake2.snakePositions[i])<1.9*snake1.sphereRadius) {
 					return true;
 				}
@@ -270,9 +269,11 @@ public class World {
 	    viewDirection = new Matrix3f();
 	    cameraPosition = new Vector3f(0,0,0.5f);
 	    secondViewDirection = new Matrix3f();
-	    secondCameraPosition = new Vector3f(0,0,0.5f);
+	    secondCameraPosition = cameraPosition.copy();
+	    secondCameraPosition.z -= 0.5f;
 	    
 		score = 0;
+		secondScore = 0;
 		snake = null;
 		hasSnake = false;
 		
@@ -295,6 +296,8 @@ public class World {
 	 */
 	public void spawnSecondSnake(){
 		secondSnake = new Snake();
+		secondCameraPosition = cameraPosition.copy();
+		secondCameraPosition.z -= 0.5f;
 		hasSecondSnake = true;
 		System.out.println("Multiplayer!");
 	}
