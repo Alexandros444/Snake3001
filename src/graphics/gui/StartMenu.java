@@ -21,7 +21,7 @@ public class StartMenu extends BoxComponent {
 	private boolean isStartRequested;
 	private boolean isCloseRequested;
 	private boolean areSettingsOpen;
-	private int playerCount = 1;
+	int playerCount = 1;
 	
 	private Font font;
 	private Settings settings;

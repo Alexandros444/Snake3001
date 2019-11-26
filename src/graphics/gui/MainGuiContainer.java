@@ -237,7 +237,10 @@ public class MainGuiContainer extends ContainerComponent {
 		hasGameStarted = true; 
 		closeDeathScreen();
 		world.reset();
-		world.spawnSnake();		 
+		world.spawnSnake();	
+		if(playerCount == 2) {
+			world.spawnSecondSnake();
+		}
 	}
 	
 	/**

@@ -31,6 +31,7 @@ public class World {
 	public Snake secondSnake;
 	public Food food;
 	public int score;
+	public int secondScore;
 	
 	public boolean isPaused;
 	public boolean hasSnake;
@@ -168,14 +169,22 @@ public class World {
 	 * Überprüft ob die Schlange mit Food kollidiert
 	 */
 	private void checkFoodCollision() {
-		if(sphereDistance(snake.snakePositions[0], food.position)<snake.sphereRadius) {   
-			score += 1;
-			System.out.println("Punktzahl: "+score+", Länge: "+snake.snakePositions.length);
-			// Erweitert Schlangenlänge um 1
-			snake.addSphere();
-			// platziert das Korn neu
+		if(doesSnakeEat(snake, secondScore)) {
 			placeFood();
 		}
+		if(hasSecondSnake&&doesSnakeEat(secondSnake, secondScore)) {
+			placeFood();
+		}
+	}
+	private boolean doesSnakeEat(Snake snake, int score) {
+		if(sphereDistance(snake.snakePositions[0], food.position)<snake.sphereRadius) {   
+			// Erweitert Schlangenlänge um 1
+			snake.addSphere();
+			score += 1;
+			System.out.println("Punktzahl: "+score+", Länge: "+snake.snakePositions.length);
+			return true;
+		}
+		return false;
 	}
 
 	/**
