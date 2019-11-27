@@ -37,6 +37,9 @@ public abstract class GuiComponent {
 	public static final int FLOW_TOP_TO_BOTTOM = 0;
 	public static final int FLOW_LEFT_TO_RIGHT = 1;
 	
+	public static final int VISIBILITY_VISIBLE = 0;
+	public static final int VISIBILITY_HIDDEN = 1;
+	
 	private int width;
 	private int height;
 	
@@ -55,6 +58,8 @@ public abstract class GuiComponent {
 	
 	private float parentTransparency = 1;
 	private float ownTransparency = 1;
+	
+	private int visibility = VISIBILITY_VISIBLE;
 	
 	/**
 	 * Erstellt eine neuen Gui-Komponente.
@@ -312,18 +317,51 @@ public abstract class GuiComponent {
 		return offsetY;
 	}
 	
+	/**
+	 * Setzt die gespeicherte Transparenz des Elternelements. Diese wird zusätzlich zur eigenen Transparenz auf das Element angewendet.
+	 * @param transparency Transparenz des Elternelements
+	 */
 	public void setParentTransparency(float transparency) {
 		parentTransparency = transparency;
 		onTransparencyChange();
 	}
 	
+	/**
+	 * Setzt die Sichtbarkeit des Elements.
+	 * @param visibility <code>VISIBILITY_VISIBLE</code> oder <code>VISIBILITY_HIDDEN</code>
+	 */
+	public void setVisibility(int visibility) {
+		this.visibility = visibility;
+	}
+	
+	/**
+	 * Gibt die Sichtbarkeit des Elements zurück.
+	 * @return <code>VISIBILITY_VISIBLE</code> oder <code>VISIBILITY_HIDDEN</code>
+	 */
+	public int getVisibility() {
+		return visibility;
+	}
+	
+	/**
+	 * Setzt die Transparenz des Elements.
+	 * @param transparency Transparenz-Wert zwischen 0 und 1.
+	 */
 	public void setTransparency(float transparency) {
 		ownTransparency = transparency;
 		onTransparencyChange();
 	}
 	
+	/**
+	 * Wird ausgeführt, wenn die Transparenz des Elements geändert wird.
+	 * <br>
+	 * Andere Klassen können diese Methode überschreiben, um bei Änderungen der Transparenz eigenen COde auszuführen.
+	 */
 	protected void onTransparencyChange() {}
 	
+	/**
+	 * Gibt die Gesamttransparenz, also das Produkt aus der eigenen Transparenz und der Transparenz des Elternelements, zurück.
+	 * @return Gesamttransparenz, zwischen 0 und 1
+	 */
 	public float getTotalTransparency() {
 		return ownTransparency*parentTransparency;
 	}

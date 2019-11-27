@@ -74,9 +74,9 @@ public class MainGuiContainer extends ContainerComponent {
 		
 		openStartMenu();
 		
-		//introScreen = new IntroScreen();
-		//super.addComponent(introScreen);
-		//isIntroScreenOpen = true;
+		introScreen = new IntroScreen();
+		super.addComponent(introScreen);
+		isIntroScreenOpen = true;
 		
 		isFullscreen = settings.isFullscreen;
 	}
@@ -104,6 +104,10 @@ public class MainGuiContainer extends ContainerComponent {
 					closeGameModeMenu();
 					display.toggleCursor();
 					startGame();
+					gameGui.showScore();
+					if (world.hasSecondSnake) {
+						gameGui.showSecondScore();
+					}
 				}else if(pauseKey.wasKeyPressed()) {
 					closeGameModeMenu();
 					openStartMenu();
@@ -125,7 +129,8 @@ public class MainGuiContainer extends ContainerComponent {
 				if(deathScreen.isExitRequested()) {
 					// schließt den DeathScreen und öffnet wieder das Hauptmenü
 					closeDeathScreen();
-					gameGui.hideSecondScore(world.secondScore);
+					gameGui.hideScore();
+					gameGui.hideSecondScore();
 					openStartMenu();
 					world.reset();
 					}
@@ -151,6 +156,8 @@ public class MainGuiContainer extends ContainerComponent {
 						// öffnet das Hauptmenü und setzt die Welt zurück
 						saveScore();
 						closePauseMenu();
+						gameGui.hideScore();
+						gameGui.hideSecondScore();
 						openStartMenu();
 						world.reset();
 					}else if(pauseMenu.hasSettingsChanged) {

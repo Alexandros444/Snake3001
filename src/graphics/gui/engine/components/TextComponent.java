@@ -82,13 +82,16 @@ public class TextComponent extends GuiComponent {
 
 	/**
 	 * Rendert den Text
+	 * @param shader zum Rendern benutzter Shader
 	 */
 	public void render(GuiShader shader) {
-		shader.loadTransformationMatrix(super.getTotalTransform());
-		shader.loadTransparency(super.getTotalTransparency());
-		font.getTexture().bind();
-		vao.bind();
-		vao.render();
+		if (super.getVisibility()==VISIBILITY_VISIBLE) {
+			shader.loadTransformationMatrix(super.getTotalTransform());
+			shader.loadTransparency(super.getTotalTransparency());
+			font.getTexture().bind();
+			vao.bind();
+			vao.render();
+		}
 	}
 
 	/**

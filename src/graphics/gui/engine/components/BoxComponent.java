@@ -64,14 +64,17 @@ public class BoxComponent extends ContainerComponent {
 	
 	/**
 	 * Rendert das Element und all seine Kindelemente.
+	 * @param shader zum Rendern genutzter Shader
 	 */
 	public void render(GuiShader shader) {
-		shader.loadTransformationMatrix(super.getTotalTransform());
-		shader.loadTransparency(super.getTotalTransparency());
-		texture.bind();
-		vao.bind();
-		vao.render();
-		super.render(shader);
+		if (super.getVisibility()==VISIBILITY_VISIBLE) {
+			shader.loadTransformationMatrix(super.getTotalTransform());
+			shader.loadTransparency(super.getTotalTransparency());
+			texture.bind();
+			vao.bind();
+			vao.render();
+			super.render(shader);
+		}
 	}
 	
 	/**

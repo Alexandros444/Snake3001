@@ -67,13 +67,16 @@ public class ImageComponent extends GuiComponent {
 	
 	/**
 	 * Rendert das Bild
+	 * @param shader zum Rendern genutzter Shader
 	 */
 	public void render(GuiShader shader) {
-		shader.loadTransformationMatrix(super.getTotalTransform());
-		shader.loadTransparency(super.getTotalTransparency());
-		texture.bind();
-		vao.bind();
-		vao.render();
+		if (super.getVisibility()==VISIBILITY_VISIBLE) {
+			shader.loadTransformationMatrix(super.getTotalTransform());
+			shader.loadTransparency(super.getTotalTransparency());
+			texture.bind();
+			vao.bind();
+			vao.render();
+		}
 	}
 	
 	/**

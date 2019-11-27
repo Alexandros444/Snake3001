@@ -262,10 +262,14 @@ public class ContainerComponent extends GuiComponent {
 	 * Rendert alle Kindelemente.
 	 * <br><br>
 	 * Erweiternde Klassen, die zusätzlich noch etwas anderes wie z.B. einen Hintergrund rendern wollen, können dazu diese Methode überschreiben, sollten sie aber dabei nochmal über <code>super.render(shader)</code> aufrufen, damit die Kindelemente auch gerendert werden.
+	 * 
+	 * @param shader zum Rendern genutzter Shader.
 	 */
 	public void render(GuiShader shader) {
-		for (GuiComponent childComponent:childComponents) {
-			childComponent.render(shader);
+		if (super.getVisibility()==VISIBILITY_VISIBLE) {
+			for (GuiComponent childComponent:childComponents) {
+				childComponent.render(shader);
+			}
 		}
 	}
 	

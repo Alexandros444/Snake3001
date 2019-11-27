@@ -38,16 +38,18 @@ public class GameGui extends ContainerComponent {
 		scoreText.setPosition(GuiComponent.POSITION_CORNER_TOPLEFT);
 		scoreText.setOffset(24,24);
 		scoreText.setScale(3);
+		scoreText.setVisibility(VISIBILITY_HIDDEN);
 		
 		// Erstellt den Text für die zweite Punktzahl
 		secondScoreText = new TextComponent("", font);
 		secondScoreText.setPosition(GuiComponent.POSITION_CORNER_TOPRIGHT);
 		secondScoreText.setOffset(24,24);
 		secondScoreText.setScale(3);
+		secondScoreText.setVisibility(VISIBILITY_HIDDEN);
 				
 		// Erstellt die FPS-Anzeige
 		fpsCounter = new FpsCounter(font);
-		fpsCounter.setPosition(GuiComponent.POSITION_CORNER_BOTTOMRIGHT);
+		fpsCounter.setPosition(GuiComponent.POSITION_CORNER_TOPRIGHT);
 		fpsCounter.setOffset(6,6);
 		fpsCounter.setScale(2);
 		
@@ -66,11 +68,43 @@ public class GameGui extends ContainerComponent {
 	public void displayScore(int score) {
 		scoreText.setText("Score: "+score);
 	}
+	
+	/**
+	 * Aktualisiert die für den zweiten Spieler angezeigte Punktzahl.
+	 * @param score Punktzahl des zweiten Spielers
+	 */
 	public void displaySecondScore(int score) {
 		secondScoreText.setText("SecondScore: "+ score);
 	}
-	public void hideSecondScore(int score) {
-		secondScoreText.setText(" ");
+	
+	/**
+	 * Versteckt die Punktzahl-Anzeige
+	 */
+	public void hideScore() {
+		scoreText.setVisibility(VISIBILITY_HIDDEN);
+	}
+	
+	/**
+	 * Zeigt die Punktzahl wieder an
+	 */
+	public void showScore() {
+		scoreText.setVisibility(VISIBILITY_VISIBLE);
+	}
+	
+	/**
+	 * Versteckt die für den zweiten Spieler angezeigte Punktzahl
+	 */
+	public void hideSecondScore() {
+		secondScoreText.setVisibility(VISIBILITY_HIDDEN);
+		fpsCounter.setPosition(POSITION_CORNER_TOPRIGHT);
+	}
+	
+	/**
+	 * Zeigt die zweite Punktzahl wieder an
+	 */
+	public void showSecondScore() {
+		secondScoreText.setVisibility(VISIBILITY_VISIBLE);
+		fpsCounter.setPosition(POSITION_CORNER_BOTTOMRIGHT);
 	}
 }
 
