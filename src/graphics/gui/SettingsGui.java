@@ -14,16 +14,16 @@ import util.Settings;
  */
 public class SettingsGui extends BoxComponent {
 	// Variablen
-	private TextButtonComponent closeButton, saveButton, crosshairButton, fullscreenButton, pixelSizeButton, cursorButton, caveButton;
+	private TextButtonComponent closeButton, saveButton, crosshairButton, fullscreenButton, pixelSizeButton, cursorButton, caveButton, acidButton;
 	private ImageComponent crosshairImage, fullscreenImage, cursorImage;
-	private TextComponent crosshairText, fullscreenText, pixelSizeText, cursorText, caveText;
+	private TextComponent crosshairText, fullscreenText, pixelSizeText, cursorText;
 	private Settings settings;
 	private TextComponent headlineText;
 	
 
 	public boolean hasSettingsChanged;
 	public int crosshairFrame, pixelSize, maxPixelSize = 10, cursorFrame;
-	public boolean isFullscreen, isCaveEffect;
+	public boolean isFullscreen, isCaveEffect, isAcidEffect;
 	/**
 	 * Konstruktor
 	 * 
@@ -134,16 +134,16 @@ public class SettingsGui extends BoxComponent {
 		super.addComponent(cursorText);
 		
 		//CAVE EFFECT
-		caveButton = new TextButtonComponent(70,60,""+isCaveEffect,font);
+		caveButton = new TextButtonComponent(200,60,"Cave_Effect:"+(isCaveEffect?"On":"Off"),font);
 		caveButton.setPosition(POSITION_CORNER_TOPLEFT);
 		caveButton.setOffset(312,18);
 		super.addComponent(caveButton);
 		
-		caveText = new TextComponent("Cave_Effect",font);
-		caveText.setPosition(POSITION_CORNER_TOPLEFT);
-		caveText.setOffset(384,39);
-		caveText.setScale(2);
-		super.addComponent(caveText);
+		//ACID EFFECT
+		acidButton = new TextButtonComponent(200,60,"Acid_Effect:"+(isAcidEffect?"On":"Off"),font);
+		acidButton.setPosition(POSITION_CORNER_TOPLEFT);
+		acidButton.setOffset(312,118);
+		super.addComponent(acidButton);
 		
 	}
 	
@@ -185,10 +185,23 @@ public class SettingsGui extends BoxComponent {
 		if(caveButton.wasClicked()) {
 			if(isCaveEffect) {
 				isCaveEffect = false;
+				caveButton.setBackgroundColor(0x80000000);
 			}else {
 				isCaveEffect = true;
+				caveButton.setBackgroundColor(0x80404040);
 			}
-			caveButton.setText(""+isCaveEffect);
+			caveButton.setText("Cave_Effect:"+(isCaveEffect?"On":"Off"));
+			saveButton.setBackgroundColor(0xFF222255);
+		}
+		if(acidButton.wasClicked()) {
+			if(isAcidEffect) {
+				isAcidEffect = false;
+				acidButton.setBackgroundColor(0x80000000);
+			}else {
+				isAcidEffect = true;
+				acidButton.setBackgroundColor(0x80404040);
+			}
+			acidButton.setText("Acid_Effect:"+(isAcidEffect?"On":"Off"));
 			saveButton.setBackgroundColor(0xFF222255);
 		}
 		
@@ -212,6 +225,7 @@ public class SettingsGui extends BoxComponent {
 		settings.cursorFrame = cursorFrame;
 		settings.curserImagePathRenew();
 		settings.isCaveEffectEnabled = isCaveEffect;
+		//settings.isAcidEffectEnabled = isAcidEffect;
 		settings.save();
 	}
 	
