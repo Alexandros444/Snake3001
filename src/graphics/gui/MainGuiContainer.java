@@ -314,6 +314,11 @@ public class MainGuiContainer extends ContainerComponent {
 		}else {
 			gameRenderer.disableCaveEffect();
 		}
+		if(settings.isAcidEffectEnabled) {
+			gameRenderer.enableAcidEffect();
+		}else {
+			gameRenderer.disableAcidEffect();
+		}
 	}
 	
 	/**

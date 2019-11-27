@@ -18,6 +18,7 @@ public class Settings {
 	public int crosshairFrame, crosshairCount = 5;
 	public boolean isFullscreen;
 	public boolean isCaveEffectEnabled;
+	public boolean isAcidEffectEnabled;
 	public int pixelSize;
 	public int cursorFrame;
 	public String cursorImagePath;
@@ -28,8 +29,8 @@ public class Settings {
 	 */
 	public Settings() {
 		// Initailisiert Standard-Werte 
-		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","NORMAL_SCORE","FAST_SCORE","TUNNEL_SCORE","CROSSHAIR_FRAME","IS_FULLSCREEN","PIXELSIZE","CURSOR","CAVE_EFFECT"};
-		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+0,""+0,""+false,""+3,""+0,""+false};
+		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","NORMAL_SCORE","FAST_SCORE","TUNNEL_SCORE","CROSSHAIR_FRAME","IS_FULLSCREEN","PIXELSIZE","CURSOR","CAVE_EFFECT","ACID_EFFECT"};
+		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+0,""+0,""+false,""+3,""+0,""+false,""+false};
 
 		// Erstellt neue Instanz der Einstellungen--> Einstellungen werden geladen
 		config = new SettingsLoader(STANDARD_NAMES,STANDARD_VALUES);
@@ -45,6 +46,7 @@ public class Settings {
 		pixelSize = config.getInt("PIXELSIZE");
 		cursorFrame = config.getInt("CURSOR");
 		isCaveEffectEnabled = config.getBoolean("CAVE_EFFECT");
+		isAcidEffectEnabled = config.getBoolean("ACID_EFFECT");
 		crosshairImagePathRenew();
 		curserImagePathRenew();
 	}
@@ -78,6 +80,7 @@ public class Settings {
 		config.setValue("PIXELSIZE",""+pixelSize);
 		config.setValue("CURSOR",""+cursorFrame);
 		config.setValue("CAVE_EFFECT",""+isCaveEffectEnabled);
+		config.setValue("ACID_EFFECT",""+isAcidEffectEnabled);
 		// speichert die gesetzten Werte
 		config.saveToFile();
 	}

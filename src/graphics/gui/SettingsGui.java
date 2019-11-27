@@ -44,6 +44,7 @@ public class SettingsGui extends BoxComponent {
 		isFullscreen = settings.isFullscreen;
 		cursorFrame = settings.cursorFrame;
 		isCaveEffect = settings.isCaveEffectEnabled;
+		isAcidEffect = settings.isAcidEffectEnabled;
 		
 		// Komponenten
 		headlineText= new TextComponent("Settings",font);
@@ -225,7 +226,7 @@ public class SettingsGui extends BoxComponent {
 		settings.cursorFrame = cursorFrame;
 		settings.curserImagePathRenew();
 		settings.isCaveEffectEnabled = isCaveEffect;
-		//settings.isAcidEffectEnabled = isAcidEffect;
+		settings.isAcidEffectEnabled = isAcidEffect;
 		settings.save();
 	}
 	
