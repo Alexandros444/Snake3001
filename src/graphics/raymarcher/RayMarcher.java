@@ -1,13 +1,12 @@
-package graphics;
+package graphics.raymarcher;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL32;
 
 import gamelogic.World;
+import graphics.core.Framebuffer;
 import graphics.core.Texture;
 import graphics.core.Vao;
-import graphics.raymarcher.RayMarcherShader;
 import util.math.Vector3f;
 
 /**
@@ -21,10 +20,8 @@ public class RayMarcher {
 	private RayMarcherShader shader;
 	private Vao vao;
 	
-	private int framebufferID;
+	private Framebuffer framebuffer;
 	private Texture texture;
-
-	private int pixelSize = 1;
 	
 	private boolean useCaveEffect;
 	private boolean useAcidEffect;
@@ -43,10 +40,9 @@ public class RayMarcher {
 		vao = new Vao(new float[] {-1,-1,-1,1,1,-1,-1,1,1,1,1,-1},new float[12]);
 		
 		// erstellt einen neuen Framebuffer, in den gerendert werden kann
-		framebufferID = GL30.glGenFramebuffers();
+		framebuffer = new Framebuffer();
 		texture = new Texture();
-		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER,framebufferID);
-		GL32.glFramebufferTexture(GL30.GL_FRAMEBUFFER,GL30.GL_COLOR_ATTACHMENT0,texture.id,0);
+		framebuffer.attachTexture(texture, GL30.GL_COLOR_ATTACHMENT0);
 
 		// Setzt die Hintergrundfarbe auf Magenta
 		GL11.glClearColor(1,0,1,0);
@@ -58,15 +54,13 @@ public class RayMarcher {
 	 * @param snake die zu rendernde Schlange
 	 * @param width Breite in Pixeln
 	 * @param height Höhe in Pixeln
+	 * @return Framebuffer mit dem Rendering-Ergebnis
 	 */
-	public void render(World world, int width, int height) {
-		
+	public Framebuffer render(World world, int width, int height) {
 		// Setzt den zu rendernden Bereich (bei Fenstergrößenänderungen wichtig)
-		int innerWidth = width/pixelSize+1;
-		int innerHeight = height/pixelSize+1;
-		texture.resize(innerWidth,innerHeight);
-		GL11.glViewport(0,0,innerWidth,innerHeight);
-		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER,framebufferID);
+		texture.resize(width,height);
+		GL11.glViewport(0,0,width,height);
+		framebuffer.bind();
 		
 		// Setzt den Inhalt des Fensters auf die Hintergrundfarbe zurück
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
@@ -99,23 +93,10 @@ public class RayMarcher {
 		shader.loadScreenRatio(ratio);
 
 		// Rendert das Viereck in den Framebuffer
-		
 		vao.bind();
 		vao.render();
 		
-		// Kopiert das Ergebnis in den Haupt-Framebuffer
-		GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER,framebufferID);
-		GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER,0);
-		GL30.glBlitFramebuffer(0,0,innerWidth,innerHeight,0,0,innerWidth*pixelSize,innerHeight*pixelSize,GL11.GL_COLOR_BUFFER_BIT,GL11.GL_NEAREST);
-	}
-	
-	/**
-	 * Setzt die Größe der Pixel, in denen das ganze gerendert werden soll
-	 * 
-	 * @param size Größe der Pixel in Pixeln :P
-	 */
-	public void setPixelSize(int size) {
-		pixelSize = size;
+		return framebuffer;
 	}
 	
 	/**
@@ -164,7 +145,7 @@ public class RayMarcher {
 	public void destroy() {
 		shader.destroy();
 		vao.destroy();
-		GL30.glDeleteFramebuffers(framebufferID);
+		framebuffer.destroy();
 		texture.destroy();
 	}
 	

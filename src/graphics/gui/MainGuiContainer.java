@@ -1,8 +1,8 @@
 package graphics.gui;
 
 import gamelogic.World;
+import graphics.GameRenderer;
 import graphics.GuiRenderer;
-import graphics.RayMarcher;
 import graphics.core.Display;
 import graphics.gui.engine.ContainerComponent;
 import graphics.gui.engine.KeyInput;
@@ -22,7 +22,7 @@ public class MainGuiContainer extends ContainerComponent {
 	private Font font;
 	private Settings settings;
 	
-	private RayMarcher gameRenderer;
+	private GameRenderer gameRenderer;
 	private GuiRenderer guiRenderer;
 	private World world;
 	
@@ -64,7 +64,7 @@ public class MainGuiContainer extends ContainerComponent {
 		this.pauseKey = pauseKey;
 		font = new MonospaceFont("res/font/ascii.png");
 		
-		gameRenderer = new RayMarcher(settings.isCaveEffectEnabled,false);
+		gameRenderer = new GameRenderer(settings.isCaveEffectEnabled,false);
 		gameRenderer.setPixelSize(settings.pixelSize);
 		guiRenderer = new GuiRenderer();
 		world = new World();
@@ -359,6 +359,5 @@ public class MainGuiContainer extends ContainerComponent {
 	public void setSize(int width, int height) {
 		super.setSize((int)(width/scaleX),(int)(height/scaleY));
 	}
-
 	
 }
