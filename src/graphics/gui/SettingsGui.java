@@ -139,13 +139,23 @@ public class SettingsGui extends BoxComponent {
 		caveButton.setPosition(POSITION_CORNER_TOPLEFT);
 		caveButton.setOffset(312,18);
 		super.addComponent(caveButton);
+		if(isCaveEffect) {
+			caveButton.setBackgroundColor(0x80404040);
+		}else {
+			caveButton.setBackgroundColor(0x80000000);
+		}
+		
 		
 		//ACID EFFECT
 		acidButton = new TextButtonComponent(200,60,"Acid_Effect:"+(isAcidEffect?"On":"Off"),font);
 		acidButton.setPosition(POSITION_CORNER_TOPLEFT);
 		acidButton.setOffset(312,118);
 		super.addComponent(acidButton);
-		
+		if(isAcidEffect) {
+			acidButton.setBackgroundColor(0x80404040);
+		}else {
+			acidButton.setBackgroundColor(0x80000000);
+		}
 	}
 	
 	/**
@@ -237,5 +247,4 @@ public class SettingsGui extends BoxComponent {
 	public boolean isCloseRequested() {
 		return closeButton.wasClicked();
 	}
-	
 }
