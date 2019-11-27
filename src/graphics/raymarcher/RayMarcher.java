@@ -3,10 +3,12 @@ package graphics.raymarcher;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
+import gamelogic.Snake;
 import gamelogic.World;
 import graphics.core.Framebuffer;
 import graphics.core.Texture;
 import graphics.core.Vao;
+import util.math.Matrix3f;
 import util.math.Vector3f;
 
 /**
@@ -42,7 +44,7 @@ public class RayMarcher {
 		// erstellt einen neuen Framebuffer, in den gerendert werden kann
 		framebuffer = new Framebuffer();
 		texture = new Texture();
-		framebuffer.attachTexture(texture, GL30.GL_COLOR_ATTACHMENT0);
+		framebuffer.attachTexture(texture,GL30.GL_COLOR_ATTACHMENT0);
 
 		// Setzt die Hintergrundfarbe auf Magenta
 		GL11.glClearColor(1,0,1,0);
@@ -51,34 +53,38 @@ public class RayMarcher {
 	/**
 	 * Rendert die gesamte Szene
 	 * 
-	 * @param snake die zu rendernde Schlange
-	 * @param width Breite in Pixeln
-	 * @param height Höhe in Pixeln
+	 * @param width  Bildbreite in Pixeln
+	 * @param height Bildhöhe in Pixeln
+	 * @param snake1 Schlange, aus deren Perspektive gerendert werden soll
+	 * @param snake2 zweite Schlange oder <code>null</code>
+	 * @param viewDirection Blickrichtung der ersten Schlange
+	 * @param cameraPosition Position des Kopfes der ersten Schlange
+	 * @param world Welt für Umgebungsvariablen
 	 * @return Framebuffer mit dem Rendering-Ergebnis
 	 */
-	public Framebuffer render(World world, int width, int height) {
+	public Framebuffer render(int width, int height, Snake snake1, Snake snake2, Matrix3f viewDirection, Vector3f cameraPosition, World world) {
 		// Setzt den zu rendernden Bereich (bei Fenstergrößenänderungen wichtig)
 		texture.resize(width,height);
-		GL11.glViewport(0,0,width,height);
 		framebuffer.bind();
+		GL11.glViewport(0,0,width,height);
 		
 		// Setzt den Inhalt des Fensters auf die Hintergrundfarbe zurück
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
 		// lädt alle Infos in den Shader
 		shader.start();
-		shader.loadViewMatrix(world.viewDirection);
-		shader.loadPosition(world.cameraPosition);
-		if(world.hasSnake) {
-			shader.loadSnake(world.snake.snakePositions);
-			shader.loadSnakeSphereRadius(world.snake.sphereRadius);
+		shader.loadViewMatrix(viewDirection);
+		shader.loadPosition(cameraPosition);
+		if(snake1!=null) {
+			shader.loadSnake(snake1.snakePositions);
+			shader.loadSnakeSphereRadius(snake1.sphereRadius);
 		}else {
 			shader.loadSnake(new Vector3f[0]);
 			shader.loadSnakeSphereRadius(-0.05f);
 		}
-		if(world.hasSecondSnake) {
-			shader.loadSecondSnake(world.secondSnake.snakePositions);
-			shader.loadSecondSnakeSphereRadius(world.secondSnake.sphereRadius);
+		if(snake2!=null) {
+			shader.loadSecondSnake(snake2.snakePositions);
+			shader.loadSecondSnakeSphereRadius(snake2.sphereRadius);
 		}else {
 			shader.loadSecondSnake(new Vector3f[0]);
 			shader.loadSecondSnakeSphereRadius(-0.05f);

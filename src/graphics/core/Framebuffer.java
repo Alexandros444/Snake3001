@@ -1,9 +1,15 @@
 package graphics.core;
 
-import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL32;
 
+/**
+ * Klasse für OpenGL-Framebuffer-Objekte.<br>
+ * Framebuffer werden vor allem dazu genutzt, gerenderte Bilder zwischenzuspeichern, um sie dann in weiteren Rendering-Prozessen weiterzuverwenden.<br>
+ * Framebuffer speichern selbst keine Bilder, dienen dafür aber als eine Art speicher für Texturen; diese können an sogenannte "Attachment Points" des Framebuffers gebunden werden.
+ * Solange der Framebuffer gebunden ist, wird beim Rendern statt aufs Display in die Texturen gerendert, sodass die gerenderten Sachen dann wieder als Textur in einen Shader geladen werden können.
+ * @author Ben
+ */
 public class Framebuffer {
 	
 	private int id;
@@ -20,7 +26,7 @@ public class Framebuffer {
 	 * Bindet den Framebuffer an den OpenGL-Kontext, sodass sich weitere Funktionsaufrufe auf ihn beziehen, bis ein anderer Buffer gebunden wird.
 	 */
 	public void bind() {
-		GL15.glBindBuffer(GL30.GL_FRAMEBUFFER,id);
+		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER,id);
 	}
 	
 	/**
@@ -28,7 +34,7 @@ public class Framebuffer {
 	 * @param target <code>GL30.GL_FRAMEBUFFER</code>, <code>GL30.GL_READ_FRAMEBUFFER</code> oder <code>GL30.GL_DRAW_FRAMEBUFFER</code>
 	 */
 	public void bind(int target) {
-		GL30.glBindBuffer(target,id);
+		GL30.glBindFramebuffer(target,id);
 	}
 	
 	/**
@@ -37,6 +43,7 @@ public class Framebuffer {
 	 * @param attachment Anhangspunkt des Framebuffers, an den die Textur angehängt werden soll, wie z.B. <code>GL30.GL_COLOR_ATTACHMENT0</code>
 	 */
 	public void attachTexture(Texture texture, int attachment) {
+		bind();
 		GL32.glFramebufferTexture(GL30.GL_FRAMEBUFFER,attachment,texture.id,0);
 	}
 	
