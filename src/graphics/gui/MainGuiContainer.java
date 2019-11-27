@@ -64,7 +64,7 @@ public class MainGuiContainer extends ContainerComponent {
 		this.pauseKey = pauseKey;
 		font = new MonospaceFont("res/font/ascii.png");
 		
-		gameRenderer = new GameRenderer(settings.isCaveEffectEnabled,false);
+		gameRenderer = new GameRenderer(settings.isCaveEffectEnabled, settings.isAcidEffectEnabled);
 		gameRenderer.setPixelSize(settings.pixelSize);
 		guiRenderer = new GuiRenderer();
 		world = new World();
