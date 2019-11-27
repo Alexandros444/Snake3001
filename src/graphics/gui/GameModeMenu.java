@@ -20,8 +20,6 @@ public class GameModeMenu extends BoxComponent {
 	private ButtonComponent fastButton;
 	private ButtonComponent tunnelButton;
 	
-	private TextComponent normalScoreText, fastScoreText, tunnelScoreText;
-	
 	private boolean isStartRequested;
 	private int selectedMode;
 	
@@ -52,21 +50,21 @@ public class GameModeMenu extends BoxComponent {
 		scoreComponent.setWidthMode(WIDTH_AUTO);
 		scoreComponent.setHeightMode(HEIGHT_AUTO);
 		scoreComponent.setPosition(POSITION_CENTER_TOP);
-		scoreComponent.setOffset(0,150);
+		scoreComponent.setOffset(0,-30);
 		scoreComponent.setFlowDirection(FLOW_LEFT_TO_RIGHT);
-		super.addComponent(scoreComponent);
+		container.addComponent(scoreComponent);
 		
-		normalScoreText = new TextComponent("Score: "+settings.normalScore,font);
+		TextComponent normalScoreText = new TextComponent("Score: "+settings.normalScore,font);
 		normalScoreText.setOffset(90,0);
 		normalScoreText.setScale(2);
 		scoreComponent.addComponent(normalScoreText);
 
-		fastScoreText = new TextComponent("Score: "+settings.fastScore,font);
+		TextComponent fastScoreText = new TextComponent("Score: "+settings.fastScore,font);
 		fastScoreText.setOffset(90,0);
 		fastScoreText.setScale(2);
 		scoreComponent.addComponent(fastScoreText);
 		
-		tunnelScoreText = new TextComponent("Score: "+settings.tunnelScore,font);
+		TextComponent tunnelScoreText = new TextComponent("Score: "+settings.tunnelScore,font);
 		tunnelScoreText.setOffset(90,0);
 		tunnelScoreText.setScale(2);
 		scoreComponent.addComponent(tunnelScoreText);
