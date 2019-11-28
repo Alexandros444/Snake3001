@@ -280,7 +280,7 @@ public class MainGuiContainer extends ContainerComponent {
 	 */
 	private void openDeathScreen() {
 		isDeathMenuOpen = true;
-		deathScreen = new DeathMenu(font,world.score, world.gameMode,settings);
+		deathScreen = new DeathMenu(font,world,settings);
 		super.addComponent(deathScreen);
 	}
 	

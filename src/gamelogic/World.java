@@ -25,6 +25,10 @@ public class World {
 	private static final float GRID_WIDTH_NORMAL = 0.04f;
 	private static final float GRID_WIDTH_TUNNEL = 0.6f;
 	
+	public static final int RESULT_PLAYER_1_WINS = 0;
+	public static final int RESULT_PLAYER_2_WINS= 1;
+	public static final int RESULT_DRAW= 2;
+	
 	public int gameMode = MODE_NORMAL;
 	
 	public Snake snake;
@@ -37,6 +41,7 @@ public class World {
 	public boolean hasSnake;
 	public boolean hasSecondSnake;
 	public boolean gameOver = false;
+	public int gameResult = -1;
 	
 	public Vector3f cameraPosition;
 	public Matrix3f viewDirection;
@@ -306,11 +311,21 @@ public class World {
 	 */
 	public void killSnake() {
 		gameOver = true;
+		gameResult = RESULT_PLAYER_2_WINS;
 		System.out.println("Du bist gestorben");
 	}
 	public void killSecondSnake() {
 		gameOver = true;
+		if(gameResult == RESULT_PLAYER_2_WINS) {
+			gameResult = RESULT_DRAW;
+		}else {
+			gameResult = RESULT_PLAYER_1_WINS;
+		}
 		System.out.println("Du bist gestorben");
+	}
+	
+	public int getGameResult() {
+		return gameResult;
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package graphics.gui;
 
+import gamelogic.World;
 import graphics.gui.engine.ContainerComponent;
 import graphics.gui.engine.components.BoxComponent;
 import graphics.gui.engine.components.TextButtonComponent;
@@ -17,12 +18,11 @@ public class DeathMenu extends BoxComponent {
 	
 	private TextButtonComponent exitButton;
 	private TextButtonComponent retryButton;
-	private TextComponent scoreText,highscoreText;	
 	
 	private boolean isCloseRequested;
 	private boolean isRestartRequested;
 	
-	public DeathMenu(Font font, int score, int gameMode, Settings settings) { 
+	public DeathMenu(Font font, World world, Settings settings) { 
 		super(0,0,0x80000000,0,0);
 		super.setPosition(POSITION_FULL);
 		ContainerComponent container = new ContainerComponent(0,0);
@@ -31,34 +31,50 @@ public class DeathMenu extends BoxComponent {
 		container.setPosition(POSITION_CENTER);
 		super.addComponent(container);
 		
-		scoreText = new TextComponent("Score: "+score,font);
-		scoreText.setPosition(POSITION_CENTER_FLOW);
-		scoreText.setOffset(0,15);
-		scoreText.setScale(4);
-		container.addComponent(scoreText);		
-		
-		int gameModeScore = settings.normalScore;	
-		if(gameMode==1) {
-			gameModeScore = settings.fastScore;
-		}
-		if(gameMode==2){
-			gameModeScore = settings.tunnelScore;
-		}
-		
-		highscoreText = new TextComponent("Highscore: "+gameModeScore,font);
-		highscoreText.setPosition(POSITION_CENTER_FLOW);
-		highscoreText.setOffset(0,40);
-		highscoreText.setScale(3);
-		container.addComponent(highscoreText);		
-		
-		//Highscore erreicht
-		if(gameModeScore<score) {
-			scoreText.setText("New Highscore:");
-			scoreText.setOffset(20,20);
+		if(!world.hasSecondSnake) {
+			TextComponent scoreText = new TextComponent("Score: "+world.score,font);
+			scoreText.setPosition(POSITION_CENTER_FLOW);
+			scoreText.setOffset(0,15);
 			scoreText.setScale(4);
-			highscoreText.setText(""+score);
-			highscoreText.setOffset(20,50);
-			highscoreText.setScale(5);
+			container.addComponent(scoreText);		
+		
+			int gameModeScore = settings.normalScore;	
+			if(world.gameMode==1) {
+				gameModeScore = settings.fastScore;
+			}
+			if(world.gameMode==2){
+				gameModeScore = settings.tunnelScore;
+			}
+		
+			TextComponent highscoreText = new TextComponent("Highscore: "+gameModeScore,font);
+			highscoreText.setPosition(POSITION_CENTER_FLOW);
+			highscoreText.setOffset(0,40);
+			highscoreText.setScale(3);
+			container.addComponent(highscoreText);		
+		
+			//Highscore erreicht
+			if(gameModeScore<world.score) {
+				scoreText.setText("New Highscore:");
+				scoreText.setOffset(20,20);
+				scoreText.setScale(4);
+				highscoreText.setText(""+world.score);
+				highscoreText.setOffset(20,50);
+				highscoreText.setScale(5);
+			}
+		}else {
+			TextComponent winText = new TextComponent("",font);
+			winText.setPosition(POSITION_CENTER_FLOW);
+			winText.setOffset(0,15);
+			winText.setScale(4);
+			container.addComponent(winText);
+			
+			if(world.getGameResult() == World.RESULT_PLAYER_1_WINS) {
+				winText.setText("Player 1 wins!");
+			}else if(world.getGameResult() == World.RESULT_PLAYER_2_WINS) {
+				winText.setText("Player 2 wins!");
+			}else {
+				winText.setText("Draw!");
+			}
 		}
 		
 		retryButton = new TextButtonComponent(200, 50, "Retry", font);
