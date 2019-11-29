@@ -66,6 +66,23 @@ public class GameRenderer {
 	}
 	
 	/**
+	 * Setzt die Größe des FOVs
+	 * @param scale
+	 */
+	public void setFOV(float scale) {
+		rayMarcher.setFOV(scale);
+	}
+	
+	/**
+	 * Setzt die Größe des FOVs
+	 * @param scale
+	 *
+	public void setReflection(float scale) {
+		rayMarcher.setReflection(scale);
+	}
+	*/
+	
+	/**
 	 * Aktiviert den "Cave Effect"
 	 */
 	public void enableCaveEffect() {

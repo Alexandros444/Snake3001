@@ -29,6 +29,7 @@ public class RayMarcherShader extends Shader{
 	private int secondSnakePositionsUniformID;
 	private int secondSnakeLengthUniformID;
 	private int secondSnakeRadiusUniformID;
+	private int fovUniformID;
 	
 	/**
 	 * Lädt den Shader.
@@ -63,6 +64,7 @@ public class RayMarcherShader extends Shader{
 		secondSnakePositionsUniformID = super.getUniformLocation("secondSnakePositions");
 		secondSnakeLengthUniformID = super.getUniformLocation("secondSnakeLength");
 		secondSnakeRadiusUniformID = super.getUniformLocation("secondSnakeSphereRadius");
+		fovUniformID = super.getUniformLocation("fov");
 	}
 	
 	/**
@@ -163,6 +165,15 @@ public class RayMarcherShader extends Shader{
 	 */
 	public void loadSecondSnakeSphereRadius(float radius) {
 		super.loadFloat(secondSnakeRadiusUniformID,radius);
+	}
+	
+	/**
+	 * Lädt das Field of View
+	 * 
+	 * @param scale FOV Skalar
+	 */
+	public void loadFOV(float scale) {
+		super.loadFloat(fovUniformID,scale);
 	}
 }
 

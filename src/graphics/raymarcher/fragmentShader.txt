@@ -52,7 +52,7 @@ uniform float gridWidth;
 	const vec3 gridColor = vec3(0);
 #endif
 
-const int maxReflections = 20;
+const int maxReflections = 100;
 
 void main(void){
 	

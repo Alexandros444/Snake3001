@@ -25,6 +25,8 @@ public class RayMarcher {
 	private Framebuffer framebuffer;
 	private Texture texture;
 	
+	private float fov;
+
 	private boolean useCaveEffect;
 	private boolean useAcidEffect;
 	
@@ -93,7 +95,7 @@ public class RayMarcher {
 		shader.loadFoodRadius(world.food.radius);
 		shader.loadFoodRotation(world.food.rotation);
 		shader.loadGridWidth(world.gridWidth);
-		
+		shader.loadFOV(fov);
 		// lädt das aktuelle Seitenverhältnis des Fensters in den Shader
 		float ratio = (float)width/height;
 		shader.loadScreenRatio(ratio);
@@ -103,6 +105,10 @@ public class RayMarcher {
 		vao.render();
 		
 		return framebuffer;
+	}
+	
+	public void setFOV(float scale) {
+		fov = scale;
 	}
 	
 	/**

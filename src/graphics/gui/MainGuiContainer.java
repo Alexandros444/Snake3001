@@ -66,6 +66,7 @@ public class MainGuiContainer extends ContainerComponent {
 		
 		gameRenderer = new GameRenderer(settings.isCaveEffectEnabled, settings.isAcidEffectEnabled);
 		gameRenderer.setPixelSize(settings.pixelSize);
+		gameRenderer.setFOV(settings.fovWidth);
 		guiRenderer = new GuiRenderer();
 		world = new World();
 		
@@ -300,6 +301,7 @@ public class MainGuiContainer extends ContainerComponent {
 	private void applyChangedSettings(Display display) {
 		gameGui.crosshairs.loadImage(settings.crosshairImagePath);
 		gameRenderer.setPixelSize(settings.pixelSize);
+		gameRenderer.setFOV(settings.fovWidth);
 		if(isFullscreen != settings.isFullscreen) {
 			hasFullscreenChanged = true;
 		}

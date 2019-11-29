@@ -1,5 +1,6 @@
 package graphics.gui;
 
+import graphics.GameRenderer;
 import graphics.gui.engine.components.BoxComponent;
 import graphics.gui.engine.components.ImageComponent;
 import graphics.gui.engine.components.TextButtonComponent;
@@ -14,15 +15,16 @@ import util.Settings;
  */
 public class SettingsGui extends BoxComponent {
 	// Variablen
-	private TextButtonComponent closeButton, saveButton, crosshairButton, fullscreenButton, pixelSizeButton, cursorButton, caveButton, acidButton;
+	private TextButtonComponent closeButton, saveButton, crosshairButton, fullscreenButton, pixelSizeButton, cursorButton, caveButton, acidButton, fovButton, reflectionButton;
 	private ImageComponent crosshairImage, fullscreenImage, cursorImage;
-	private TextComponent crosshairText, fullscreenText, pixelSizeText, cursorText;
+	private TextComponent crosshairText, fullscreenText, pixelSizeText, cursorText, fovText, reflectionText;
 	private Settings settings;
 	private TextComponent headlineText;
 	
 
 	public boolean hasSettingsChanged;
-	public int crosshairFrame, pixelSize, maxPixelSize = 10, cursorFrame;
+	public int crosshairFrame, pixelSize, maxPixelSize = 10, cursorFrame, maxFov = 10, reflectionScale, maxReflection = 10;
+	public float fovWidth;
 	public boolean isFullscreen, isCaveEffect, isAcidEffect;
 	/**
 	 * Konstruktor
@@ -43,6 +45,7 @@ public class SettingsGui extends BoxComponent {
 		pixelSize = settings.pixelSize;
 		isFullscreen = settings.isFullscreen;
 		cursorFrame = settings.cursorFrame;
+		fovWidth = settings.fovWidth;
 		isCaveEffect = settings.isCaveEffectEnabled;
 		isAcidEffect = settings.isAcidEffectEnabled;
 		
@@ -134,10 +137,34 @@ public class SettingsGui extends BoxComponent {
 		cursorText.setScale(2);
 		super.addComponent(cursorText);
 		
+		//FOV
+		fovButton = new TextButtonComponent(60,60,""+fovWidth,font);
+		fovButton.setPosition(POSITION_CORNER_TOPLEFT);
+		fovButton.setOffset(312,18);
+		super.addComponent(fovButton);
+		
+		fovText = new TextComponent("FOV",font);
+		fovText.setPosition(POSITION_CORNER_TOPLEFT);
+		fovText.setOffset(384,39);
+		fovText.setScale(2);
+		super.addComponent(fovText);
+		
+		//REFLECTION
+		reflectionButton = new TextButtonComponent(60,60,""+reflectionScale,font);
+		reflectionButton.setPosition(POSITION_CORNER_TOPLEFT);
+		reflectionButton.setOffset(312,118);
+		super.addComponent(reflectionButton);
+		
+		reflectionText = new TextComponent("Reflection",font);
+		reflectionText.setPosition(POSITION_CORNER_TOPLEFT);
+		reflectionText.setOffset(384,139);
+		reflectionText.setScale(2);
+		super.addComponent(reflectionText);
+		
 		//CAVE EFFECT
 		caveButton = new TextButtonComponent(200,60,"Cave_Effect:"+(isCaveEffect?"On":"Off"),font);
 		caveButton.setPosition(POSITION_CORNER_TOPLEFT);
-		caveButton.setOffset(312,18);
+		caveButton.setOffset(312,218);
 		super.addComponent(caveButton);
 		if(isCaveEffect) {
 			caveButton.setBackgroundColor(0x80404040);
@@ -149,7 +176,7 @@ public class SettingsGui extends BoxComponent {
 		//ACID EFFECT
 		acidButton = new TextButtonComponent(200,60,"Acid_Effect:"+(isAcidEffect?"On":"Off"),font);
 		acidButton.setPosition(POSITION_CORNER_TOPLEFT);
-		acidButton.setOffset(312,118);
+		acidButton.setOffset(312,318);
 		super.addComponent(acidButton);
 		if(isAcidEffect) {
 			acidButton.setBackgroundColor(0x80404040);
@@ -191,6 +218,18 @@ public class SettingsGui extends BoxComponent {
 			cursorFrame++;
 			cursorFrame%=2;
 			cursorImage.loadImage("res/cursor"+cursorFrame+".png");
+			saveButton.setBackgroundColor(0xFF222255);
+		}
+		if(fovButton.wasClicked()) {
+			fovWidth %= maxFov;
+			fovWidth++;
+			fovButton.setText(""+(int)fovWidth);
+			saveButton.setBackgroundColor(0xFF222255);
+		}
+		if(reflectionButton.wasClicked()) {
+			reflectionScale %= maxReflection;
+			reflectionScale++;
+			reflectionButton.setText(""+reflectionScale);
 			saveButton.setBackgroundColor(0xFF222255);
 		}
 		if(caveButton.wasClicked()) {
@@ -237,6 +276,7 @@ public class SettingsGui extends BoxComponent {
 		settings.curserImagePathRenew();
 		settings.isCaveEffectEnabled = isCaveEffect;
 		settings.isAcidEffectEnabled = isAcidEffect;
+		settings.fovWidth = fovWidth;
 		settings.save();
 	}
 	

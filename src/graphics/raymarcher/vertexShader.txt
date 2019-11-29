@@ -8,6 +8,7 @@ out vec3 pass_direction;
 
 uniform mat3 viewDirection;
 uniform float screenRatio;
+uniform float fov;
 
 void main(void){
 	
@@ -17,7 +18,7 @@ void main(void){
 	// setzt die Richtung, die an den Fragment-Shader weitergegeben wird, auf den Vektor (position.x,position.y,1),
 	// d.h. man kuckt in Richtung der positiven Z-Achse mit einem FOV von 90 Grad
 	pass_direction = vec3(position,1);
-	pass_direction.xy *= sqrt(vec2(screenRatio,1/screenRatio));
+	pass_direction.xy *= fov*sqrt(vec2(screenRatio,1/screenRatio));
 	
 	// multipliziert die Richtung mit der Richtungsmatrix der Kamera, damit man in die richtige Richtung kuckt
 	pass_direction = viewDirection*pass_direction;
