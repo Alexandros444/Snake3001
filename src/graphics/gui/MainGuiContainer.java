@@ -135,7 +135,7 @@ public class MainGuiContainer extends ContainerComponent {
 					openStartMenu();
 					world.reset();
 					}
-				else if(deathScreen.isRestartRequested()){ 
+				else if(world.restart||deathScreen.isRestartRequested()){ 
 					restartGame();
 					display.toggleCursor();
 				}
@@ -366,5 +366,4 @@ public class MainGuiContainer extends ContainerComponent {
 	public void setSize(int width, int height) {
 		super.setSize((int)(width/scaleX),(int)(height/scaleY));
 	}
-	
 }

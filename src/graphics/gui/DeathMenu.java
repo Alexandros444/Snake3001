@@ -73,7 +73,16 @@ public class DeathMenu extends BoxComponent {
 			}else if(world.getGameResult() == World.RESULT_PLAYER_2_WINS) {
 				winText.setText("Player 2 wins!");
 			}else {
-				winText.setText("Draw!");
+				if(world.score>world.secondScore) {
+					winText.setText("Player 1 wins!");
+				}
+				else if(world.secondScore>world.score) {
+					winText.setText("Player 2 wins!");
+				}
+				else {
+					winText.setText("Draw");
+				}
+				
 			}
 		}
 		
@@ -109,5 +118,7 @@ public class DeathMenu extends BoxComponent {
 	public boolean isRestartRequested() {
 		return isRestartRequested; 
 	}
-
+	public void setRestartRequested() {
+		isRestartRequested = true;
+	}
 } 
