@@ -1,5 +1,7 @@
 package graphics.gui;
 
+import org.lwjgl.glfw.GLFW;
+
 import gamelogic.World;
 import graphics.GameRenderer;
 import graphics.GuiRenderer;
@@ -135,7 +137,7 @@ public class MainGuiContainer extends ContainerComponent {
 					openStartMenu();
 					world.reset();
 					}
-				else if(world.restart||deathScreen.isRestartRequested()){ 
+				else if(display.isKeyPressed(GLFW.GLFW_KEY_ENTER)||deathScreen.isRestartRequested()){ 
 					restartGame();
 					display.toggleCursor();
 				}

@@ -118,7 +118,4 @@ public class DeathMenu extends BoxComponent {
 	public boolean isRestartRequested() {
 		return isRestartRequested; 
 	}
-	public void setRestartRequested() {
-		isRestartRequested = true;
-	}
 } 

@@ -3,7 +3,6 @@ package gamelogic;
 import org.lwjgl.glfw.GLFW;
 
 import graphics.core.Display;
-import graphics.gui.MainGuiContainer;
 import util.math.Matrix3f;
 import util.math.Vector3f;
 
@@ -41,7 +40,6 @@ public class World {
 	public boolean isPaused;
 	public boolean hasSnake;
 	public boolean hasSecondSnake;
-	public boolean restart = false;
 	public boolean gameOver = false;
 	public int gameResult = -1;
 	
@@ -100,10 +98,6 @@ public class World {
 	public void update(Display display) {
 		float deltaTime = System.nanoTime()-lastFrame;
 		lastFrame = System.nanoTime();
-		
-		if(display.isKeyPressed(GLFW.GLFW_KEY_G))placeFood();
-		if(gameOver&&display.isKeyPressed(GLFW.GLFW_KEY_ENTER))restart = true;
-		else restart = false;
 		
 		if(!(hasSnake&&gameOver)&&!isPaused) {
 			if (hasSnake&&!gameOver) {
