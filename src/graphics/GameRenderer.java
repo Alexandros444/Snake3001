@@ -74,13 +74,12 @@ public class GameRenderer {
 	}
 	
 	/**
-	 * Setzt die Größe des FOVs
-	 * @param scale
-	 *
-	public void setReflection(float scale) {
-		rayMarcher.setReflection(scale);
+	 * Setzt die Stärke der Reflektionen
+	 * @param reflectivity Stärke der Reflektionen
+	 */
+	public void setReflectivity(float reflectivity) {
+		rayMarcher.setReflectivity(reflectivity);
 	}
-	*/
 	
 	/**
 	 * Aktiviert den "Cave Effect"

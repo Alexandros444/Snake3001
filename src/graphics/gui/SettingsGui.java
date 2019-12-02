@@ -1,6 +1,5 @@
 package graphics.gui;
 
-import graphics.GameRenderer;
 import graphics.gui.engine.components.BoxComponent;
 import graphics.gui.engine.components.ImageComponent;
 import graphics.gui.engine.components.TextButtonComponent;
@@ -23,8 +22,9 @@ public class SettingsGui extends BoxComponent {
 	
 
 	public boolean hasSettingsChanged;
-	public int crosshairFrame, pixelSize, maxPixelSize = 10, cursorFrame, maxFov = 10, reflectionScale, maxReflection = 10;
-	public float fovWidth;
+	public int crosshairFrame, pixelSize, maxPixelSize = 10, cursorFrame, maxFov = 10;
+	public float fov;
+	private float reflectivity;
 	public boolean isFullscreen, isCaveEffect, isAcidEffect;
 	/**
 	 * Konstruktor
@@ -45,7 +45,8 @@ public class SettingsGui extends BoxComponent {
 		pixelSize = settings.pixelSize;
 		isFullscreen = settings.isFullscreen;
 		cursorFrame = settings.cursorFrame;
-		fovWidth = settings.fovWidth;
+		fov = settings.fov;
+		reflectivity = settings.reflectivity;
 		isCaveEffect = settings.isCaveEffectEnabled;
 		isAcidEffect = settings.isAcidEffectEnabled;
 		
@@ -138,7 +139,7 @@ public class SettingsGui extends BoxComponent {
 		super.addComponent(cursorText);
 		
 		//FOV
-		fovButton = new TextButtonComponent(60,60,""+fovWidth,font);
+		fovButton = new TextButtonComponent(60,60,""+fov,font);
 		fovButton.setPosition(POSITION_CORNER_TOPLEFT);
 		fovButton.setOffset(312,18);
 		super.addComponent(fovButton);
@@ -150,19 +151,19 @@ public class SettingsGui extends BoxComponent {
 		super.addComponent(fovText);
 		
 		//REFLECTION
-		reflectionButton = new TextButtonComponent(60,60,""+reflectionScale,font);
+		reflectionButton = new TextButtonComponent(60,60,(int)(reflectivity*100)+"%",font);
 		reflectionButton.setPosition(POSITION_CORNER_TOPLEFT);
 		reflectionButton.setOffset(312,118);
 		super.addComponent(reflectionButton);
 		
-		reflectionText = new TextComponent("Reflection",font);
+		reflectionText = new TextComponent("Reflections",font);
 		reflectionText.setPosition(POSITION_CORNER_TOPLEFT);
 		reflectionText.setOffset(384,139);
 		reflectionText.setScale(2);
 		super.addComponent(reflectionText);
 		
 		//CAVE EFFECT
-		caveButton = new TextButtonComponent(200,60,"Cave_Effect:"+(isCaveEffect?"On":"Off"),font);
+		caveButton = new TextButtonComponent(200,60,"Cave Effect:"+(isCaveEffect?"On":"Off"),font);
 		caveButton.setPosition(POSITION_CORNER_TOPLEFT);
 		caveButton.setOffset(312,218);
 		super.addComponent(caveButton);
@@ -174,7 +175,7 @@ public class SettingsGui extends BoxComponent {
 		
 		
 		//ACID EFFECT
-		acidButton = new TextButtonComponent(200,60,"Acid_Effect:"+(isAcidEffect?"On":"Off"),font);
+		acidButton = new TextButtonComponent(200,60,"Acid Effect:"+(isAcidEffect?"On":"Off"),font);
 		acidButton.setPosition(POSITION_CORNER_TOPLEFT);
 		acidButton.setOffset(312,318);
 		super.addComponent(acidButton);
@@ -221,15 +222,14 @@ public class SettingsGui extends BoxComponent {
 			saveButton.setBackgroundColor(0xFF222255);
 		}
 		if(fovButton.wasClicked()) {
-			fovWidth %= maxFov;
-			fovWidth++;
-			fovButton.setText(""+(int)fovWidth);
+			fov %= maxFov;
+			fov++;
+			fovButton.setText(""+(int)fov);
 			saveButton.setBackgroundColor(0xFF222255);
 		}
 		if(reflectionButton.wasClicked()) {
-			reflectionScale %= maxReflection;
-			reflectionScale++;
-			reflectionButton.setText(""+reflectionScale);
+			reflectivity = (reflectivity+0.25f)%1.25f;
+			reflectionButton.setText((int)(reflectivity*100)+"%");
 			saveButton.setBackgroundColor(0xFF222255);
 		}
 		if(caveButton.wasClicked()) {
@@ -276,7 +276,8 @@ public class SettingsGui extends BoxComponent {
 		settings.curserImagePathRenew();
 		settings.isCaveEffectEnabled = isCaveEffect;
 		settings.isAcidEffectEnabled = isAcidEffect;
-		settings.fovWidth = fovWidth;
+		settings.fov = fov;
+		settings.reflectivity = reflectivity;
 		settings.save();
 	}
 	

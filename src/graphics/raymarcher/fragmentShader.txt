@@ -53,6 +53,7 @@ uniform float gridWidth;
 #endif
 
 const int maxReflections = 100;
+uniform float reflectivity;
 
 void main(void){
 	
@@ -63,14 +64,14 @@ void main(void){
 	
 	// simuliert einen Lichtstrahl in die Richtung und bestimmt damit die Helligkeit des Pixels
 	vec4 color = vec4(0,0,0,1);
-	for (int i=-1;i<maxReflections&&color.a>0.05;i++){
+	for (int i=-1;i<maxReflections&&color.a>0.02;i++){
 		vec4 shadeColor = trace(position,direction);
 		vec3 solidColor = colorAt(position);
 		solidColor *= max(0,dot(direction,normalize(sceneNormal(position).xyz)));
 		if (i+1==maxReflections){
 			shadeColor += vec4(solidColor,1)*(1-shadeColor.a);
 		}else{
-			shadeColor += vec4(solidColor,1)*(1-shadeColor.a)*0.5;
+			shadeColor += vec4(solidColor,1)*(1-shadeColor.a)*(1-reflectivity);
 		}
 		color = vec4(color.rgb+shadeColor.rgb*shadeColor.a*color.a,(1-shadeColor.a)*color.a);
 	}

@@ -30,6 +30,7 @@ public class RayMarcherShader extends Shader{
 	private int secondSnakeLengthUniformID;
 	private int secondSnakeRadiusUniformID;
 	private int fovUniformID;
+	private int reflectivityUniformID;
 	
 	/**
 	 * Lädt den Shader.
@@ -65,6 +66,7 @@ public class RayMarcherShader extends Shader{
 		secondSnakeLengthUniformID = super.getUniformLocation("secondSnakeLength");
 		secondSnakeRadiusUniformID = super.getUniformLocation("secondSnakeSphereRadius");
 		fovUniformID = super.getUniformLocation("fov");
+		reflectivityUniformID = super.getUniformLocation("reflectivity");
 	}
 	
 	/**
@@ -170,10 +172,19 @@ public class RayMarcherShader extends Shader{
 	/**
 	 * Lädt das Field of View
 	 * 
-	 * @param scale FOV Skalar
+	 * @param fov FOV Skalar
 	 */
-	public void loadFOV(float scale) {
-		super.loadFloat(fovUniformID,scale);
+	public void loadFOV(float fov) {
+		super.loadFloat(fovUniformID,fov);
+	}
+	
+	/**
+	 * Lädt die Stärke der Reflektionen
+	 * 
+	 * @param reflectivity Stärke der Reflektionen
+	 */
+	public void loadReflectivity(float reflectivity) {
+		super.loadFloat(reflectivityUniformID,reflectivity);
 	}
 }
 

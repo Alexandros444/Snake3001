@@ -26,6 +26,7 @@ public class RayMarcher {
 	private Texture texture;
 	
 	private float fov;
+	private float reflectivity = 0.5f;
 
 	private boolean useCaveEffect;
 	private boolean useAcidEffect;
@@ -96,6 +97,7 @@ public class RayMarcher {
 		shader.loadFoodRotation(world.food.rotation);
 		shader.loadGridWidth(world.gridWidth);
 		shader.loadFOV(fov);
+		shader.loadReflectivity(reflectivity);
 		// lädt das aktuelle Seitenverhältnis des Fensters in den Shader
 		float ratio = (float)width/height;
 		shader.loadScreenRatio(ratio);
@@ -107,8 +109,20 @@ public class RayMarcher {
 		return framebuffer;
 	}
 	
-	public void setFOV(float scale) {
-		fov = scale;
+	/**
+	 * Setzt das FOV (Field of View)
+	 * @param fov Rauszoom-Faktor
+	 */
+	public void setFOV(float fov) {
+		this.fov = fov;
+	}
+	
+	/**
+	 * Setzt die Stärke der Reflektionen
+	 * @param reflectivity Stärke der Reflektionen
+	 */
+	public void setReflectivity(float reflectivity) {
+		this.reflectivity = reflectivity;
 	}
 	
 	/**
