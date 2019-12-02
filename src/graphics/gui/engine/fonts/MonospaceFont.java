@@ -49,7 +49,11 @@ public class MonospaceFont implements Font {
 	 * @return Position (0-1)
 	 */
 	public float getCharOffX(char asciiCode) {
-		return (5f/8f)*1f/16f;
+		if (asciiCode=='%') {
+			return (6f/8f)*1f/16f;
+		}else {
+			return (5f/8f)*1f/16f;
+		}
 	}
 
 	/**
