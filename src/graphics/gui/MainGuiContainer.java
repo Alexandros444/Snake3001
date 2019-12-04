@@ -54,16 +54,19 @@ public class MainGuiContainer extends ContainerComponent {
 	
 	private int playerCount;
 	
+	private KeyInput screenshotKey;
+	
 	/**
 	 * Erstellt den Container
 	 * 
 	 * @param settings Einstellungs-Objekt
 	 * @param pauseKey Taste für Pausenmenü
 	 */
-	public MainGuiContainer(Settings settings, KeyInput pauseKey) {
+	public MainGuiContainer(Settings settings, KeyInput pauseKey, KeyInput screenshotKey) {
 		super(0,0);
 		this.settings = settings;
 		this.pauseKey = pauseKey;
+		this.screenshotKey = screenshotKey;
 		font = new MonospaceFont("res/font/ascii.png");
 		
 		gameRenderer = new GameRenderer(settings.isCaveEffectEnabled, settings.isAcidEffectEnabled);
@@ -334,6 +337,9 @@ public class MainGuiContainer extends ContainerComponent {
 	 * @param height Höhe in Pixeln
 	 */
 	public void render(int width, int height) {
+		if (screenshotKey.wasKeyPressed()) {
+			gameRenderer.renderToFile("Snake3001_Screenshot",width,height,world);
+		}
 		gameRenderer.render(world,width,height);
 		guiRenderer.render(width,height,this);
 	}

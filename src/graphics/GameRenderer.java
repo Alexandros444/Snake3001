@@ -30,7 +30,7 @@ public class GameRenderer {
 	/**
 	 * Rendert die gesamte Szene
 	 * 
-	 * @param snake die zu rendernde Schlange
+	 * @param world die zu rendernde Welt
 	 * @param width Breite in Pixeln
 	 * @param height Höhe in Pixeln
 	 */
@@ -55,6 +55,18 @@ public class GameRenderer {
 			GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER,0);
 			GL30.glBlitFramebuffer(0,0,innerWidth/2,innerHeight,(innerWidth/2)*pixelSize,0,width,innerHeight*pixelSize,GL11.GL_COLOR_BUFFER_BIT,GL11.GL_NEAREST);
 		}
+	}
+	
+	/**
+	 * Rendert die gesamte Szene in eine Bilddatei
+	 * 
+	 * @param path Dateipfad relativ zum Projektordner bzw. relativ zu dem Ordner mit der Jar-Datei
+	 * @param width Breite in Pixeln
+	 * @param height Höhe in Pixeln
+	 * @param world die zu rendernde Welt
+	 */
+	public void renderToFile(String path, int width, int height, World world) {
+		rayMarcher.renderToFile(path,width,height,world.snake,null,world.viewDirection,world.cameraPosition,world);
 	}
 	
 	/**

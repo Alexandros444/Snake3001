@@ -1,8 +1,12 @@
 package graphics.core;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+
+import javax.imageio.ImageIO;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -145,6 +149,35 @@ public class Texture {
 	 */
 	public int getHeight() {
 		return height;
+	}
+	
+	/**
+	 * Speichert den Inhalt der Textur als png-Datei ab.
+	 * @param path Dateipfad relativ zum Projektordner bzw. relativ zu dem Ordner, der die Jar-Datei enhält
+	 */
+	public void saveAsFile(String path) {
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D,id);
+		ByteBuffer pixels = BufferUtils.createByteBuffer(width*height*4);
+		GL11.glGetTexImage(GL11.GL_TEXTURE_2D,0,GL11.GL_RGBA,GL11.GL_UNSIGNED_BYTE,pixels);
+		int[] ints = new int[width*height];
+		for (int x=0;x<width;x++) {
+			for (int y=0;y<height;y++) {
+				int i = x+(height-y-1)*width;
+				int a = pixels.get(i*4+3)&0xff;
+				int r = Math.round((pixels.get(i*4)&0xff)*255f/a);
+				int g = Math.round((pixels.get(i*4+1)&0xff)*255f/a);
+				int b = Math.round((pixels.get(i*4+2)&0xff)*255f/a);
+				ints[x+y*width] = (a<<24)+(r<<16)+(g<<8)+b;
+			}
+		}
+		try {
+			BufferedImage bi = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
+			bi.getRaster().setDataElements(0,0,width,height,ints);
+			ImageIO.write(bi,"png",new File(path+".png"));
+		} catch (IOException e) {
+			System.out.println("Failed to write image!");
+			e.printStackTrace();
+		}
 	}
 	
 	/**

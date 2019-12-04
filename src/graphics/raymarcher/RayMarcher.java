@@ -108,6 +108,24 @@ public class RayMarcher {
 		
 		return framebuffer;
 	}
+
+	/**
+	 * Rendert die gesamte Szene in eine Bilddatei
+	 * 
+	 * @param path Dateipfad relativ zum Projektordner bzw. relativ zu dem Ordner, in dem sich die Jar-Datei befindet
+	 * @param width  Bildbreite in Pixeln
+	 * @param height Bildhöhe in Pixeln
+	 * @param snake1 Schlange, aus deren Perspektive gerendert werden soll
+	 * @param snake2 zweite Schlange oder <code>null</code>
+	 * @param viewDirection Blickrichtung der ersten Schlange
+	 * @param cameraPosition Position des Kopfes der ersten Schlange
+	 * @param world Welt für Umgebungsvariablen
+	 * @return Framebuffer mit dem Rendering-Ergebnis
+	 */
+	public void renderToFile(String path, int width, int height, Snake snake1, Snake snake2, Matrix3f viewDirection, Vector3f cameraPosition, World world) {
+		render(width,height,snake1,snake2,viewDirection,cameraPosition,world);
+		texture.saveAsFile(path);
+	}
 	
 	/**
 	 * Setzt das FOV (Field of View)
