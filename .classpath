@@ -27,5 +27,11 @@
 	<classpathentry kind="lib" path="lib/lwjgl-opengl.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-stb.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-openal-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-openal-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-openal-natives-macos.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-openal-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-openal-sources.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-openal.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

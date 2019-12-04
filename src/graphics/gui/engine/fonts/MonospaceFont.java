@@ -13,7 +13,7 @@ public class MonospaceFont implements Font {
 	private Texture texture;
 
 	/**
-	 * @param path Pfad relativ zu <code>res/res</code>
+	 * @param path Pfad relativ zu <code>res/</code>
 	 */
 	public MonospaceFont(String path) {
 		texture = new Texture(path);

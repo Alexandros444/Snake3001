@@ -40,7 +40,7 @@ public class Texture {
 	/**
 	 * Erstellt neue Textur aus Datei
 	 * 
-	 * @param path Dateipfad relativ zu <code>res/res</code>
+	 * @param path Dateipfad relativ zu <code>res/</code>
 	 */
 	public Texture(String path) {
 		// ruft normalen Konstruktor auf

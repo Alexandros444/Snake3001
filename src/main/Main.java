@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import graphics.core.Display;
 import graphics.gui.MainGuiContainer;
 import graphics.gui.engine.InputHandler;
+import sounds.SoundManager;
 import util.Settings;
 
 /**
@@ -32,6 +33,8 @@ public class Main {
 		//display.setCursor("res/cursor.png");
 		// erstellt InputHandler zum verarbeiten der Inputs auf das Fenster
 		InputHandler inputHandler = new InputHandler(display);
+		
+		SoundManager soundManager = new SoundManager();
 		
 		// Erstellt das Spiel und Gui
 		MainGuiContainer guiContainer = new MainGuiContainer(settings,inputHandler.getKeyInput(GLFW.GLFW_KEY_ESCAPE));
@@ -65,6 +68,7 @@ public class Main {
 		// Beendet den Renderer und schlieﬂt das Fenster
 		settings.save();
 		guiContainer.destroy();
+		soundManager.destroy();
 		display.close();	
 	}
 	
