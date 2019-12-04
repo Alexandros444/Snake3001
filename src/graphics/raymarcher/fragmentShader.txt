@@ -20,6 +20,7 @@ vec4 snakeNormal(vec3 p);
 vec4 foodNormal(vec3 p);
 vec4 normalMin(vec4 n1, vec4 n2);
 vec3 colorAt(vec3 p);
+vec3 glowColorAt(vec3 p);
 
 // Ortsvektor der Kamera
 uniform vec3 cameraPosition;
@@ -66,13 +67,13 @@ void main(void){
 	vec4 color = vec4(0,0,0,1);
 	for (int i=-1;i<maxReflections&&color.a>0.02;i++){
 		vec4 shadeColor = trace(position,direction);
-		vec3 solidColor = colorAt(position);
-		solidColor *= max(0,dot(direction,normalize(sceneNormal(position).xyz)));
-		if (i+1==maxReflections){
-			shadeColor += vec4(solidColor,1)*(1-shadeColor.a);
-		}else{
-			shadeColor += vec4(solidColor,1)*(1-shadeColor.a)*(1-reflectivity);
+		vec4 solidColor = vec4(colorAt(position),1);
+		solidColor.rgb *= max(0,dot(direction,normalize(sceneNormal(position).xyz)));
+		if (i+1<maxReflections){
+			solidColor *= 1-reflectivity;
 		}
+		solidColor.rgb += 2*glowColorAt(position);
+		shadeColor += solidColor*(1-shadeColor.a);
 		color = vec4(color.rgb+shadeColor.rgb*shadeColor.a*color.a,(1-shadeColor.a)*color.a);
 	}
 	color.a = 1;
@@ -156,6 +157,13 @@ vec3 colorAt(vec3 p){
 	float sum = d1+d2+d3;
 	vec3 color = d1/sum*gridColor+d2/sum*vec3(0.25,1,0)+d3/sum*vec3(1,0.5,0);
 	return sqrt(color);
+}
+
+// Gibt die Farbe des Leuchtens naher Objekte zurück
+vec3 glowColorAt(vec3 p){
+	vec3 glowColor = vec3(0);
+	float d = distanceEstimation(p,glowColor);
+	return glowColor;
 }
 
 // berechnet die Distanz des gegebenen Punktes zu den Koordinatenachsen
