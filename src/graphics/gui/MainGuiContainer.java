@@ -69,6 +69,7 @@ public class MainGuiContainer extends ContainerComponent {
 		gameRenderer = new GameRenderer(settings.isCaveEffectEnabled, settings.isAcidEffectEnabled);
 		gameRenderer.setPixelSize(settings.pixelSize);
 		gameRenderer.setFOV(settings.fov);
+		gameRenderer.setReflectivity(settings.reflectivity);
 		guiRenderer = new GuiRenderer();
 		world = new World();
 		
