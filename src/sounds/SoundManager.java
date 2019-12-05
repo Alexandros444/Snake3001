@@ -46,7 +46,6 @@ public class SoundManager {
 		musicBuffer = new SoundBuffer("res/Snake_Test.ogg");
 		musicSource = new SoundSource(true,false);
 		musicSource.setBuffer(musicBuffer);
-		musicSource.play();
 	}
 	
 	/**
