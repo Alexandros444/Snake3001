@@ -14,8 +14,9 @@ import util.Settings;
  */
 public class SettingsGui extends BoxComponent {
 	// Variablen
-	private TextButtonComponent closeButton, saveButton, crosshairButton, fullscreenButton, pixelSizeButton, cursorButton, caveButton, acidButton, fovButton, reflectionButton;
-	private ImageComponent crosshairImage, fullscreenImage, cursorImage;
+	private TextButtonComponent closeButton, saveButton, crosshairButton, fullscreenButton, pixelSizeButton,
+	cursorButton, caveButton, acidButton, fovButton, reflectionButton, musicButton;
+	private ImageComponent crosshairImage, fullscreenImage, cursorImage, musicImage;
 	private TextComponent crosshairText, fullscreenText, pixelSizeText, cursorText, fovText, reflectionText;
 	private Settings settings;
 	private TextComponent headlineText;
@@ -25,7 +26,7 @@ public class SettingsGui extends BoxComponent {
 	public int crosshairFrame, pixelSize, maxPixelSize = 10, cursorFrame, maxFov = 10;
 	public float fov;
 	private float reflectivity;
-	public boolean isFullscreen, isCaveEffect, isAcidEffect;
+	public boolean isFullscreen, isCaveEffect, isAcidEffect, isMusic;
 	/**
 	 * Konstruktor
 	 * 
@@ -49,6 +50,7 @@ public class SettingsGui extends BoxComponent {
 		reflectivity = settings.reflectivity;
 		isCaveEffect = settings.isCaveEffectEnabled;
 		isAcidEffect = settings.isAcidEffectEnabled;
+		isMusic = settings.isMusicEnabled;
 		
 		// Komponenten
 		headlineText= new TextComponent("Settings",font);
@@ -184,6 +186,19 @@ public class SettingsGui extends BoxComponent {
 		}else {
 			acidButton.setBackgroundColor(0x80000000);
 		}
+		
+		
+		//MUSIC
+		musicButton = new TextButtonComponent(60,60,"",font);
+		musicButton.setPosition(POSITION_CORNER_TOPLEFT);
+		musicButton.setOffset(312,418);
+
+		musicImage = new ImageComponent("res/music_"+isMusic+".png");
+		musicImage.setPosition(POSITION_CORNER_TOPLEFT);
+		musicImage.setSize(40,40);
+		musicImage.setOffset(10,10);
+		musicButton.addComponent(musicImage);
+		super.addComponent(musicButton);
 	}
 	
 	/**
@@ -195,7 +210,7 @@ public class SettingsGui extends BoxComponent {
 			crosshairFrame++;
 			crosshairFrame %= settings.crosshairCount;
 			crosshairImage.loadImage("res/crosshairs"+crosshairFrame+".png");
-			saveButton.setBackgroundColor(0xFF222255);
+			buttonPressed();
 		}
 		
 		if(fullscreenButton.wasClicked()) {
@@ -206,31 +221,31 @@ public class SettingsGui extends BoxComponent {
 				isFullscreen = true;
 			}
 			fullscreenImage.loadImage("res/fullscreen"+isFullscreen+".png");
-			saveButton.setBackgroundColor(0xFF222255);
+			buttonPressed();
 		}
 		
 		if(pixelSizeButton.wasClicked()) {
 			pixelSize %= maxPixelSize;
 			pixelSize++;
 			pixelSizeButton.setText(""+pixelSize);
-			saveButton.setBackgroundColor(0xFF222255);
+			buttonPressed();
 		}
 		if(cursorButton.wasClicked()) {
 			cursorFrame++;
 			cursorFrame%=2;
 			cursorImage.loadImage("res/cursor"+cursorFrame+".png");
-			saveButton.setBackgroundColor(0xFF222255);
+			buttonPressed();
 		}
 		if(fovButton.wasClicked()) {
 			fov %= maxFov;
 			fov++;
 			fovButton.setText(""+(int)fov);
-			saveButton.setBackgroundColor(0xFF222255);
+			buttonPressed();
 		}
 		if(reflectionButton.wasClicked()) {
 			reflectivity = (reflectivity+0.25f)%1.25f;
 			reflectionButton.setText((int)(reflectivity*100)+"%");
-			saveButton.setBackgroundColor(0xFF222255);
+			buttonPressed();
 		}
 		if(caveButton.wasClicked()) {
 			if(isCaveEffect) {
@@ -241,7 +256,7 @@ public class SettingsGui extends BoxComponent {
 				caveButton.setBackgroundColor(0x80404040);
 			}
 			caveButton.setText("Cave_Effect:"+(isCaveEffect?"On":"Off"));
-			saveButton.setBackgroundColor(0xFF222255);
+			buttonPressed();
 		}
 		if(acidButton.wasClicked()) {
 			if(isAcidEffect) {
@@ -252,8 +267,19 @@ public class SettingsGui extends BoxComponent {
 				acidButton.setBackgroundColor(0x80404040);
 			}
 			acidButton.setText("Acid_Effect:"+(isAcidEffect?"On":"Off"));
-			saveButton.setBackgroundColor(0xFF222255);
+			buttonPressed();
 		}
+		if(musicButton.wasClicked()) {
+			if(isMusic) {
+				isMusic = false;
+				musicImage.loadImage("res/music_"+isMusic+".png");
+			}else {
+				isMusic = true;
+				musicImage.loadImage("res/music_"+isMusic+".png");
+			}
+			buttonPressed();
+		}
+		
 		
 		if(saveButton.wasClicked()) {
 			// Einstellungen Speichern
@@ -261,6 +287,11 @@ public class SettingsGui extends BoxComponent {
 			saveSettings();
 		}
 		
+	}
+	
+	private void buttonPressed() {
+		//ein Button wurde gedrückt
+		saveButton.setBackgroundColor(0xFF222255);
 	}
 	
 	/**
@@ -278,6 +309,7 @@ public class SettingsGui extends BoxComponent {
 		settings.isAcidEffectEnabled = isAcidEffect;
 		settings.fov = fov;
 		settings.reflectivity = reflectivity;
+		settings.isMusicEnabled = isMusic;
 		settings.save();
 	}
 	

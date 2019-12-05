@@ -25,6 +25,7 @@ public class Settings {
 	public float reflectivity;
 	public String cursorImagePath;
 	public String crosshairImagePath; //, difficultyImagePath;
+	public boolean isMusicEnabled;
 
 	/**
 	 * Instanz der Klasse erstellt Standard-Werte und lädt Einstellungen
@@ -32,8 +33,8 @@ public class Settings {
 	public Settings() {
 		// Initailisiert Standard-Werte 
 		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","NORMAL_SCORE","FAST_SCORE","TUNNEL_SCORE",
-				"CROSSHAIR_FRAME","IS_FULLSCREEN","PIXELSIZE","CURSOR","CAVE_EFFECT","ACID_EFFECT","FOV","REFLECTIVITY"};
-		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+0,""+0,""+false,""+3,""+0,""+false,""+false,""+1,"0.5"};
+				"CROSSHAIR_FRAME","IS_FULLSCREEN","PIXELSIZE","CURSOR","CAVE_EFFECT","ACID_EFFECT","FOV","REFLECTIVITY","MUSIC"};
+		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+0,""+0,""+false,""+3,""+0,""+false,""+false,""+1,"0.5",""+true};
 
 		// Erstellt neue Instanz der Einstellungen--> Einstellungen werden geladen
 		config = new SettingsLoader(STANDARD_NAMES,STANDARD_VALUES);
@@ -52,6 +53,7 @@ public class Settings {
 		isAcidEffectEnabled = config.getBoolean("ACID_EFFECT");
 		fov = config.getFloat("FOV");
 		reflectivity = config.getFloat("REFLECTIVITY");
+		isMusicEnabled = config.getBoolean("MUSIC");
 		crosshairImagePathRenew();
 		curserImagePathRenew();
 	}
@@ -88,6 +90,7 @@ public class Settings {
 		config.setValue("ACID_EFFECT",""+isAcidEffectEnabled);
 		config.setValue("FOV", ""+fov);
 		config.setValue("REFLECTIVITY", ""+reflectivity);
+		config.setValue("MUSIC",""+isMusicEnabled);
 		// speichert die gesetzten Werte
 		config.saveToFile();
 	}

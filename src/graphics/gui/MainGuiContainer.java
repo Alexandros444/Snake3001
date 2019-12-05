@@ -91,6 +91,9 @@ public class MainGuiContainer extends ContainerComponent {
 		isIntroScreenOpen = true;
 		
 		isFullscreen = settings.isFullscreen;
+		if(settings.isMusicEnabled) {
+			music.play();
+		}
 	}
 	
 	/**
@@ -336,6 +339,11 @@ public class MainGuiContainer extends ContainerComponent {
 		}else {
 			gameRenderer.disableAcidEffect();
 		}
+		if(settings.isMusicEnabled) {
+			music.play();
+		}else {
+			music.stop();
+		}
 	}
 	
 	/**
@@ -359,6 +367,8 @@ public class MainGuiContainer extends ContainerComponent {
 		gameRenderer.renderToFile("Snake3001_Screenshot",width,height,world);
 		gameGui.showMessage("Screenshot saved as Snake3001_Screenshot.png");
 	}
+
+
 	
 	/**
 	 * Gibt zurück, ob das Spiel geschlossen werden soll
