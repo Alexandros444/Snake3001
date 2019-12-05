@@ -11,7 +11,6 @@ import org.lwjgl.openal.ALCCapabilities;
 import sounds.core.SoundBuffer;
 import sounds.core.SoundListener;
 import sounds.core.SoundSource;
-import util.math.Vector3f;
 
 /**
  * Klasse für den Umgang mit Klängen und Musik.<br>
@@ -51,11 +50,19 @@ public class SoundManager {
 	}
 	
 	/**
-	 * Setzt die Position des Listeners
-	 * @param position Ortsvektor des Listeners
+	 * Gibt den Audio-Listener zurück
+	 * @reurn Audio-Listener
 	 */
-	public void setListenerPosition(Vector3f position) {
-		listener.setPosition(position);
+	public SoundListener getAudioListener() {
+		return listener;
+	}
+	
+	/**
+	 * Gibt die Audio-Quelle der Spielmusik zurück
+	 * @return Audio-Quelle der Spielmusik
+	 */
+	public SoundSource getMusicSource() {
+		return musicSource;
 	}
 	
 	/**

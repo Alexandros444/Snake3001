@@ -37,7 +37,7 @@ public class Main {
 		SoundManager soundManager = new SoundManager();
 		
 		// Erstellt das Spiel und Gui
-		MainGuiContainer guiContainer = new MainGuiContainer(settings,inputHandler.getKeyInput(GLFW.GLFW_KEY_ESCAPE),inputHandler.getKeyInput(GLFW.GLFW_KEY_P));
+		MainGuiContainer guiContainer = new MainGuiContainer(settings,soundManager,inputHandler.getKeyInput(GLFW.GLFW_KEY_ESCAPE),inputHandler.getKeyInput(GLFW.GLFW_KEY_P));
 				
 		// GAME LOOP läuft solange das Fenster nicht geschlossen ist
 		while(!display.isCloseRequested()&&!guiContainer.isCloseRequested()) {

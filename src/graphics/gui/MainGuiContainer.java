@@ -10,6 +10,8 @@ import graphics.gui.engine.ContainerComponent;
 import graphics.gui.engine.KeyInput;
 import graphics.gui.engine.fonts.Font;
 import graphics.gui.engine.fonts.MonospaceFont;
+import sounds.SoundManager;
+import sounds.core.SoundSource;
 import util.Settings;
 import util.math.Matrix3f;
 
@@ -56,17 +58,20 @@ public class MainGuiContainer extends ContainerComponent {
 	
 	private KeyInput screenshotKey;
 	
+	private SoundSource music;
+	
 	/**
 	 * Erstellt den Container
 	 * 
 	 * @param settings Einstellungs-Objekt
 	 * @param pauseKey Taste für Pausenmenü
 	 */
-	public MainGuiContainer(Settings settings, KeyInput pauseKey, KeyInput screenshotKey) {
+	public MainGuiContainer(Settings settings, SoundManager soundManager, KeyInput pauseKey, KeyInput screenshotKey) {
 		super(0,0);
 		this.settings = settings;
 		this.pauseKey = pauseKey;
 		this.screenshotKey = screenshotKey;
+		music = soundManager.getMusicSource();
 		font = new MonospaceFont("res/font/ascii.png");
 		
 		gameRenderer = new GameRenderer(settings.isCaveEffectEnabled, settings.isAcidEffectEnabled);
