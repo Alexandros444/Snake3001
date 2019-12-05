@@ -11,6 +11,7 @@ public class PauseMenu extends BoxComponent {
 	private TextButtonComponent continueButton;
 	private TextButtonComponent settingsButton;
 	private TextButtonComponent exitButton;
+	private TextButtonComponent screenshotButton;
 	private boolean isContinueRequested, isExitRequested;
 	
 	private Font font;
@@ -48,6 +49,12 @@ public class PauseMenu extends BoxComponent {
 		exitButton = new TextButtonComponent(200, 50, "Exit", font);
 		exitButton.setOffset(4,4);
 		container.addComponent(exitButton);
+
+		screenshotButton = new TextButtonComponent(200, 50, "Screenshot (P)", font);
+		screenshotButton.setPosition(POSITION_CORNER_BOTTOMLEFT);
+		screenshotButton.setBorderColor(0x80404040);
+		screenshotButton.setOffset(4,4);
+		this.addComponent(screenshotButton);
 	}
 	
 	
@@ -105,6 +112,15 @@ public class PauseMenu extends BoxComponent {
 	 */
 	public boolean isExitRequested() {
 		return isExitRequested;
+	}
+	
+	/**
+	 * Gibt zurück, ob der Screenshot-Button geklickt wurde
+	 * 
+	 * @return ob der Screenshot-Button geklickt wurde
+	 */
+	public boolean wasScreenshotButtonClicked() {
+		return screenshotButton.wasClicked();
 	}
 	
 }

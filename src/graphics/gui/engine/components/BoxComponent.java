@@ -63,6 +63,17 @@ public class BoxComponent extends ContainerComponent {
 	}
 	
 	/**
+	 * Setzt die Farbe des Randes
+	 * 
+	 * @param color Farbe im Format 0xaabbggrr (Hexadezimal)
+	 */
+	public void setBorderColor(int color) {
+		borderColor = color;
+		texture.destroy();
+		texture = generateTexture(super.getWidth(),super.getHeight(),backgroundColor,borderColor,borderWidth);
+	}
+	
+	/**
 	 * Rendert das Element und all seine Kindelemente.
 	 * @param shader zum Rendern genutzter Shader
 	 */

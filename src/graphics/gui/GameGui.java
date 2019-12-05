@@ -6,6 +6,7 @@ import graphics.gui.engine.components.ImageComponent;
 import graphics.gui.engine.components.TextComponent;
 import graphics.gui.engine.fonts.Font;
 import util.Settings;
+import util.Timer;
 
 /**
  * Enthält alles, was im Spiel durchgehend angezeigt wird - also bisher Fadenkreuz, Punktzahl und FPS.
@@ -18,6 +19,10 @@ public class GameGui extends ContainerComponent {
 	private TextComponent scoreText;
 	private FpsCounter fpsCounter;
 	private TextComponent secondScoreText;
+	
+	private TextComponent messageText;
+	private Timer messageTextTimer;
+	private boolean isMessageTextShown;
 	
 	/**
 	 * Erstellt alle Komponenten
@@ -53,11 +58,44 @@ public class GameGui extends ContainerComponent {
 		fpsCounter.setOffset(6,6);
 		fpsCounter.setScale(2);
 		
+		messageText = new TextComponent("",font);
+		messageText.setPosition(GuiComponent.POSITION_CORNER_BOTTOMLEFT);
+		messageText.setOffset(6,6);
+		messageText.setScale(2);
+		messageTextTimer = new Timer();
+		isMessageTextShown = false;
+		
 		// fügt alle Komponenten zu sich hinzu
 		super.addComponent(crosshairs);
 		super.addComponent(scoreText);
 		super.addComponent(fpsCounter);
 		super.addComponent(secondScoreText);
+		super.addComponent(messageText);
+	}
+	
+	/**
+	 * Updated das GameGui.
+	 */
+	public void update() {
+		if (isMessageTextShown&&messageTextTimer.getTime()>3) {
+			messageText.setText("");
+			isMessageTextShown = false;
+		}else if(isMessageTextShown&&messageTextTimer.getTime()>2) {
+			messageText.setTransparency(3-messageTextTimer.getTime());
+		}
+		super.update();
+	}
+	
+	/**
+	 * Zeigt einen Text unten als Nachricht an.
+	 * 
+	 * @param text Text
+	 */
+	public void showMessage(String text) {
+		messageText.setText(text);
+		messageText.setTransparency(1);
+		messageTextTimer.reset();
+		isMessageTextShown = true;
 	}
 	
 	/**

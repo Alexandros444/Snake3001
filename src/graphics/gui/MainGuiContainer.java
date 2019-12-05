@@ -160,6 +160,9 @@ public class MainGuiContainer extends ContainerComponent {
 				}
 				// Pausenmenü kann nur geöffnet werden wenn DeathMenü geschlossen ist
 				if(isPauseMenuOpen) {
+					if (pauseMenu.wasScreenshotButtonClicked()) {
+						takeScreenshot(display.getWidth(),display.getHeight());
+					}
 					if (pauseMenu.isContinueRequested()||pauseKey.wasKeyPressed()){
 						// schließt das Pausenmenü wieder
 						closePauseMenu();
@@ -343,10 +346,18 @@ public class MainGuiContainer extends ContainerComponent {
 	 */
 	public void render(int width, int height) {
 		if (screenshotKey.wasKeyPressed()) {
-			gameRenderer.renderToFile("Snake3001_Screenshot",width,height,world);
+			takeScreenshot(width,height);
 		}
 		gameRenderer.render(world,width,height);
 		guiRenderer.render(width,height,this);
+	}
+	
+	/**
+	 * Nimmt einen Screenshot des Spiels auf.
+	 */
+	private void takeScreenshot(int width, int height) {
+		gameRenderer.renderToFile("Snake3001_Screenshot",width,height,world);
+		gameGui.showMessage("Screenshot saved as Snake3001_Screenshot.png");
 	}
 	
 	/**
