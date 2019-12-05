@@ -144,35 +144,17 @@ public class RayMarcher {
 	}
 	
 	/**
-	 * Aktiviert den "Cave Effect"
+	 * Lädt den Shader mit den entsprechenden Effekten
+	 * 
+	 * @param useCaveEffect ob der "Cave Effect" aktiv sein soll
+	 * @param useAcidEffect ob der "Acid Effect" aktiv sein soll
 	 */
-	public void enableCaveEffect() {
-		useCaveEffect = true;
-		reloadShader();
-	}
-	
-	/**
-	 * Deaktiviert den "Cave Effect"
-	 */
-	public void disableCaveEffect() {
-		useCaveEffect = false;
-		reloadShader();
-	}
-	
-	/**
-	 * Aktiviert den "Acid Effect"
-	 */
-	public void enableAcidEffect() {
-		useAcidEffect = true;
-		reloadShader();
-	}
-	
-	/**
-	 * Deaktiviert den "Acid Effect"
-	 */
-	public void disableAcidEffect() {
-		useAcidEffect = false;
-		reloadShader();
+	public void applyEffects(boolean useCaveEffect, boolean useAcidEffect) {
+		if (this.useCaveEffect!=useCaveEffect||this.useAcidEffect!=useAcidEffect) {
+			this.useCaveEffect = useCaveEffect;
+			this.useAcidEffect = useAcidEffect;
+			reloadShader();
+		}
 	}
 	
 	/**

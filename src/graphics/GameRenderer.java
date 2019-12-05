@@ -93,32 +93,15 @@ public class GameRenderer {
 		rayMarcher.setReflectivity(reflectivity);
 	}
 	
+
 	/**
-	 * Aktiviert den "Cave Effect"
+	 * Lädt den Shader mit den entsprechenden Effekten
+	 * 
+	 * @param useCaveEffect ob der "Cave Effect" aktiv sein soll
+	 * @param useAcidEffect ob der "Acid Effect" aktiv sein soll
 	 */
-	public void enableCaveEffect() {
-		rayMarcher.enableCaveEffect();
-	}
-	
-	/**
-	 * Deaktiviert den "Cave Effect"
-	 */
-	public void disableCaveEffect() {
-		rayMarcher.disableCaveEffect();
-	}
-	
-	/**
-	 * Aktiviert den "Acid Effect"
-	 */
-	public void enableAcidEffect() {
-		rayMarcher.enableAcidEffect();
-	}
-	
-	/**
-	 * Deaktiviert den "Acid Effect"
-	 */
-	public void disableAcidEffect() {
-		rayMarcher.disableAcidEffect();
+	public void applyEffects(boolean useCaveEffect, boolean useAcidEffect) {
+		rayMarcher.applyEffects(useCaveEffect,useAcidEffect);
 	}
 	
 	/**

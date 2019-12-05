@@ -329,16 +329,7 @@ public class MainGuiContainer extends ContainerComponent {
 		}else {
 			display.setStandardCursor();
 		}
-		if(settings.isCaveEffectEnabled) {
-			gameRenderer.enableCaveEffect();
-		}else {
-			gameRenderer.disableCaveEffect();
-		}
-		if(settings.isAcidEffectEnabled) {
-			gameRenderer.enableAcidEffect();
-		}else {
-			gameRenderer.disableAcidEffect();
-		}
+		gameRenderer.applyEffects(settings.isCaveEffectEnabled,settings.isAcidEffectEnabled);
 		if(settings.isMusicEnabled) {
 			music.play();
 		}else {
