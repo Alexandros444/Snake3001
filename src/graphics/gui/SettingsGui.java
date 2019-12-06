@@ -23,10 +23,11 @@ public class SettingsGui extends BoxComponent {
 	
 
 	public boolean hasSettingsChanged;
-	public int crosshairFrame, pixelSize, maxPixelSize = 10, cursorFrame, maxFov = 10;
-	public float fov;
+	private int crosshairFrame, pixelSize, maxPixelSize = 10, cursorFrame, maxFov = 16; 
+	private float minFov = 0.25f;
+	private float fov;
 	private float reflectivity;
-	public boolean isFullscreen, isCaveEffect, isAcidEffect, isMusic;
+	private boolean isFullscreen, isCaveEffect, isAcidEffect, isMusic;
 	/**
 	 * Konstruktor
 	 * 
@@ -212,6 +213,16 @@ public class SettingsGui extends BoxComponent {
 			crosshairImage.loadImage("res/crosshairs"+crosshairFrame+".png");
 			buttonPressed();
 		}
+		if(crosshairButton.wasRightClicked()) {
+			// Fadenkreuz wechseln
+			crosshairFrame--;
+			if(crosshairFrame < 0) {
+				crosshairFrame = settings.crosshairCount-1;
+			}
+			System.out.println(crosshairFrame);
+			crosshairImage.loadImage("res/crosshairs"+crosshairFrame+".png");
+			buttonPressed();
+		}
 		
 		if(fullscreenButton.wasClicked()) {
 			// Fadenkreuz wechseln
@@ -230,6 +241,14 @@ public class SettingsGui extends BoxComponent {
 			pixelSizeButton.setText(""+pixelSize);
 			buttonPressed();
 		}
+		if(pixelSizeButton.wasRightClicked()) {
+			pixelSize--;
+			if(pixelSize == 0) {
+				pixelSize = 10;
+			}
+			pixelSizeButton.setText(""+pixelSize);
+			buttonPressed();
+		}
 		if(cursorButton.wasClicked()) {
 			cursorFrame++;
 			cursorFrame%=2;
@@ -237,13 +256,33 @@ public class SettingsGui extends BoxComponent {
 			buttonPressed();
 		}
 		if(fovButton.wasClicked()) {
-			fov %= maxFov;
-			fov++;
-			fovButton.setText(""+(int)fov);
+			fov *= 2;
+			fov = Math.round(100*fov)/100f;
+			if(fov > maxFov) {
+				fov = minFov;
+			}
+			fovButton.setText(""+fov);
+			buttonPressed();
+		}
+		if(fovButton.wasRightClicked()) {
+			fov /= 2;
+			fov = Math.round(100*fov)/100f;
+			if(fov < minFov) {
+				fov = maxFov;
+			}
+			fovButton.setText(""+fov);
 			buttonPressed();
 		}
 		if(reflectionButton.wasClicked()) {
 			reflectivity = (reflectivity+0.25f)%1.25f;
+			reflectionButton.setText((int)(reflectivity*100)+"%");
+			buttonPressed();
+		}
+		if(reflectionButton.wasRightClicked()) {
+			reflectivity = (reflectivity-0.25f)%1.25f;
+			if(reflectivity < 0) {
+				reflectivity = 1;
+			}
 			reflectionButton.setText((int)(reflectivity*100)+"%");
 			buttonPressed();
 		}
