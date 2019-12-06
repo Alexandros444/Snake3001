@@ -5,7 +5,7 @@ import graphics.gui.engine.MouseEvent;
 
 public class ButtonComponent extends BoxComponent {
 	
-	private boolean wasClicked;
+	private boolean wasClicked, wasRightClicked;
 	
 	private BoxComponent overlay;
 	
@@ -64,6 +64,15 @@ public class ButtonComponent extends BoxComponent {
 	}
 	
 	/**
+	 * Gibt zurück, ob der Button in diesem Frame angeklickt worden ist
+	 * 
+	 * @return ob der Button angeklickt wurde
+	 */
+	public boolean wasRightClicked() {
+		return wasRightClicked;
+	}
+	
+	/**
 	 * Setzt die Variable <code>wasClicked</code> auf <code>false</code>, wann immer ein neues <code>MouseEvent</code> verarbeitet wird<br>
 	 * So ist diese Variable nur dann <code>true</code>, wenn das Element im selben Frame auch geklickt wurde.
 	 * <br><br>
@@ -71,6 +80,7 @@ public class ButtonComponent extends BoxComponent {
 	 */
 	public void receiveMouseEvent(boolean canTouchMouse, MouseEvent event) {
 		wasClicked = false;
+		wasRightClicked = false;
 		super.receiveMouseEvent(canTouchMouse,event);
 	}
 	
@@ -81,5 +91,14 @@ public class ButtonComponent extends BoxComponent {
 	protected void onLeftClick(MouseEvent event) {
 		super.onLeftClick(event);
 		wasClicked = true;
+	}
+	
+	/**
+	 * Setzt die Variable <code>wasClicked</code> auf <code>true</code>, wenn auf das Element geklickt wurde.<br>
+	 * {@link #wasClicked()} gibt dann solange <code>true</code> zurück, bis das nächste <code>MouseEvent</code> verarbeitet wurde.
+	 */
+	protected void onRightClick(MouseEvent event) {
+		super.onRightClick(event);
+		wasRightClicked = true;
 	}
 }

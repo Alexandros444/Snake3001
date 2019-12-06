@@ -34,7 +34,7 @@ public class Settings {
 		// Initailisiert Standard-Werte 
 		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","NORMAL_SCORE","FAST_SCORE","TUNNEL_SCORE",
 				"CROSSHAIR_FRAME","IS_FULLSCREEN","PIXELSIZE","CURSOR","CAVE_EFFECT","ACID_EFFECT","FOV","REFLECTIVITY","MUSIC"};
-		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+0,""+0,""+false,""+3,""+0,""+false,""+false,""+1,"0.5",""+true};
+		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+0,""+0,""+false,""+3,""+0,""+false,""+false,""+1.0,""+0.5,""+true};
 
 		// Erstellt neue Instanz der Einstellungen--> Einstellungen werden geladen
 		config = new SettingsLoader(STANDARD_NAMES,STANDARD_VALUES);
