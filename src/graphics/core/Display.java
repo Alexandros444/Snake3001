@@ -12,6 +12,7 @@ import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.glfw.GLFWImage.Buffer;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.stb.STBImage;
 
 import util.Settings;
@@ -64,7 +65,11 @@ public class Display {
 	 */
 	public void update() {
 		GLFW.glfwSwapBuffers(windowID);
-		GLFW.glfwPollEvents(); 
+		GLFW.glfwPollEvents();
+		int glError = GL11.glGetError();
+		if (glError!=GL11.GL_NO_ERROR) {
+			System.out.println("OpenGL Error "+glError);
+		}
 	}
 	
 	/**

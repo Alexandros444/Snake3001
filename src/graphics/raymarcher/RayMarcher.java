@@ -103,8 +103,28 @@ public class RayMarcher {
 		shader.loadScreenRatio(ratio);
 
 		// Rendert das Viereck in den Framebuffer
-		vao.bind();
-		vao.render();
+		if (width*height<500*500) {
+			vao.bind();
+			vao.render();
+		}else {
+			int columns = (int)Math.ceil(width/500f);
+			int rows = (int)Math.ceil(height/500f);
+			System.out.println("Rendering screenshot! Chunks: "+columns+"x"+rows+", chunk size: "+width/columns+"x"+height/columns);
+			int chunk = 0;
+			for (int x=0;x<columns;x++) {
+				for (int y=0;y<rows;y++) {
+					System.out.println("Rendered chunk "+(++chunk));
+					float x1 = (((float)x)/columns)*2-1;
+					float y1 = (((float)y)/rows)*2-1;
+					float x2 = (((float)x+1)/columns)*2-1;
+					float y2 = (((float)y+1)/rows)*2-1;
+					Vao tempVao = new Vao(new float[] {x1,y1,x1,y2,x2,y1,x1,y2,x2,y2,x2,y1},new float[12]);
+					tempVao.bind();
+					tempVao.render();
+					tempVao.destroy();
+				}
+			}
+		}
 		
 		return framebuffer;
 	}
@@ -123,7 +143,7 @@ public class RayMarcher {
 	 * @return Framebuffer mit dem Rendering-Ergebnis
 	 */
 	public void renderToFile(String path, int width, int height, Snake snake1, Snake snake2, Matrix3f viewDirection, Vector3f cameraPosition, World world) {
-		render(width,height,snake1,snake2,viewDirection,cameraPosition,world);
+		render(2*width,2*height,snake1,snake2,viewDirection,cameraPosition,world);
 		texture.saveAsFile(path);
 	}
 	
