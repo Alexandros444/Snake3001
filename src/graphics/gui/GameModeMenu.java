@@ -94,7 +94,7 @@ public class GameModeMenu extends BoxComponent {
 		ImageComponent image = new ImageComponent(imagePath);
 		image.setPosition(POSITION_FULL);
 		image.setOffset(4,4);
-		image.setTransparency(0.5f);
+		image.setTransparency(0.75f);
 		button.addComponent(image);
 		TextComponent textComponent = new TextComponent(text,font);
 		textComponent.setPosition(POSITION_CENTER);
@@ -104,7 +104,7 @@ public class GameModeMenu extends BoxComponent {
 		scoreText.setPosition(POSITION_CENTER_TOP);
 		scoreText.setScale(2);
 		scoreText.setOffset(0,-30);
-		scoreText.setTransparency(0.5f);
+		scoreText.setTransparency(0.75f);
 		button.addComponent(scoreText);
 		return button;
 	}
