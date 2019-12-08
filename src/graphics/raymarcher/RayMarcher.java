@@ -78,20 +78,8 @@ public class RayMarcher {
 		shader.start();
 		shader.loadViewMatrix(viewDirection);
 		shader.loadPosition(cameraPosition);
-		if(snake1!=null) {
-			shader.loadSnake(snake1.snakePositions);
-			shader.loadSnakeSphereRadius(snake1.sphereRadius);
-		}else {
-			shader.loadSnake(new Vector3f[0]);
-			shader.loadSnakeSphereRadius(-0.05f);
-		}
-		if(snake2!=null) {
-			shader.loadSecondSnake(snake2.snakePositions);
-			shader.loadSecondSnakeSphereRadius(snake2.sphereRadius);
-		}else {
-			shader.loadSecondSnake(new Vector3f[0]);
-			shader.loadSecondSnakeSphereRadius(-0.05f);
-		}
+		shader.loadSnake(snake1);
+		shader.loadSecondSnake(snake2);
 		shader.loadFoodPosition(world.food.position);
 		shader.loadFoodRadius(world.food.radius);
 		shader.loadFoodRotation(world.food.rotation);

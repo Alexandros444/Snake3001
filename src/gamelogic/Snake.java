@@ -16,19 +16,19 @@ public class Snake {
 
 	public float sphereRadius = -0.1f;
 	
+	public Vector3f color;
+	
 	/**
 	 * Erstellt eine neue Schlange
+	 * 
+	 * @param color RGB-Farbe, Werte von 0 bis 1
 	 */
-	public Snake(){
-		
+	public Snake(Vector3f color){
 	    snakePositions = new Vector3f[5];
-	    
-	    //Startposition der Kugeln des SchlangenSchwanzes
-	     for (int l = 0; l < snakePositions.length; l++) {
+	    for (int l = 0; l < snakePositions.length; l++) {
 			 snakePositions[l] = new Vector3f(); 
 		}
-	     
-	     
+	    this.color = color;
 	}
 
 	/**

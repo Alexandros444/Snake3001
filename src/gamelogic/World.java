@@ -291,14 +291,14 @@ public class World {
 	 * Spawnt die Schlange
 	 */
 	public void spawnSnake(){
-		snake = new Snake();
+		snake = new Snake(new Vector3f(0.25f,1,0));
 		hasSnake = true;
 	}
 	/**
 	 * Spawnt eine zweite Schlange
 	 */
 	public void spawnSecondSnake(){
-		secondSnake = new Snake();
+		secondSnake = new Snake(new Vector3f(0.75f,1,0));
 		secondCameraPosition = cameraPosition.copy();
 		secondCameraPosition.z -= 0.5f;
 		hasSecondSnake = true;

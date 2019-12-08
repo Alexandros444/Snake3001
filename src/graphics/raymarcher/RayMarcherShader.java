@@ -1,5 +1,6 @@
 package graphics.raymarcher;
 
+import gamelogic.Snake;
 import graphics.core.Shader;
 import util.math.Matrix3f;
 import util.math.Vector3f;
@@ -22,6 +23,7 @@ public class RayMarcherShader extends Shader{
 	private int snakePositionsUniformID;
 	private int snakeLengthUniformID;
 	private int snakeRadiusUniformID;
+	private int snakeColorUniformID;
 	private int foodPositionUniformID;
 	private int foodRadiusUniformID;
 	private int foodRotationUniformID;
@@ -29,6 +31,7 @@ public class RayMarcherShader extends Shader{
 	private int secondSnakePositionsUniformID;
 	private int secondSnakeLengthUniformID;
 	private int secondSnakeRadiusUniformID;
+	private int secondSnakeColorUniformID;
 	private int fovUniformID;
 	private int reflectivityUniformID;
 	
@@ -58,6 +61,7 @@ public class RayMarcherShader extends Shader{
 		snakePositionsUniformID = super.getUniformLocation("snakePositions");
 		snakeLengthUniformID = super.getUniformLocation("snakeLength");
 		snakeRadiusUniformID = super.getUniformLocation("snakeSphereRadius");
+		snakeColorUniformID = super.getUniformLocation("snakeColor");
 		foodPositionUniformID = super.getUniformLocation("foodPosition");
 		foodRadiusUniformID = super.getUniformLocation("foodRadius");
 		foodRotationUniformID = super.getUniformLocation("foodRotation");
@@ -65,6 +69,7 @@ public class RayMarcherShader extends Shader{
 		secondSnakePositionsUniformID = super.getUniformLocation("secondSnakePositions");
 		secondSnakeLengthUniformID = super.getUniformLocation("secondSnakeLength");
 		secondSnakeRadiusUniformID = super.getUniformLocation("secondSnakeSphereRadius");
+		secondSnakeColorUniformID = super.getUniformLocation("secondSnakeColor");
 		fovUniformID = super.getUniformLocation("fov");
 		reflectivityUniformID = super.getUniformLocation("reflectivity");
 	}
@@ -97,22 +102,37 @@ public class RayMarcherShader extends Shader{
 	}
 	
 	/**
-	 * Lädt die Position der Schlange.
+	 * Lädt die Schlange als erste Schlange.
 	 * 
-	 * @param positions die Ortsvektoren der einzelnen Teile der Schlange, so sortiert, dass der Kopf an erster Stelle steht
+	 * @param snake die Schlange
 	 */
-	public void loadSnake(Vector3f[] positions) {
-		super.loadVector3fArray(snakePositionsUniformID,positions);
-		super.loadInt(snakeLengthUniformID,positions.length);
+	public void loadSnake(Snake snake) {
+		if (snake!=null) {
+			super.loadVector3fArray(snakePositionsUniformID,snake.snakePositions);
+			super.loadInt(snakeLengthUniformID,snake.snakePositions.length);
+			super.loadFloat(snakeRadiusUniformID,snake.sphereRadius);
+			super.loadVector3f(snakeColorUniformID,snake.color);
+		}else {
+			super.loadInt(snakeLengthUniformID,0);
+			super.loadFloat(snakeRadiusUniformID,-0.05f);
+		}
 	}
 	
 	/**
-	 * Lädt die Dicke der Schlange.
+	 * Lädt die Schlange als zweite Schlange.
 	 * 
-	 * @param radius Radius der Kugeln der Schlange
+	 * @param snake die Schlange
 	 */
-	public void loadSnakeSphereRadius(float radius) {
-		super.loadFloat(snakeRadiusUniformID,radius);
+	public void loadSecondSnake(Snake snake) {
+		if (snake!=null) {
+			super.loadVector3fArray(secondSnakePositionsUniformID,snake.snakePositions);
+			super.loadInt(secondSnakeLengthUniformID,snake.snakePositions.length);
+			super.loadFloat(secondSnakeRadiusUniformID,snake.sphereRadius);
+			super.loadVector3f(secondSnakeColorUniformID,snake.color);
+		}else {
+			super.loadInt(secondSnakeLengthUniformID,0);
+			super.loadFloat(secondSnakeRadiusUniformID,-0.05f);
+		}
 	}
 	
 	/**
@@ -149,24 +169,6 @@ public class RayMarcherShader extends Shader{
 	 */
 	public void loadGridWidth(float gridWidth) {
 		super.loadFloat(gridWidthUniformID,gridWidth);
-	}
-	/**
-	 * Lädt die Position der zweiten Schlange.
-	 * 
-	 * @param positions die Ortsvektoren der einzelnen Teile der Schlange, so sortiert, dass der Kopf an erster Stelle steht
-	 */
-	public void loadSecondSnake(Vector3f[] positions) {
-		super.loadVector3fArray(secondSnakePositionsUniformID,positions);
-		super.loadInt(secondSnakeLengthUniformID,positions.length);
-	}
-	
-	/**
-	 * Lädt die Dicke der zweiten Schlange.
-	 * 
-	 * @param radius Radius der Kugeln der Schlange
-	 */
-	public void loadSecondSnakeSphereRadius(float radius) {
-		super.loadFloat(secondSnakeRadiusUniformID,radius);
 	}
 	
 	/**
