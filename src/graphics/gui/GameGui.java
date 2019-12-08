@@ -114,7 +114,7 @@ public class GameGui extends ContainerComponent {
 	 * @param score Punktzahl des zweiten Spielers
 	 */
 	public void displaySecondScore(int score) {
-		secondScoreText.setText("SecondScore: "+ score);
+		secondScoreText.setText("Score: "+ score);
 	}
 	
 	/**
