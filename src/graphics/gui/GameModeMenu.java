@@ -38,36 +38,12 @@ public class GameModeMenu extends BoxComponent {
 		container.setFlowDirection(FLOW_LEFT_TO_RIGHT);
 		super.addComponent(container);
 		
-		normalButton = createButton("Normal Mode",font,"res/difficulty0.png");
-		fastButton = createButton("Fast Mode",font,"res/difficulty1.png");
-		tunnelButton = createButton("Tunnel Mode",font,"res/difficulty2.png");
+		normalButton = createButton("Normal Mode",font,"res/mode_normal.png",settings.normalScore);
+		fastButton = createButton("Fast Mode",font,"res/mode_fast.png",settings.fastScore);
+		tunnelButton = createButton("Tunnel Mode",font,"res/mode_tunnel.png",settings.tunnelScore);
 		container.addComponent(normalButton);
 		container.addComponent(fastButton);
 		container.addComponent(tunnelButton);
-		
-		
-		ContainerComponent scoreComponent = new ContainerComponent(0,0);
-		scoreComponent.setWidthMode(WIDTH_AUTO);
-		scoreComponent.setHeightMode(HEIGHT_AUTO);
-		scoreComponent.setPosition(POSITION_CENTER_TOP);
-		scoreComponent.setOffset(0,-30);
-		scoreComponent.setFlowDirection(FLOW_LEFT_TO_RIGHT);
-		container.addComponent(scoreComponent);
-		
-		TextComponent normalScoreText = new TextComponent("Score: "+settings.normalScore,font);
-		normalScoreText.setOffset(90,0);
-		normalScoreText.setScale(2);
-		scoreComponent.addComponent(normalScoreText);
-
-		TextComponent fastScoreText = new TextComponent("Score: "+settings.fastScore,font);
-		fastScoreText.setOffset(90,0);
-		fastScoreText.setScale(2);
-		scoreComponent.addComponent(fastScoreText);
-		
-		TextComponent tunnelScoreText = new TextComponent("Score: "+settings.tunnelScore,font);
-		tunnelScoreText.setOffset(90,0);
-		tunnelScoreText.setScale(2);
-		scoreComponent.addComponent(tunnelScoreText);
 	}
 	
 	/**
@@ -112,18 +88,24 @@ public class GameModeMenu extends BoxComponent {
 	 * @param imagePath Dateipfad des Hintergrundbilds relativ zu <code>res/</code>, also z.B. <code>res/icon.png</code>
 	 * @return den neuen Button
 	 */
-	private static ButtonComponent createButton(String text, Font font, String imagePath) {
-		ButtonComponent button = new ButtonComponent(176,176,0xff000000,0x4040bfff,0xffa0a0a0,4);
+	private static ButtonComponent createButton(String text, Font font, String imagePath, int score) {
+		ButtonComponent button = new ButtonComponent(168,168,0xff000000,0x4040bfff,0x40ffffff,4);
 		button.setOffset(16,16);
 		ImageComponent image = new ImageComponent(imagePath);
 		image.setPosition(POSITION_FULL);
 		image.setOffset(4,4);
-		image.setTransparency(0.25f);
+		image.setTransparency(0.5f);
 		button.addComponent(image);
 		TextComponent textComponent = new TextComponent(text,font);
 		textComponent.setPosition(POSITION_CENTER);
 		textComponent.setScale(2);
 		button.addComponent(textComponent);
+		TextComponent scoreText = new TextComponent("Score: "+score,font);
+		scoreText.setPosition(POSITION_CENTER_TOP);
+		scoreText.setScale(2);
+		scoreText.setOffset(0,-30);
+		scoreText.setTransparency(0.5f);
+		button.addComponent(scoreText);
 		return button;
 	}
 	

@@ -143,7 +143,7 @@ public class RayMarcher {
 	 * @return Framebuffer mit dem Rendering-Ergebnis
 	 */
 	public void renderToFile(String path, int width, int height, Snake snake1, Snake snake2, Matrix3f viewDirection, Vector3f cameraPosition, World world) {
-		render(2*width,2*height,snake1,snake2,viewDirection,cameraPosition,world);
+		render(width*2,height*2,snake1,snake2,viewDirection,cameraPosition,world);
 		texture.saveAsFile(path);
 	}
 	
