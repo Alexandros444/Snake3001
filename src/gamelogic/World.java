@@ -7,7 +7,7 @@ import util.math.Matrix3f;
 import util.math.Vector3f;
 
 /**
- * Enthält alle Informationen zur Spielwelt, also die Schlange, das Essen, das Gitter usw.
+ * EnthÃ¤lt alle Informationen zur Spielwelt, also die Schlange, das Essen, das Gitter usw.
  * 
  * @author Alexander
  */
@@ -93,7 +93,7 @@ public class World {
 	/**
 	 * Updatet die Welt und ihre Koponenten
 	 * 
-	 * @param display Display auf dem das Spiel läuft
+	 * @param display Display auf dem das Spiel lÃ¤uft
 	 */
 	public void update(Display display) {
 		float deltaTime = System.nanoTime()-lastFrame;
@@ -134,9 +134,9 @@ public class World {
 					secondViewDirection.rotate(0, rotationSpeed* (deltaTime*(1e-7f)), 0);
 				}
 			}
-			//wenn Leertaste gedrückt dann stop
+			//wenn Leertaste gedrÃ¼ckt dann stop
 			if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
-				// Setzt den BewegungsVektor zurück
+				// Setzt den BewegungsVektor zurÃ¼ck
 				Vector3f movement = new Vector3f(0,0,movementSpeed);
 				// Bestimmt Geschwindigkeit pro Frame
 				movement.scale(deltaTime*(1e-7f));
@@ -145,7 +145,7 @@ public class World {
 				// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
 				cameraPosition.add(movement);
 				if (hasSecondSnake) {
-					// Setzt den BewegungsVektor zurück
+					// Setzt den BewegungsVektor zurÃ¼ck
 					Vector3f secondMovement = new Vector3f(0,0,movementSpeed);
 					// Bestimmt Geschwindigkeit pro Frame
 					secondMovement.scale(deltaTime*(1e-7f));
@@ -168,23 +168,23 @@ public class World {
 		}
 	}
 	/**
-	 * Überprüft ob die Schlange mit Food kollidiert
+	 * ÃœberprÃ¼ft ob die Schlange mit Food kollidiert
 	 */
 	private void checkFoodCollision() {
 		if(doesSnakeEat(snake)) {
 			score += 1;
-			System.out.println("Punktzahl: "+score+", Länge: "+snake.snakePositions.length);
+			System.out.println("Punktzahl: "+score+", LÃ¤nge: "+snake.snakePositions.length);
 			placeFood();
 		}
 		if(hasSecondSnake&&doesSnakeEat(secondSnake)) {
 			secondScore += 1;
-			System.out.println("Punktzahl 2. Schlange: "+secondScore+", Länge: "+secondSnake.snakePositions.length);
+			System.out.println("Punktzahl 2. Schlange: "+secondScore+", LÃ¤nge: "+secondSnake.snakePositions.length);
 			placeFood();
 		}
 	}
 	private boolean doesSnakeEat(Snake snake) {
 		if(sphereDistance(snake.snakePositions[0], food.position)<snake.sphereRadius) {   
-			// Erweitert Schlangenlänge um 1
+			// Erweitert SchlangenlÃ¤nge um 1
 			snake.addSphere();
 			return true;
 		}
@@ -192,7 +192,7 @@ public class World {
 	}
 
 	/**
-	 * Überprüft ob die Schlange mit sich kollidiert
+	 * ÃœberprÃ¼ft ob die Schlange mit sich kollidiert
 	 */
 	private void checkDeathCollision() {
 		if(doesSnakeCollide(snake, secondSnake)) {
@@ -253,7 +253,7 @@ public class World {
 		}
 	}
 	/**
-	 * Gibt die Distanz des gegebenen Punktes zum Gitter zurück.
+	 * Gibt die Distanz des gegebenen Punktes zum Gitter zurÃ¼ck.
 	 * 
 	 * @param p Ortsvektor
 	 * @return Distanz zum Gitter
@@ -266,7 +266,7 @@ public class World {
 	}
 	
 	/**
-	 * Setzt alles zurück, erstellt eine leere Welt ohne Schlange
+	 * Setzt alles zurÃ¼ck, erstellt eine leere Welt ohne Schlange
 	 */
 	public void reset() {
 	    viewDirection = new Matrix3f();
@@ -291,7 +291,7 @@ public class World {
 	 * Spawnt die Schlange
 	 */
 	public void spawnSnake(){
-		snake = new Snake(new Vector3f(0,1,0));
+		snake = new Snake(new Vector3f(0.25f,1,0));
 		hasSnake = true;
 	}
 	/**
@@ -327,7 +327,7 @@ public class World {
 	}
 	
 	/**
-	 * Gibt die Distanz zwischen zwei Kugeln der Schlange zurück.
+	 * Gibt die Distanz zwischen zwei Kugeln der Schlange zurÃ¼ck.
 	 * 
 	 * @param a Ortsvektor der ersten Kugel
 	 * @param b OrtsVektor der zweiten Kugel
@@ -340,11 +340,11 @@ public class World {
 		temp.scale(-1);
 		temp.add(b);
 		// bringt alle Werte mit Modulo in den Bereich von -0.5f bis 0.5f       
-		// sorgt so für Kollision mit Schlangen aus anderen Kästen
+		// sorgt so fÃ¼r Kollision mit Schlangen aus anderen KÃ¤sten
 		temp.x = ((temp.x+0.5f)%1+1)%1-0.5f;
 		temp.y = ((temp.y+0.5f)%1+1)%1-0.5f;
 		temp.z = ((temp.z+0.5f)%1+1)%1-0.5f;
-		// gibt die Distanz zwischen den Mittelpunkten minus die Radien zurück
+		// gibt die Distanz zwischen den Mittelpunkten minus die Radien zurÃ¼ck
 		return temp.getLength();
 	}
 	
