@@ -38,18 +38,18 @@ public class GameRenderer {
 		int innerWidth = width/pixelSize+1;
 		int innerHeight = height/pixelSize+1;
 		if (!world.hasSecondSnake) {
-			Framebuffer framebuffer = rayMarcher.render(innerWidth,innerHeight,world.snake,null,world.viewDirection,world.cameraPosition,world);
+			Framebuffer framebuffer = rayMarcher.render(innerWidth,innerHeight,world.snake,null,world.viewDirection,world.cameraPosition,world,false);
 			// Kopiert das Ergebnis in den Haupt-Framebuffer
 			framebuffer.bind(GL30.GL_READ_FRAMEBUFFER);
 			GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER,0);
 			GL30.glBlitFramebuffer(0,0,innerWidth,innerHeight,0,0,innerWidth*pixelSize,innerHeight*pixelSize,GL11.GL_COLOR_BUFFER_BIT,GL11.GL_NEAREST);
 		}else {
-			Framebuffer framebuffer = rayMarcher.render(innerWidth/2,innerHeight,world.snake,world.secondSnake,world.viewDirection,world.cameraPosition,world);
+			Framebuffer framebuffer = rayMarcher.render(innerWidth/2,innerHeight,world.snake,world.secondSnake,world.viewDirection,world.cameraPosition,world,false);
 			// Kopiert das Ergebnis in den Haupt-Framebuffer
 			framebuffer.bind(GL30.GL_READ_FRAMEBUFFER);
 			GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER,0);
 			GL30.glBlitFramebuffer(0,0,innerWidth/2,innerHeight,0,0,(innerWidth/2)*pixelSize,innerHeight*pixelSize,GL11.GL_COLOR_BUFFER_BIT,GL11.GL_NEAREST);
-			Framebuffer framebuffer2 = rayMarcher.render(innerWidth/2,innerHeight,world.secondSnake,world.snake,world.secondViewDirection,world.secondCameraPosition,world);
+			Framebuffer framebuffer2 = rayMarcher.render(innerWidth/2,innerHeight,world.secondSnake,world.snake,world.secondViewDirection,world.secondCameraPosition,world,false);
 			// Kopiert das Ergebnis in den Haupt-Framebuffer
 			framebuffer2.bind(GL30.GL_READ_FRAMEBUFFER);
 			GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER,0);
