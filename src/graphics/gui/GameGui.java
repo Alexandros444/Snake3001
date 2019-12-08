@@ -37,6 +37,8 @@ public class GameGui extends ContainerComponent {
 		// Erstellt das Fadenkreuz
 		crosshairs = new ImageComponent(settings.crosshairImagePath);
 		crosshairs.setPosition(GuiComponent.POSITION_CENTER);
+		crosshairs.setTransparency(0.75f);
+		crosshairs.setVisibility(VISIBILITY_HIDDEN);
 		
 		// Erstellt den Text für die Punktzahl
 		scoreText = new TextComponent("", font);
@@ -143,6 +145,20 @@ public class GameGui extends ContainerComponent {
 	public void showSecondScore() {
 		secondScoreText.setVisibility(VISIBILITY_VISIBLE);
 		fpsCounter.setPosition(POSITION_CORNER_BOTTOMRIGHT);
+	}
+	
+	/**
+	 * Zeigt die Crosshairs an
+	 */
+	public void showCrosshairs() {
+		crosshairs.setVisibility(VISIBILITY_VISIBLE);
+	}
+	
+	/**
+	 * Versteck die Crosshairs
+	 */
+	public void hideCrosshairs() {
+		crosshairs.setVisibility(VISIBILITY_HIDDEN);
 	}
 }
 

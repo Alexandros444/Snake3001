@@ -122,6 +122,8 @@ public class MainGuiContainer extends ContainerComponent {
 					gameGui.showScore();
 					if (world.hasSecondSnake) {
 						gameGui.showSecondScore();
+					}else{
+						gameGui.showCrosshairs();
 					}
 				}else if(pauseKey.wasKeyPressed()) {
 					closeGameModeMenu();
@@ -151,12 +153,16 @@ public class MainGuiContainer extends ContainerComponent {
 					}
 				else if(display.isKeyPressed(GLFW.GLFW_KEY_ENTER)||deathScreen.isRestartRequested()){ 
 					restartGame();
+					if(!world.hasSecondSnake) {
+						gameGui.showCrosshairs();
+					}
 					display.toggleCursor();
 				}
 			}else {
 				// Death-Menü ist nicht offen
 				if(world.hasSnake&&world.gameOver) {
 					// Schlange ist gestorben
+					gameGui.hideCrosshairs();
 					openDeathScreen();
 					saveScore();
 					display.toggleCursor();
@@ -169,6 +175,9 @@ public class MainGuiContainer extends ContainerComponent {
 					if (pauseMenu.isContinueRequested()||pauseKey.wasKeyPressed()){
 						// schließt das Pausenmenü wieder
 						closePauseMenu();
+						if (!world.hasSecondSnake) {
+							gameGui.showCrosshairs();
+						}
 						display.toggleCursor();
 					}else if(pauseMenu.isExitRequested()) {
 						// öffnet das Hauptmenü und setzt die Welt zurück
@@ -184,6 +193,7 @@ public class MainGuiContainer extends ContainerComponent {
 				} else if(pauseKey.wasKeyPressed() || !display.isFocused()) {
 					// öffnet das Pausenmenü
 					openPauseMenu();
+					gameGui.hideCrosshairs();
 					display.toggleCursor();
 				}
 			}
