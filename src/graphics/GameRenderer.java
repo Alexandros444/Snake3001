@@ -66,7 +66,7 @@ public class GameRenderer {
 	 * @param world die zu rendernde Welt
 	 */
 	public void renderToFile(String path, int width, int height, World world) {
-		rayMarcher.renderToFile(path,width,height,world.snake,null,world.viewDirection,world.cameraPosition,world);
+		rayMarcher.renderToFile(path,width,height,world.snake,world.secondSnake,world.viewDirection,world.cameraPosition,world);
 	}
 	
 	/**

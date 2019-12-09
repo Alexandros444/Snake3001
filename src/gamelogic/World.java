@@ -134,26 +134,23 @@ public class World {
 					secondViewDirection.rotate(0, rotationSpeed* (deltaTime*(1e-7f)), 0);
 				}
 			}
-			//wenn Leertaste gedrückt dann stop
-			if (!display.isKeyPressed(GLFW.GLFW_KEY_SPACE)) {
+			// Setzt den BewegungsVektor zurück
+			Vector3f movement = new Vector3f(0,0,movementSpeed);
+			// Bestimmt Geschwindigkeit pro Frame
+			movement.scale(deltaTime*(1e-7f));
+			// dreht den BewegungsVektor durch die SichtMatrix
+			movement.apply(viewDirection);
+			// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
+			cameraPosition.add(movement);
+			if (hasSecondSnake) {
 				// Setzt den BewegungsVektor zurück
-				Vector3f movement = new Vector3f(0,0,movementSpeed);
+				Vector3f secondMovement = new Vector3f(0,0,movementSpeed);
 				// Bestimmt Geschwindigkeit pro Frame
-				movement.scale(deltaTime*(1e-7f));
+				secondMovement.scale(deltaTime*(1e-7f));
 				// dreht den BewegungsVektor durch die SichtMatrix
-				movement.apply(viewDirection);
+				secondMovement.apply(secondViewDirection);
 				// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
-				cameraPosition.add(movement);
-				if (hasSecondSnake) {
-					// Setzt den BewegungsVektor zurück
-					Vector3f secondMovement = new Vector3f(0,0,movementSpeed);
-					// Bestimmt Geschwindigkeit pro Frame
-					secondMovement.scale(deltaTime*(1e-7f));
-					// dreht den BewegungsVektor durch die SichtMatrix
-					secondMovement.apply(secondViewDirection);
-					// addiert den BewegungsVektor zum Kamera-Positions-Vektor 
-					secondCameraPosition.add(secondMovement);
-				}
+				secondCameraPosition.add(secondMovement);
 			}
 			
 			food.update(deltaTime);
