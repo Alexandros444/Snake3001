@@ -151,7 +151,7 @@ public class MainGuiContainer extends ContainerComponent {
 					openStartMenu();
 					world.reset();
 					}
-				else if(display.isKeyPressed(GLFW.GLFW_KEY_ENTER)||deathScreen.isRestartRequested()){ 
+				else if(display.isKeyPressed(GLFW.GLFW_KEY_ENTER)||display.isKeyPressed(GLFW.GLFW_KEY_SPACE)||deathScreen.isRestartRequested()){ 
 					restartGame();
 					if(!world.hasSecondSnake) {
 						gameGui.showCrosshairs();
