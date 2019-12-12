@@ -58,6 +58,7 @@ public class MainGuiContainer extends ContainerComponent {
 	
 	private KeyInput screenshotKey;
 	
+	private boolean isMusicPlaying;
 	private SoundSource music;
 	
 	/**
@@ -91,6 +92,7 @@ public class MainGuiContainer extends ContainerComponent {
 		isIntroScreenOpen = true;
 		
 		isFullscreen = settings.isFullscreen;
+		isMusicPlaying = settings.isMusicEnabled;
 		if(settings.isMusicEnabled) {
 			music.play();
 		}
@@ -340,10 +342,13 @@ public class MainGuiContainer extends ContainerComponent {
 			display.setStandardCursor();
 		}
 		gameRenderer.applyEffects(settings.isCaveEffectEnabled,settings.isAcidEffectEnabled);
-		if(settings.isMusicEnabled) {
-			music.play();
-		}else {
-			music.stop();
+		if (isMusicPlaying!=settings.isMusicEnabled) {
+			isMusicPlaying = settings.isMusicEnabled;
+			if(settings.isMusicEnabled) {
+				music.play();
+			}else {
+				music.stop();
+			}
 		}
 	}
 	
