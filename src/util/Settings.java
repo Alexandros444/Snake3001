@@ -32,19 +32,21 @@ public class Settings {
 	 */
 	public Settings() {
 		// Initailisiert Standard-Werte 
-		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","NORMAL_SCORE","FAST_SCORE","TUNNEL_SCORE",
-				"CROSSHAIR_FRAME","IS_FULLSCREEN","PIXELSIZE","CURSOR","CAVE_EFFECT","ACID_EFFECT","FOV","REFLECTIVITY","MUSIC"};
-		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+0,""+0,""+0,""+false,""+3,""+0,""+false,""+false,""+1.0,""+0.5,""+false};
+		STANDARD_NAMES = new String[] {"DISPLAY_WIDTH","DISPLAY_HEIGHT","CROSSHAIR_FRAME","IS_FULLSCREEN","PIXELSIZE","CURSOR","CAVE_EFFECT","ACID_EFFECT","FOV","REFLECTIVITY","MUSIC"};
+		STANDARD_VALUES = new String[] {""+960,""+540,""+0,""+false,""+3,""+0,""+false,""+false,""+1.0,""+0.5,""+false};
 
 		// Erstellt neue Instanz der Einstellungen--> Einstellungen werden geladen
 		config = new SettingsLoader(STANDARD_NAMES,STANDARD_VALUES);
 		
+		// Highscores werden geladen
+		int[] scores = ScoresLoader.loadScores("saves/highscores.bin",3);
+		normalScore = scores[0];
+		fastScore = scores[1];
+		tunnelScore = scores[2];
+		
 		// Variablen werden aus Einstellungen geladen 
 		displayWidth = config.getInt("DISPLAY_WIDTH");
 		displayHeight = config.getInt("DISPLAY_HEIGHT");
-		normalScore = config.getInt("NORMAL_SCORE");
-		fastScore = config.getInt("FAST_SCORE");
-		tunnelScore = config.getInt("TUNNEL_SCORE");
 		crosshairFrame = config.getInt("CROSSHAIR_FRAME");
 		isFullscreen = config.getBoolean("IS_FULLSCREEN");
 		pixelSize = config.getInt("PIXELSIZE");
@@ -78,9 +80,6 @@ public class Settings {
 	public void save() {
 		// setzt die Werte
 		config.setValue("CROSSHAIR_FRAME",""+crosshairFrame);
-		config.setValue("NORMAL_SCORE",""+normalScore);
-		config.setValue("FAST_SCORE",""+fastScore);
-		config.setValue("TUNNEL_SCORE",""+tunnelScore);
 		config.setValue("DISPLAY_WIDTH",""+displayWidth);
 		config.setValue("DISPLAY_HEIGHT",""+displayHeight);
 		config.setValue("IS_FULLSCREEN",""+isFullscreen);
@@ -93,6 +92,8 @@ public class Settings {
 		config.setValue("MUSIC",""+isMusicEnabled);
 		// speichert die gesetzten Werte
 		config.saveToFile();
+		
+		ScoresLoader.saveScores("saves/highscores.bin", new int[] {normalScore,fastScore,tunnelScore});
 	}
 
 }

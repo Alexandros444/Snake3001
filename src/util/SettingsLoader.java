@@ -63,7 +63,7 @@ public class SettingsLoader {
 			setStandardProperties();
 			// Speichert die Einsellungen
 			saveToFile();
-			// lädt die Einsellungen erneut(Break nach einem Durchgang um Dauer-Schleife zu vermeiden)
+			// lädt die Einstellungen erneut(Break nach einem Durchgang um Dauer-Schleife zu vermeiden)
 			exitLoading = true;
 			loadProperties();
 		}
