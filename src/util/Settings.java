@@ -93,6 +93,10 @@ public class Settings {
 		// speichert die gesetzten Werte
 		config.saveToFile();
 		
+		int[] scoresFromFile = ScoresLoader.loadScores("saves/highscores.bin",3);
+		normalScore = Math.max(normalScore,scoresFromFile[0]);
+		fastScore = Math.max(fastScore,scoresFromFile[1]);
+		tunnelScore = Math.max(tunnelScore,scoresFromFile[2]);
 		ScoresLoader.saveScores("saves/highscores.bin", new int[] {normalScore,fastScore,tunnelScore});
 	}
 
